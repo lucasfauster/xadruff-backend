@@ -40,7 +40,7 @@ class ChessServiceTest{
 
         val gameEntity = chessService.createInitialBoard()
 
-        assertEquals(gameEntity.getBoard().positions, initialBoardPositions)
+        assertEquals(gameEntity.getBoard().state, initialBoardPositions)
         assertNull(gameEntity.allMovements)
         assertNull(gameEntity.legalMovements)
         assertNull(gameEntity.winner)
@@ -67,6 +67,6 @@ class ChessServiceTest{
     }
 
 
-    private fun mockGameEntity() = GameEntity(board = Board(positions = initialBoardPositions).toJsonString())
+    private fun mockGameEntity() = GameEntity(board = Board().toJsonString())
 
 }

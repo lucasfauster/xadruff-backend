@@ -39,18 +39,7 @@ class ChessService(private val chessRepository: ChessRepository) {
     }
 
     fun createInitialBoard(): GameEntity {
-        val positions = listOf(
-            mutableListOf("r", "n", "b", "q", "k", "b", "n", "r"),
-            mutableListOf("p", "p", "p", "p", "p", "p", "p", "p"),
-            mutableListOf("", "", "", "", "", "", "", ""),
-            mutableListOf("", "", "", "", "", "", "", ""),
-            mutableListOf("", "", "", "", "", "", "", ""),
-            mutableListOf("", "", "", "", "", "", "", ""),
-            mutableListOf("P", "P", "P", "P", "P", "P", "P", "P"),
-            mutableListOf("R", "N", "B", "Q", "K", "B", "N", "R")
-        )
-
-        val board = Board(positions = positions)
+        val board = Board()
         val gameEntity = GameEntity(board = board.toJsonString())
         chessRepository.save(gameEntity)
         return gameEntity
