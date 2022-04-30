@@ -19,7 +19,9 @@ class Board {
         "c7c6", "c7c5", "d7d6", "d7d5", "e7e6", "e7e5", "f7f6", "f7f5",
         "g7g6", "g7g5", "h7h6", "h7h5", "c8b6", "c8d6", "g8f6", "g8h6")
 
-    fun legalMovesToMap(): MutableMap<String,List<String>> {
+    var legalMovesMap = mutableMapOf<String,List<String>>()
+
+    private fun legalMovesToMap() {
         fun getFuturePosition(index: String): List<String>{
             return legalMoves.filter {it.slice(0..1) == index}.map{it.slice(2..3)}
         }
@@ -30,54 +32,95 @@ class Board {
             if(!movesMap.containsKey(index)) movesMap[index] = getFuturePosition(index)
         }
 
-        return movesMap
+        legalMovesMap = movesMap
     }
 
-    fun calculateLegalMoves() {
+    private fun calculateLegalMoves() {
         fun indexToString(line: Int, col: Int): String{
             return 'a' + col + (8 - line).toString()
         }
 
         val newLegalMoves = mutableListOf<String>()
+
+        fun addNewMove(originLine: Int, originCol: Int, futureLine: Int, futureCol: Int) {
+            newLegalMoves.add(indexToString(originLine, originCol) + indexToString(futureLine, futureCol))
+        }
+
+        fun calculateBlackPawnMoves(line: Int, col: Int){
+            // falta implementar o en passant
+
+            // movimento pra frente
+            if(state.getOrNull(line-1)?.getOrNull(col) == "") addNewMove(line, col, line-1, col)
+            // pode andar duas casas se for o primeiro movimento ( esta na linha 7 ) e não tem ninguem nas duas casas a frente
+            if(state.getOrNull(line-2)?.getOrNull(col) == "" && state.getOrNull(line-1)?.getOrNull(col) == "" && line == 7) addNewMove(line, col,line-2, col)
+
+            //captura
+            if(state.getOrNull(line-1)?.getOrNull(col-1)?.isWhite() == true) addNewMove(line, col,line-1, col-1)
+            if(state.getOrNull(line-1)?.getOrNull(col+1)?.isWhite() == true) addNewMove(line, col,line-1, col+1)
+
+        }
+
+        fun calculateWhitePawnMoves(line: Int, col: Int){
+            // falta implementar o en passant
+
+            // movimento pra frente
+            if(state.getOrNull(line+1)?.getOrNull(col) == "") addNewMove(line, col,line+1, col)
+            // pode andar duas casas se for o primeiro movimento ( esta na linha 2 ) e não tem ninguem nas duas casas a frente
+            if(state.getOrNull(line+2)?.getOrNull(col) == "" && line == 2 && state.getOrNull(line+1)?.getOrNull(col) == "") addNewMove(line, col,line+2, col)
+            
+            //captura
+            if(state.getOrNull(line+1)?.getOrNull(col-1)?.isBlack() == true) addNewMove(line, col,line+1, col-1)
+            if(state.getOrNull(line+1)?.getOrNull(col+1)?.isBlack() == true) addNewMove(line, col,line+1, col+1)
+        }
+
+        fun calculateWhiteHorseMoves(line: Int, col: Int){
+            for(i in 0..1){
+                if(state.getOrNull(line+2-i)?.getOrNull(col+1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.isBlack() == true) addNewMove(line, col,line+2-i, col+1+i)
+                if(state.getOrNull(line+2-i)?.getOrNull(col-1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.isBlack() == true) addNewMove(line, col,line+2-i, col-1+i)
+                if(state.getOrNull(line-2-i)?.getOrNull(col+1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.isBlack() == true) addNewMove(line, col,line-2-i, col+1+i)
+                if(state.getOrNull(line-2-i)?.getOrNull(col-1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.isBlack() == true) addNewMove(line, col,line-2-i, col-1+i)
+            }
+        }
+
+        fun calculateBlackHorseMoves(line: Int, col: Int){
+            for(i in 0..1){
+                if(state.getOrNull(line+2-i)?.getOrNull(col+1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.isWhite() == true) addNewMove(line, col,line+2-i, col+1+i)
+                if(state.getOrNull(line+2-i)?.getOrNull(col-1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.isWhite() == true) addNewMove(line, col,line+2-i, col-1+i)
+                if(state.getOrNull(line-2-i)?.getOrNull(col+1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.isWhite() == true) addNewMove(line, col,line-2-i, col+1+i)
+                if(state.getOrNull(line-2-i)?.getOrNull(col-1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.isWhite() == true) addNewMove(line, col,line-2-i, col-1+i)
+            }
+        }
+
         for (line in 0..7){
             for (col in 0..7) {
-                // peao fora do when por ter diferenca entre as cores
-                if(state[line][col] == "p"){
-                    // falta implementar o en passant
-
-                    // movimento pra frente
-                    if(state.getOrNull(line-1)?.getOrNull(col) == "") newLegalMoves.add(indexToString(line, col) + indexToString(line-1, col))
-                    if(state.getOrNull(line-2)?.getOrNull(col) == "" && line == 7 && state.getOrNull(line-1)?.getOrNull(col) == "") newLegalMoves.add(indexToString(line, col) + indexToString(line-2, col))
-
-                    //captura
-                    if(state.getOrNull(line-1)?.getOrNull(col-1) != "") newLegalMoves.add(indexToString(line, col) + indexToString(line-1, col-1))
-                    if(state.getOrNull(line-1)?.getOrNull(col+1) != "") newLegalMoves.add(indexToString(line, col) + indexToString(line-1, col+1))
-                }
-                else if(state[line][col] == "P"){
-                    // falta implementar o en passant
-
-                    // movimento pra frente
-                    if(state.getOrNull(line+1)?.getOrNull(col) == "") newLegalMoves.add(indexToString(line, col) + indexToString(line+1, col))
-                    if(state.getOrNull(line+2)?.getOrNull(col) == "" && line == 2 && state.getOrNull(line+1)?.getOrNull(col) == "") newLegalMoves.add(indexToString(line, col) + indexToString(line+2, col))
-                    //captura ( precisa checar se a peça a ser capturada é de cor oposta)
-                    if(state.getOrNull(line+1)?.getOrNull(col-1) != "") newLegalMoves.add(indexToString(line, col) + indexToString(line+1, col-1))
-                    if(state.getOrNull(line+1)?.getOrNull(col+1) != "") newLegalMoves.add(indexToString(line, col) + indexToString(line+1, col+1))
-                }
-                else {
-                    when (state[line][col].uppercase()) {
-                        ("N") -> {
-                            for(i in 0..1){
-                                //precisa verificar se não tem uma peça da mesma cor no lugar
-                                if(state.getOrNull(line+2-i)?.getOrNull(col+1+i) != "") newLegalMoves.add(indexToString(line, col) + indexToString(line+1, col-1))
-                                if(state.getOrNull(line+2-i)?.getOrNull(col-1+i) != "") newLegalMoves.add(indexToString(line, col) + indexToString(line+1, col-1))
-                                if(state.getOrNull(line-2-i)?.getOrNull(col+1+i) != "") newLegalMoves.add(indexToString(line, col) + indexToString(line+1, col-1))
-                                if(state.getOrNull(line-2-i)?.getOrNull(col-1+i) != "") newLegalMoves.add(indexToString(line, col) + indexToString(line+1, col-1))
-                            }
-                        }
+                when (state[line][col]) {
+                    "p" -> {
+                        calculateBlackPawnMoves(line, col)
+                    }
+                    "P" -> {
+                        calculateWhitePawnMoves(line, col)
+                    }
+                    "n" -> {
+                        calculateBlackHorseMoves(line, col)
+                    }
+                    "N" -> {
+                        calculateWhiteHorseMoves(line, col)
                     }
                 }
             }
         }
+
+        legalMoves = newLegalMoves
+    }
+
+    fun String.isWhite(): Boolean {
+        forEach { if(!it.isUpperCase()) return false }
+        return true
+    }
+
+    fun String.isBlack(): Boolean {
+        forEach { if(it.isUpperCase()) return false }
+        return true
     }
 }
 
