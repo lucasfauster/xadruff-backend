@@ -7,22 +7,29 @@ import com.uff.br.xadruffbackend.model.ChessResponse
 import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.toJsonString
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
 class ChessService(private val chessRepository: ChessRepository) {
 
-    fun createNewGame(startBy: StartsBy): ChessResponse {
-        val game = createInitialBoard()
-        var color = Color.WHITE
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
+    fun createNewGame(startBy: StartsBy): ChessResponse {
+        val board = createInitialBoard()
+        val game = GameEntity(board = board.toJsonString())
+        logger.info("Initialized new game entity with id = {}", game.boardId)
+
+        var activeColor = Color.WHITE
         if(startBy == StartsBy.AI){
             playAITurn(game)
-            color = Color.BLACK
+            activeColor = Color.BLACK
         }
 
-        val playerLegalMovements = calculateLegalMovements(game.getBoard(), color)
+        val playerLegalMovements = calculateLegalMovements(game.getBoard(), activeColor)
         game.legalMovements = playerLegalMovements.toJsonString()
+        logger.info("Calculated player possible movements, boardId = {}, legalMovements = {}", game.boardId, game.legalMovements)
+
         chessRepository.save(game)
         return ChessResponse(boardId = game.boardId, legalMovements = playerLegalMovements, board = game.getBoard())
     }
@@ -38,7 +45,7 @@ class ChessService(private val chessRepository: ChessRepository) {
         return LegalMovements(mapOf(Pair("a1", listOf("b1", "c1"))))
     }
 
-    fun createInitialBoard(): GameEntity {
+    fun createInitialBoard(): Board {
         val positions = listOf(
             mutableListOf("r", "n", "b", "q", "k", "b", "n", "r"),
             mutableListOf("p", "p", "p", "p", "p", "p", "p", "p"),
@@ -50,10 +57,7 @@ class ChessService(private val chessRepository: ChessRepository) {
             mutableListOf("R", "N", "B", "Q", "K", "B", "N", "R")
         )
 
-        val board = Board(positions = positions)
-        val gameEntity = GameEntity(board = board.toJsonString())
-        chessRepository.save(gameEntity)
-        return gameEntity
+        return Board(positions = positions)
     }
 
 }

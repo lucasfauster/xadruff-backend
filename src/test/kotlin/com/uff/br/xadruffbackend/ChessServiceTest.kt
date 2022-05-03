@@ -8,7 +8,6 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class ChessServiceTest{
@@ -37,24 +36,16 @@ class ChessServiceTest{
 
     @Test
     fun `should create an initial board`(){
-
-        val gameEntity = chessService.createInitialBoard()
-
-        assertEquals(gameEntity.getBoard().positions, initialBoardPositions)
-        assertNull(gameEntity.allMovements)
-        assertNull(gameEntity.legalMovements)
-        assertNull(gameEntity.winner)
-        assertEquals(gameEntity.blackDrawMoves, 0)
-        assertEquals(gameEntity.whiteDrawMoves, 0)
+        val board = chessService.createInitialBoard()
+        assertEquals(board.positions, initialBoardPositions)
     }
 
     @Test
     fun `should create a new game with player playing first`(){
         val chessResponse = chessService.createNewGame(StartsBy.PLAYER)
-
         assertNotNull(chessResponse.legalMovements)
         assertNotNull(chessResponse.boardId)
-
+        assertEquals(chessResponse.board.positions, initialBoardPositions)
     }
 
     @Test
@@ -62,7 +53,6 @@ class ChessServiceTest{
         val chessResponse = chessService.createNewGame(StartsBy.AI)
         assertNotNull(chessResponse.legalMovements)
         assertNotNull(chessResponse.boardId)
-
         // assertNotEquals(initialBoardPositions, chessResponse.board.positions) TODO após implementar movimentação da IA
     }
 
