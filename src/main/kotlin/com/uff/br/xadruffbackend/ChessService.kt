@@ -17,6 +17,7 @@ import com.uff.br.xadruffbackend.model.piece.Knight
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.model.piece.Rook
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
@@ -24,14 +25,20 @@ class ChessService(
     private val chessRepository: ChessRepository,
 ) {
 
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     fun createNewGame(startBy: StartsBy): ChessResponse {
         val game = createInitialBoard()
+        logger.info("Initialized new game entity with id = {}", game.boardId)
+
         if(startBy == StartsBy.AI){
             playAITurn(game)
         }
 
         val playerLegalMovements = calculateLegalMovements(game.getBoard())
         game.legalMovements = playerLegalMovements.toJsonString()
+        logger.info("Calculated player possible movements, boardId = {}, legalMovements = {}", game.boardId, game.legalMovements)
+
         chessRepository.save(game)
 
         return ChessResponse(

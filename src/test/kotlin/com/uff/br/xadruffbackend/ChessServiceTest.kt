@@ -60,7 +60,6 @@ internal class ChessServiceTest{
         val chessResponse = chessService.createNewGame(StartsBy.AI)
         assertNotNull(chessResponse.legalMovements)
         assertNotNull(chessResponse.boardId)
-
         // assertNotEquals(initialBoardPositions, chessResponse.board.positions) TODO após implementar movimentação da IA
     }
 
