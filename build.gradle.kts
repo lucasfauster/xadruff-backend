@@ -5,7 +5,10 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
+	kotlin("plugin.jpa") version "1.6.21"
 }
+
+apply("gradle/jacoco.gradle")
 
 group = "com.uff.br"
 version = "0.0.1-SNAPSHOT"
@@ -16,11 +19,17 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("org.springframework.boot:spring-boot-starter-web:2.6.7")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.6.7")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("org.xerial:sqlite-jdbc:3.32.3.2")
+	implementation("com.github.gwenn:sqlite-dialect:0.1.0")
+	implementation("com.google.code.gson:gson:2.9.0")
+
+	testImplementation(group = "io.mockk", name = "mockk", version = "1.9.3")
+	testImplementation("org.springframework.boot:spring-boot-starter-test:2.6.7")
 }
 
 tasks.withType<KotlinCompile> {
@@ -33,3 +42,9 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+
+
+
+
+
