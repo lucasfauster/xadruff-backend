@@ -60,42 +60,42 @@ class Board {
             if(state.getOrNull(line+(2*direction))?.getOrNull(col) == "" && state.getOrNull(line-1)?.getOrNull(col) == "" && line == 7) addNewMove(line, col,line-2, col)
 
             //captura
-            if(state.getOrNull(line+(1*direction))?.getOrNull(col-1)?.isUpperCase() == color) addNewMove(line, col,line-1, col-1)
-            if(state.getOrNull(line+(1*direction))?.getOrNull(col+1)?.isUpperCase() == color) addNewMove(line, col,line-1, col+1)
+            if(state.getOrNull(line+(1*direction))?.getOrNull(col-1)?.getColor() == color) addNewMove(line, col,line-1, col-1)
+            if(state.getOrNull(line+(1*direction))?.getOrNull(col+1)?.getColor() == color) addNewMove(line, col,line-1, col+1)
 
         }
 
         fun calculateHorseMoves(line: Int, col: Int, color: Boolean){
             for(i in 0..1){
-                if(state.getOrNull(line+2-i)?.getOrNull(col+1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.isUpperCase() == color) addNewMove(line, col,line+2-i, col+1+i)
-                if(state.getOrNull(line+2-i)?.getOrNull(col-1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col-1+i)?.isUpperCase() == color) addNewMove(line, col,line+2-i, col-1+i)
-                if(state.getOrNull(line-2-i)?.getOrNull(col+1+i) != "" || state.getOrNull(line-2-i)?.getOrNull(col+1+i)?.isUpperCase() == color) addNewMove(line, col,line-2-i, col+1+i)
-                if(state.getOrNull(line-2-i)?.getOrNull(col-1+i) != "" || state.getOrNull(line-2-i)?.getOrNull(col-1+i)?.isUpperCase() == color) addNewMove(line, col,line-2-i, col-1+i)
+                if(state.getOrNull(line+2-i)?.getOrNull(col+1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.getColor() == color) addNewMove(line, col,line+2-i, col+1+i)
+                if(state.getOrNull(line+2-i)?.getOrNull(col-1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col-1+i)?.getColor() == color) addNewMove(line, col,line+2-i, col-1+i)
+                if(state.getOrNull(line-2-i)?.getOrNull(col+1+i) != "" || state.getOrNull(line-2-i)?.getOrNull(col+1+i)?.getColor() == color) addNewMove(line, col,line-2-i, col+1+i)
+                if(state.getOrNull(line-2-i)?.getOrNull(col-1+i) != "" || state.getOrNull(line-2-i)?.getOrNull(col-1+i)?.getColor() == color) addNewMove(line, col,line-2-i, col-1+i)
             }
         }
 
         fun calculateKingMoves(line: Int, col: Int, color: Boolean){
             //TODO: implementar o rook
             for(i in (-1..1) step 2){
-                if(state.getOrNull(line+i)?.getOrNull(col) == "" || state.getOrNull(line-1)?.getOrNull(col)?.isUpperCase() == color) addNewMove(line, col, line+i, col)
-                if(state.getOrNull(line+i)?.getOrNull(col-1) == "" || state.getOrNull(line-1)?.getOrNull(col-1)?.isUpperCase() == color) addNewMove(line, col,line+i, col-1)
-                if(state.getOrNull(line+i)?.getOrNull(col+1) == "" || state.getOrNull(line-1)?.getOrNull(col+1)?.isUpperCase() == color) addNewMove(line, col,line+i, col+1)
+                if(state.getOrNull(line+i)?.getOrNull(col) == "" || state.getOrNull(line-1)?.getOrNull(col)?.getColor() == color) addNewMove(line, col, line+i, col)
+                if(state.getOrNull(line+i)?.getOrNull(col-1) == "" || state.getOrNull(line-1)?.getOrNull(col-1)?.getColor() == color) addNewMove(line, col,line+i, col-1)
+                if(state.getOrNull(line+i)?.getOrNull(col+1) == "" || state.getOrNull(line-1)?.getOrNull(col+1)?.getColor() == color) addNewMove(line, col,line+i, col+1)
             }
-            if(state.getOrNull(line)?.getOrNull(col-1) == "" || state.getOrNull(line-1)?.getOrNull(col-1)?.isUpperCase() == color) addNewMove(line, col,line, col-1)
-            if(state.getOrNull(line)?.getOrNull(col+1) == "" || state.getOrNull(line-1)?.getOrNull(col+1)?.isUpperCase() == color) addNewMove(line, col,line, col+1)
+            if(state.getOrNull(line)?.getOrNull(col-1) == "" || state.getOrNull(line-1)?.getOrNull(col-1)?.getColor() == color) addNewMove(line, col,line, col-1)
+            if(state.getOrNull(line)?.getOrNull(col+1) == "" || state.getOrNull(line-1)?.getOrNull(col+1)?.getColor() == color) addNewMove(line, col,line, col+1)
         }
 
         for (line in 0..7){
             for (col in 0..7) {
                 when (state[line][col].uppercase()) {
                     "P" -> {
-                        calculatePawnMoves(line, col, state[line][col].isUpperCase())
+                        calculatePawnMoves(line, col, state[line][col].getColor())
                     }
                     "N" -> {
-                        calculateHorseMoves(line, col, state[line][col].isUpperCase())
+                        calculateHorseMoves(line, col, state[line][col].getColor())
                     }
                     "K" -> {
-                        calculateKingMoves(line, col, state[line][col].isUpperCase())
+                        calculateKingMoves(line, col, state[line][col].getColor())
                     }
                 }
             }
@@ -104,7 +104,7 @@ class Board {
         legalMoves = newLegalMoves
     }
 
-    fun String.isUpperCase(): Boolean {
+    fun String.getColor(): Boolean {
         forEach { if(!it.isUpperCase()) return false }
         return true
     }
