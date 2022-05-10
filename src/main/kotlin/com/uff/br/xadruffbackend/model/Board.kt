@@ -13,13 +13,13 @@ class Board {
         mutableListOf("P", "P", "P", "P", "P", "P", "P", "P"),
         mutableListOf("R", "N", "B", "Q", "K", "B", "N", "R"))
 
+    private val colorTurn = true
+
     //TODO: pensar em como automatizar a atualização dos valores após aplicação de um movimento no board
     // talvez podemos apenas chamar as funções no final da função que aplica o movimento no boar
     var legalMoves: MutableList<String> = mutableListOf("a2a3", "a2a4", "b2b3", "b2b4", "c2c3", "c2c4", "d2d3", "d2d4",
         "e2e3", "e2e4", "f2f3", "f2f4", "g2g3", "g2g4", "h2h3", "h2h4",
-        "b1a3", "b1c3", "g1f3", "g1h3", "a7a6", "a7a5", "b7b6", "b7b5",
-        "c7c6", "c7c5", "d7d6", "d7d5", "e7e6", "e7e5", "f7f6", "f7f5",
-        "g7g6", "g7g5", "h7h6", "h7h5", "c8b6", "c8d6", "g8f6", "g8h6")
+        "b1a3", "b1c3", "g1f3", "g1h3")
 
     var legalMovesMap = mutableMapOf<String,List<String>>()
 
@@ -39,65 +39,73 @@ class Board {
 
     private fun calculateLegalMoves() {
         //TODO: Acrescentar indicação de promoção, rook e captura
-        fun indexToString(line: Int, col: Int): String{
-            return 'a' + col + (8 - line).toString()
-        }
-
         val newLegalMoves = mutableListOf<String>()
+
+        fun indexToString(line: Int, col: Int): String =
+            'a' + col + (8 - line).toString()
 
         fun addNewMove(originLine: Int, originCol: Int, futureLine: Int, futureCol: Int) {
             newLegalMoves.add(indexToString(originLine, originCol) + indexToString(futureLine, futureCol))
         }
 
-        fun calculatePawnMoves(line: Int, col: Int, color: Boolean){
+        fun hasEnemyOrEmpty(line: Int, col: Int) =
+            state.getOrNull(line)?.getOrNull(col) != "" || state.getOrNull(line)?.getOrNull(col)?.getColor() != colorTurn
+
+        fun isEmpty(line: Int, col: Int) =
+            state.getOrNull(line)?.getOrNull(col) != ""
+
+        fun hasEnemy(line: Int, col: Int) =
+            state.getOrNull(line)?.getOrNull(col)?.getColor() != colorTurn
+
+        fun calculatePawnMoves(line: Int, col: Int){
             //TODO: implementar en passant
             var direction = -1
-            if(color) direction = 1 // se for branco ele move apenas para linhas de index maiores
+            if(colorTurn) direction = 1 // se for branco ele move apenas para linhas de index maiores
 
             // movimento pra frente
-            if(state.getOrNull(line+(1*direction))?.getOrNull(col) == "") addNewMove(line, col, line-1, col)
-            // pode andar duas casas se for o primeiro movimento ( esta na linha 7 ) e não tem ninguem nas duas casas a frente
-            if(state.getOrNull(line+(2*direction))?.getOrNull(col) == "" && state.getOrNull(line-1)?.getOrNull(col) == "" && line == 7) addNewMove(line, col,line-2, col)
+            if(isEmpty(line+(1*direction), col)) addNewMove(line, col, line+(1*direction), col)
+            if(isEmpty(line+(2*direction), col) && isEmpty(line-1,col) && line == 7) addNewMove(line, col,line+(2*direction), col)
 
             //captura
-            if(state.getOrNull(line+(1*direction))?.getOrNull(col-1)?.getColor() == color) addNewMove(line, col,line-1, col-1)
-            if(state.getOrNull(line+(1*direction))?.getOrNull(col+1)?.getColor() == color) addNewMove(line, col,line-1, col+1)
+            if(hasEnemy(line+(1*direction), col-1)) addNewMove(line, col,line+(1*direction), col-1)
+            if(hasEnemy(line+(1*direction), col+1)) addNewMove(line, col,line+(1*direction), col+1)
 
         }
 
-        fun calculateHorseMoves(line: Int, col: Int, color: Boolean){
+        fun calculateHorseMoves(line: Int, col: Int){
             for(i in 0..1){
-                if(state.getOrNull(line+2-i)?.getOrNull(col+1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col+1+i)?.getColor() == color) addNewMove(line, col,line+2-i, col+1+i)
-                if(state.getOrNull(line+2-i)?.getOrNull(col-1+i) != "" || state.getOrNull(line+2-i)?.getOrNull(col-1+i)?.getColor() == color) addNewMove(line, col,line+2-i, col-1+i)
-                if(state.getOrNull(line-2-i)?.getOrNull(col+1+i) != "" || state.getOrNull(line-2-i)?.getOrNull(col+1+i)?.getColor() == color) addNewMove(line, col,line-2-i, col+1+i)
-                if(state.getOrNull(line-2-i)?.getOrNull(col-1+i) != "" || state.getOrNull(line-2-i)?.getOrNull(col-1+i)?.getColor() == color) addNewMove(line, col,line-2-i, col-1+i)
+                if(hasEnemyOrEmpty(line+2-i, col+1+i)) addNewMove(line, col,line+2-i, col+1+i)
+                if(hasEnemyOrEmpty(line+2-i, col-1+i)) addNewMove(line, col,line+2-i, col-1+i)
+                if(hasEnemyOrEmpty(line-2-i, col+1+i)) addNewMove(line, col,line-2-i, col+1+i)
+                if(hasEnemyOrEmpty(line-2-i, col-1+i)) addNewMove(line, col,line-2-i, col-1+i)
             }
         }
 
-        fun calculateKingMoves(line: Int, col: Int, color: Boolean){
+        fun calculateKingMoves(line: Int, col: Int){
             //TODO: implementar o rook
             for(i in (-1..1) step 2){
-                if(state.getOrNull(line+i)?.getOrNull(col) == "" || state.getOrNull(line-1)?.getOrNull(col)?.getColor() == color) addNewMove(line, col, line+i, col)
-                if(state.getOrNull(line+i)?.getOrNull(col-1) == "" || state.getOrNull(line-1)?.getOrNull(col-1)?.getColor() == color) addNewMove(line, col,line+i, col-1)
-                if(state.getOrNull(line+i)?.getOrNull(col+1) == "" || state.getOrNull(line-1)?.getOrNull(col+1)?.getColor() == color) addNewMove(line, col,line+i, col+1)
+                if(hasEnemyOrEmpty(line+i,col)) addNewMove(line, col, line+i, col)
+                if(hasEnemyOrEmpty(line+i,col-1)) addNewMove(line, col, line+i, col-1)
+                if(hasEnemyOrEmpty(line+i,col+1)) addNewMove(line, col, line+i, col+1)
             }
-            if(state.getOrNull(line)?.getOrNull(col-1) == "" || state.getOrNull(line-1)?.getOrNull(col-1)?.getColor() == color) addNewMove(line, col,line, col-1)
-            if(state.getOrNull(line)?.getOrNull(col+1) == "" || state.getOrNull(line-1)?.getOrNull(col+1)?.getColor() == color) addNewMove(line, col,line, col+1)
-        }
+            if(hasEnemyOrEmpty(line,col-1)) addNewMove(line, col, line, col-1)
+            if(hasEnemyOrEmpty(line,col+1)) addNewMove(line, col, line, col+1)
+       }
 
         for (line in 0..7){
             for (col in 0..7) {
-                when (state[line][col].uppercase()) {
-                    "P" -> {
-                        calculatePawnMoves(line, col, state[line][col].getColor())
+                if(state[line][col].getColor() == colorTurn)
+                    when (state[line][col].uppercase()) {
+                        "P" -> {
+                            calculatePawnMoves(line, col)
+                        }
+                        "N" -> {
+                            calculateHorseMoves(line, col)
+                        }
+                        "K" -> {
+                            calculateKingMoves(line, col)
+                        }
                     }
-                    "N" -> {
-                        calculateHorseMoves(line, col, state[line][col].getColor())
-                    }
-                    "K" -> {
-                        calculateKingMoves(line, col, state[line][col].getColor())
-                    }
-                }
             }
         }
 
