@@ -14,7 +14,7 @@ class HorseMovementsCalculator(colorTurn: Color,
         for(index in 0..1){
 
             legalMovements.calculateCaptureMovements(line, col, index)
-            legalMovements.calculateNoCaptureMovements(line, col, index)
+            legalMovements.calculateNormalMovements(line, col, index)
         }
     }
 
