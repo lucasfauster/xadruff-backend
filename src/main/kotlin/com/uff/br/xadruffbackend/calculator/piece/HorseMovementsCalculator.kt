@@ -34,7 +34,7 @@ class HorseMovementsCalculator(colorTurn: Color,
         }
     }
 
-    fun MutableList<String>.calculateNoCaptureMovements(line: Int, col: Int, index: Int) {
+    fun MutableList<String>.calculateNormalMovements(line: Int, col: Int, index: Int) {
         if(isEmpty(line+2-index, col+1+index)){
             addNewMove(line, col,line+2-index, col+1+index)
         }
