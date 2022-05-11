@@ -48,6 +48,9 @@ class Board {
             newLegalMoves.add(indexToString(originLine, originCol) + indexToString(futureLine, futureCol) + action)
         }
 
+        fun pawnIsOnInitialPosition(line: Int, col: Int) =
+            if (state.getOrNull(line)?.getOrNull(col)?.getColor() == true) line == 7 else line == 1
+
         fun isOutOfIndex(line: Int, col: Int) =
             line < 0 || line > 7 || col > 7 || col < 0
 
@@ -67,7 +70,7 @@ class Board {
 
             // movimento pra frente
             if(isEmpty(line+(1*direction), col)) addNewMove(line, col, line+(1*direction), col)
-            if(isEmpty(line+(2*direction), col) && isEmpty(line-1,col) && line == 7)
+            if(isEmpty(line+(2*direction), col) && isEmpty(line-1,col) && pawnIsOnInitialPosition(line, col))
                 addNewMove(line, col,line+(2*direction), col)
 
             //captura
