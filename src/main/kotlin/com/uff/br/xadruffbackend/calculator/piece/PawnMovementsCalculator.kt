@@ -1,8 +1,9 @@
 package com.uff.br.xadruffbackend.calculator.piece
 
 import com.uff.br.xadruffbackend.calculator.AbstractLegalMovementsCalculator
-import com.uff.br.xadruffbackend.calculator.addNewMove
+import com.uff.br.xadruffbackend.calculator.getColor
 import com.uff.br.xadruffbackend.enum.Color
+import com.uff.br.xadruffbackend.util.addNewMove
 
 
 class PawnMovementsCalculator(colorTurn: Color,
@@ -33,10 +34,18 @@ class PawnMovementsCalculator(colorTurn: Color,
         if (isEmpty(line + (1 * direction), col)) {
             addNewMove(line, col, line + (1 * direction), col)
         }
-        if (isEmpty(line + (2 * direction), col) && isEmpty(line - 1, col) && line == 7) {
+        if (isEmpty(line + (2 * direction), col) && isEmpty(line - 1, col)
+            && pawnIsOnInitialPosition(line, col)) {
             addNewMove(line, col, line + (2 * direction), col)
         }
     }
+
+    fun pawnIsOnInitialPosition(line: Int, col: Int) =
+        if (boardPositions.getOrNull(line)?.getOrNull(col)?.getColor() == Color.WHITE) {
+            line == 7
+        } else {
+            line == 1
+        }
 }
 
 

@@ -1,8 +1,8 @@
 package com.uff.br.xadruffbackend.calculator.piece
 
 import com.uff.br.xadruffbackend.calculator.AbstractLegalMovementsCalculator
-import com.uff.br.xadruffbackend.calculator.addNewMove
 import com.uff.br.xadruffbackend.enum.Color
+import com.uff.br.xadruffbackend.util.addNewMove
 
 
 class HorseMovementsCalculator(colorTurn: Color,
