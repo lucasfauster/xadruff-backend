@@ -22,7 +22,7 @@ class RookMovementsCalculator(colorTurn: Color,
 
     fun calculateRookMoves(legalMovements: MutableList<String>, line: Int, col: Int){
 
-        val columnsAndLinesFree = ColumnsAndLinesFree()
+        val columnsAndLinesFree = DiagonalsFree()
         for(index in (1..7)){
             if(columnsAndLinesFree.isAllDirectionsOccupiedByAllies()){
                 break
@@ -37,23 +37,23 @@ class RookMovementsCalculator(colorTurn: Color,
         line: Int,
         col: Int,
         index: Int,
-        columnsAndLinesFree: ColumnsAndLinesFree) {
+        columnsAndLinesFree: DiagonalsFree) {
 
-        if(columnsAndLinesFree.downColumnFree && hasEnemy(line+index, col)) {
+        if(columnsAndLinesFree.upLeftDiagonalFree && hasEnemy(line+index, col)) {
             addNewMove(line, col, line + index, col, "C")
-            columnsAndLinesFree.downColumnFree = false
+            columnsAndLinesFree.upLeftDiagonalFree = false
         }
-        if(columnsAndLinesFree.upColumnFree && hasEnemy(line-index, col)) {
+        if(columnsAndLinesFree.downLeftDiagonalFree && hasEnemy(line-index, col)) {
             addNewMove(line, col, line - index, col, "C")
-            columnsAndLinesFree.upColumnFree = false
+            columnsAndLinesFree.downLeftDiagonalFree = false
         }
-        if(columnsAndLinesFree.leftLineFree && hasEnemy(line, col-index)) {
+        if(columnsAndLinesFree.upRithDiagonalFree && hasEnemy(line, col-index)) {
             addNewMove(line, col, line, col - index, "C")
-            columnsAndLinesFree.leftLineFree = false
+            columnsAndLinesFree.upRithDiagonalFree = false
         }
-        if(columnsAndLinesFree.rightLineFree && hasEnemy(line, col+index)) {
+        if(columnsAndLinesFree.downRightDiagonalFree && hasEnemy(line, col+index)) {
             addNewMove(line, col, line, col + index, "C")
-            columnsAndLinesFree.rightLineFree = false
+            columnsAndLinesFree.downRightDiagonalFree = false
         }
     }
 
@@ -61,34 +61,34 @@ class RookMovementsCalculator(colorTurn: Color,
         line: Int,
         col: Int,
         index: Int,
-        columnsAndLinesFree: ColumnsAndLinesFree) {
+        columnsAndLinesFree: DiagonalsFree) {
 
-        if(columnsAndLinesFree.downColumnFree){
+        if(columnsAndLinesFree.upLeftDiagonalFree){
             addNewMove(line, col, line+index, col)
         }
-        if(columnsAndLinesFree.upColumnFree){
+        if(columnsAndLinesFree.downLeftDiagonalFree){
             addNewMove(line, col, line-index, col)
         }
-        if(columnsAndLinesFree.leftLineFree) {
+        if(columnsAndLinesFree.upRithDiagonalFree) {
             addNewMove(line, col, line, col-index)
         }
-        if(columnsAndLinesFree.rightLineFree) {
+        if(columnsAndLinesFree.downRightDiagonalFree) {
             addNewMove(line, col, line, col+index)
         }
     }
 
-    fun ColumnsAndLinesFree.verifyIfHasAlliesInAllDirections(line: Int, col: Int, index: Int){
+    fun DiagonalsFree.verifyIfHasAlliesInAllDirections(line: Int, col: Int, index: Int){
         if(hasAlly(line+index, col)){
-            downColumnFree = false
+            upLeftDiagonalFree = false
         }
         if(hasAlly(line-index, col)){
-            upColumnFree = false
+            downLeftDiagonalFree = false
         }
         if(hasAlly(line, col-index)){
-            leftLineFree = false
+            upRithDiagonalFree = false
         }
         if(hasAlly(line, col+index)){
-            rightLineFree = false
+            downRightDiagonalFree = false
         }
     }
 }

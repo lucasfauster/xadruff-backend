@@ -5,7 +5,6 @@ import com.uff.br.xadruffbackend.calculator.piece.HorseMovementsCalculator
 import com.uff.br.xadruffbackend.calculator.piece.KingMovementsCalculator
 import com.uff.br.xadruffbackend.calculator.piece.PawnMovementsCalculator
 import com.uff.br.xadruffbackend.calculator.piece.QueenMovementsCalculator
-import com.uff.br.xadruffbackend.calculator.piece.RookMovementsCalculator
 import com.uff.br.xadruffbackend.enum.Color
 
 fun String.getColor(): Color {
@@ -23,7 +22,7 @@ class LegalMovementsCalculator(
     private val pawnMovementsCalculator:PawnMovementsCalculator = PawnMovementsCalculator(colorTurn, boardPositions)
     private val horseMovementsCalculator:HorseMovementsCalculator = HorseMovementsCalculator(colorTurn, boardPositions)
     private val kingMovementsCalculator:KingMovementsCalculator = KingMovementsCalculator(colorTurn, boardPositions)
-    private val rookMovementsCalculator:RookMovementsCalculator = RookMovementsCalculator(colorTurn, boardPositions)
+    private val rookMovementsCalculator:BishopMovementsCalculator = BishopMovementsCalculator(colorTurn, boardPositions)
     private val queenMovementsCalculator:QueenMovementsCalculator = QueenMovementsCalculator(colorTurn, boardPositions)
     private val bishopMovementsCalculator:BishopMovementsCalculator = BishopMovementsCalculator(colorTurn, boardPositions)
 
@@ -45,7 +44,7 @@ class LegalMovementsCalculator(
                             kingMovementsCalculator.calculateKingMoves(newLegalMoves, line, col)
                         }
                         "R" -> {
-                            rookMovementsCalculator.calculateRookMoves(newLegalMoves, line, col)
+                            rookMovementsCalculator.calculateBishopMoves(newLegalMoves, line, col)
                         }
                     }
             }
