@@ -4,21 +4,19 @@ import com.uff.br.xadruffbackend.calculator.AbstractLegalMovementsCalculator
 import com.uff.br.xadruffbackend.enum.Color
 import com.uff.br.xadruffbackend.util.addNewMove
 
-
-data class DiagonalsFree(
-    var downLeftDiagonalFree: Boolean = true,
-    var upLeftDiagonalFree:Boolean = true,
-    var downRightDiagonalFree: Boolean = true,
-    var upRithDiagonalFree: Boolean = true
-) {
-    fun isAllDirectionsOccupiedByAllies(): Boolean {
-        return !(downLeftDiagonalFree || upLeftDiagonalFree || downRightDiagonalFree || upRithDiagonalFree)
-    }
-}
-
 class BishopMovementsCalculator(colorTurn: Color,
                                 boardPositions: List<List<String>>):
     AbstractLegalMovementsCalculator(colorTurn, boardPositions) {
+    data class DiagonalsFree(
+        var downLeftDiagonalFree: Boolean = true,
+        var upLeftDiagonalFree:Boolean = true,
+        var downRightDiagonalFree: Boolean = true,
+        var upRithDiagonalFree: Boolean = true
+    ) {
+        fun isAllDirectionsOccupiedByAllies(): Boolean {
+            return !(downLeftDiagonalFree || upLeftDiagonalFree || downRightDiagonalFree || upRithDiagonalFree)
+        }
+    }
 
     fun calculateBishopMoves(legalMovements: MutableList<String>, line: Int, col: Int){
 

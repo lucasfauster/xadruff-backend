@@ -17,7 +17,7 @@ class KingMovementsCalculator(colorTurn: Color,
         }
     }
 
-    fun MutableList<String>.calculateCaptureMovements(line: Int, col: Int, index: Int){
+    private fun MutableList<String>.calculateCaptureMovements(line: Int, col: Int, index: Int){
         if(hasEnemy(line+index,col)){
             addNewMove(line, col, line+index, col, "C")
         }
@@ -29,7 +29,7 @@ class KingMovementsCalculator(colorTurn: Color,
         }
     }
 
-    fun MutableList<String>.calculateNormalMovements(line: Int, col: Int, index: Int) {
+    private fun MutableList<String>.calculateNormalMovements(line: Int, col: Int, index: Int) {
         if(isEmpty(line+index,col)){
             addNewMove(line, col, line+index, col)
         }

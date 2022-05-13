@@ -21,7 +21,7 @@ class PawnMovementsCalculator(colorTurn: Color,
         legalMovements.calculateNormalMovements(line, col, direction)
     }
 
-    fun MutableList<String>.calculateCaptureMovements(line: Int, col: Int, direction: Int){
+    private fun MutableList<String>.calculateCaptureMovements(line: Int, col: Int, direction: Int){
         if(hasEnemy(line+(1*direction), col-1)) {
             addNewMove(line, col,line+(1*direction), col-1, "C")
         }
@@ -30,7 +30,7 @@ class PawnMovementsCalculator(colorTurn: Color,
         }
     }
 
-    fun MutableList<String>.calculateNormalMovements(line: Int, col: Int, direction: Int) {
+    private fun MutableList<String>.calculateNormalMovements(line: Int, col: Int, direction: Int) {
         if (isEmpty(line + (1 * direction), col)) {
             addNewMove(line, col, line + (1 * direction), col)
         }
@@ -40,7 +40,7 @@ class PawnMovementsCalculator(colorTurn: Color,
         }
     }
 
-    fun pawnIsOnInitialPosition(line: Int, col: Int) =
+    private fun pawnIsOnInitialPosition(line: Int, col: Int) =
         if (boardPositions.getOrNull(line)?.getOrNull(col)?.getColor() == Color.WHITE) {
             line == 7
         } else {

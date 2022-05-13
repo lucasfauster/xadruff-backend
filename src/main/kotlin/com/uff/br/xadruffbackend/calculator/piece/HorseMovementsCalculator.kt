@@ -18,7 +18,7 @@ class HorseMovementsCalculator(colorTurn: Color,
         }
     }
 
-    fun MutableList<String>.calculateCaptureMovements(line: Int, col: Int, index: Int){
+    private fun MutableList<String>.calculateCaptureMovements(line: Int, col: Int, index: Int){
 
         if(hasEnemy(line+2-index, col+1+index)) {
             addNewMove(line, col,line+2-index, col+1+index, "C")
@@ -34,7 +34,7 @@ class HorseMovementsCalculator(colorTurn: Color,
         }
     }
 
-    fun MutableList<String>.calculateNormalMovements(line: Int, col: Int, index: Int) {
+    private fun MutableList<String>.calculateNormalMovements(line: Int, col: Int, index: Int) {
         if(isEmpty(line+2-index, col+1+index)){
             addNewMove(line, col,line+2-index, col+1+index)
         }
