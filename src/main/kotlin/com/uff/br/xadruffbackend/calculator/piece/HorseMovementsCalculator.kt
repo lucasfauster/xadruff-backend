@@ -1,53 +1,17 @@
 package com.uff.br.xadruffbackend.calculator.piece
 
-import com.uff.br.xadruffbackend.calculator.AbstractLegalMovementsCalculator
+import com.uff.br.xadruffbackend.calculator.generic.AbstractLegalMovementsCalculator
 import com.uff.br.xadruffbackend.enum.Color
-import com.uff.br.xadruffbackend.util.addNewMove
+import com.uff.br.xadruffbackend.model.Piece
+import com.uff.br.xadruffbackend.model.direction.buildLDirections
 
 
-class HorseMovementsCalculator(colorTurn: Color,
-                               boardPositions: List<List<String>>):
+class HorseMovementsCalculator(colorTurn: Color, boardPositions: List<List<Piece?>>):
     AbstractLegalMovementsCalculator(colorTurn, boardPositions) {
 
+    override fun calculate(legalMovements: MutableList<String>, line: Int, col: Int) =
+        legalMovements.calculate(buildLDirections(line, col), indexRange = 1)
 
-    fun calculateHorseMoves(legalMovements: MutableList<String>, line: Int, col: Int){
-        for(index in 0..1){
-
-            legalMovements.calculateCaptureMovements(line, col, index)
-            legalMovements.calculateNormalMovements(line, col, index)
-        }
-    }
-
-    fun MutableList<String>.calculateCaptureMovements(line: Int, col: Int, index: Int){
-
-        if(hasEnemy(line+2-index, col+1+index)) {
-            addNewMove(line, col,line+2-index, col+1+index, "C")
-        }
-        if(hasEnemy(line+2-index, col-1+index)) {
-            addNewMove(line, col,line+2-index, col-1+index, "C")
-        }
-        if(hasEnemy(line-2-index, col+1+index)) {
-            addNewMove(line, col,line-2-index, col+1+index, "C")
-        }
-        if(hasEnemy(line-2-index, col-1+index)) {
-            addNewMove(line, col,line-2-index, col-1+index, "C")
-        }
-    }
-
-    fun MutableList<String>.calculateNormalMovements(line: Int, col: Int, index: Int) {
-        if(isEmpty(line+2-index, col+1+index)){
-            addNewMove(line, col,line+2-index, col+1+index)
-        }
-        if(isEmpty(line+2-index, col-1+index)){
-            addNewMove(line, col,line+2-index, col-1+index)
-        }
-        if(isEmpty(line-2-index, col+1+index)){
-            addNewMove(line, col,line-2-index, col+1+index)
-        }
-        if(isEmpty(line-2-index, col-1+index)){
-            addNewMove(line, col,line-2-index, col-1+index)
-        }
-    }
 }
 
 

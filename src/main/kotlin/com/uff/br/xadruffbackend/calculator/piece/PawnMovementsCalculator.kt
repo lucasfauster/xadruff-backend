@@ -1,51 +1,58 @@
 package com.uff.br.xadruffbackend.calculator.piece
 
-import com.uff.br.xadruffbackend.calculator.AbstractLegalMovementsCalculator
-import com.uff.br.xadruffbackend.calculator.getColor
+import com.uff.br.xadruffbackend.calculator.generic.AbstractLegalMovementsCalculator
 import com.uff.br.xadruffbackend.enum.Color
-import com.uff.br.xadruffbackend.util.addNewMove
+import com.uff.br.xadruffbackend.model.Piece
+import com.uff.br.xadruffbackend.model.direction.Direction
+import com.uff.br.xadruffbackend.model.direction.DownColumnStraight
+import com.uff.br.xadruffbackend.model.direction.DownLeftDiagonal
+import com.uff.br.xadruffbackend.model.direction.DownRightDiagonal
+import com.uff.br.xadruffbackend.model.direction.UpColumnStraight
+import com.uff.br.xadruffbackend.model.direction.UpLeftDiagonal
+import com.uff.br.xadruffbackend.model.direction.UpRightDiagonal
 
 
-class PawnMovementsCalculator(colorTurn: Color,
-                              boardPositions: List<List<String>>):
+class PawnMovementsCalculator(colorTurn: Color, boardPositions: List<List<Piece?>>):
     AbstractLegalMovementsCalculator(colorTurn, boardPositions) {
 
-    fun calculatePawnMoves(legalMovements: MutableList<String>, line: Int, col: Int){
-        //TODO: implementar en passant
-        val direction = if (colorTurn == Color.WHITE) {
-            -1 // se for branco ele move apenas para linhas de index menores
+    override fun calculate(legalMovements: MutableList<String>, line: Int, col: Int) {
+        var initialLine = 1
+        var moveDirection = listOf<Direction>(UpColumnStraight(line, col))
+        var captureDirections = listOf(UpRightDiagonal(line, col), UpLeftDiagonal(line, col))
+
+        if(colorTurn == Color.BLACK) {
+            moveDirection = listOf<Direction>(DownColumnStraight(line, col))
+            initialLine = 6
+            captureDirections = listOf(DownRightDiagonal(line, col), DownLeftDiagonal(line, col))
+        }
+
+        val indexRange = getIndexRange(line, initialLine)
+        legalMovements.calculate(moveDirection, indexRange)
+        calculateCaptureMovement(legalMovements, captureDirections)
+    }
+
+    private fun getIndexRange(line: Int, initialLine: Int): Int {
+        return if (line == initialLine) {
+            2
         } else {
             1
         }
-        legalMovements.calculateCaptureMovements(line, col, direction)
-        legalMovements.calculateNormalMovements(line, col, direction)
     }
 
-    fun MutableList<String>.calculateCaptureMovements(line: Int, col: Int, direction: Int){
-        if(hasEnemy(line+(1*direction), col-1)) {
-            addNewMove(line, col,line+(1*direction), col-1, "C")
-        }
-        if(hasEnemy(line+(1*direction), col+1)) {
-            addNewMove(line, col,line+(1*direction), col+1, "C")
-        }
-    }
-
-    fun MutableList<String>.calculateNormalMovements(line: Int, col: Int, direction: Int) {
-        if (isEmpty(line + (1 * direction), col)) {
-            addNewMove(line, col, line + (1 * direction), col)
-        }
-        if (isEmpty(line + (2 * direction), col) && isEmpty(line - 1, col)
-            && pawnIsOnInitialPosition(line, col)) {
-            addNewMove(line, col, line + (2 * direction), col)
+    fun calculateCaptureMovement(legalMovements: MutableList<String>, captureDirections: List<Direction>){
+        val pseudoLegalFuturePositions = getLegalFuturePositions(1, captureDirections)
+        pseudoLegalFuturePositions.filter {
+            it.action == "C"
+        }.forEach {
+            legalMovements.addNewMove(
+                originLine = captureDirections.first().line,
+                originCol = captureDirections.first().column,
+                futureLine = it.line,
+                futureCol = it.column,
+                action = it.action
+            )
         }
     }
-
-    fun pawnIsOnInitialPosition(line: Int, col: Int) =
-        if (boardPositions.getOrNull(line)?.getOrNull(col)?.getColor() == Color.WHITE) {
-            line == 7
-        } else {
-            line == 1
-        }
 }
 
 

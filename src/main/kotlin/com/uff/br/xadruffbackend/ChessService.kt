@@ -6,6 +6,7 @@ import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.ChessResponse
 import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.LegalMovements
+import com.uff.br.xadruffbackend.model.toBoardResponse
 import com.uff.br.xadruffbackend.model.toJsonString
 import org.springframework.stereotype.Service
 
@@ -24,7 +25,9 @@ class ChessService(private val chessRepository: ChessRepository) {
         val playerLegalMovements = calculateLegalMovements(game.getBoard(), color)
         game.legalMovements = playerLegalMovements.toJsonString()
         chessRepository.save(game)
-        return ChessResponse(boardId = game.boardId, legalMovements = playerLegalMovements, board = game.getBoard())
+        return ChessResponse(boardId = game.boardId,
+            legalMovements = playerLegalMovements,
+            board = game.getBoard().toBoardResponse())
     }
 
     fun playAITurn(game: GameEntity){ // TODO chamar módulo de movimentação da IA
