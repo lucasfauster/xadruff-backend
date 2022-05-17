@@ -1,11 +1,15 @@
 package com.uff.br.xadruffbackend
 
-import com.uff.br.xadruffbackend.enum.Color
-import com.uff.br.xadruffbackend.enum.StartsBy
+import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.GameEntity
-import com.uff.br.xadruffbackend.model.Piece
 import com.uff.br.xadruffbackend.model.Position
+import com.uff.br.xadruffbackend.model.piece.Bishop
+import com.uff.br.xadruffbackend.model.piece.King
+import com.uff.br.xadruffbackend.model.piece.Knight
+import com.uff.br.xadruffbackend.model.piece.Pawn
+import com.uff.br.xadruffbackend.model.piece.Queen
+import com.uff.br.xadruffbackend.model.piece.Rook
 import com.uff.br.xadruffbackend.model.toJsonString
 import com.uff.br.xadruffbackend.model.toStringPositions
 import io.mockk.every
@@ -18,51 +22,87 @@ import org.junit.jupiter.api.Test
 class ChessServiceTest{
 
     companion object {
-        val initialBoardPositions: List<MutableList<Piece?>> = listOf(
-            mutableListOf(
-                Piece(value = 'r', position = Position(0, 0)),
-                Piece(value = 'n', position = Position(0, 1)),
-                Piece(value = 'b', position = Position(0, 2)),
-                Piece(value = 'k', position = Position(0, 3)),
-                Piece(value = 'q', position = Position(0, 4)),
-                Piece(value = 'b', position = Position(0, 5)),
-                Piece(value = 'n', position = Position(0, 6)),
-                Piece(value = 'r', position = Position(0, 7))
-            ),
-            mutableListOf(
-                Piece(value = 'p', position = Position(1, 0)),
-                Piece(value = 'p', position = Position(1, 1)),
-                Piece(value = 'p', position = Position(1, 2)),
-                Piece(value = 'p', position = Position(1, 3)),
-                Piece(value = 'p', position = Position(1, 4)),
-                Piece(value = 'p', position = Position(1, 5)),
-                Piece(value = 'p', position = Position(1, 6)),
-                Piece(value = 'p', position = Position(1, 7))
-            ),
-            mutableListOf(null, null, null, null, null, null, null, null),
-            mutableListOf(null, null, null, null, null, null, null, null),
-            mutableListOf(null, null, null, null, null, null, null, null),
-            mutableListOf(null, null, null, null, null, null, null, null),
-            mutableListOf(
-                Piece(value = 'P', position = Position(6, 0)),
-                Piece(value = 'P', position = Position(6, 1)),
-                Piece(value = 'P', position = Position(6, 2)),
-                Piece(value = 'P', position = Position(6, 3)),
-                Piece(value = 'P', position = Position(6, 4)),
-                Piece(value = 'P', position = Position(6, 5)),
-                Piece(value = 'P', position = Position(6, 6)),
-                Piece(value = 'P', position = Position(6, 7))
-            ),
-            mutableListOf(
-                Piece(value = 'R', position = Position(7, 0)),
-                Piece(value = 'N', position = Position(7, 1)),
-                Piece(value = 'B', position = Position(7, 2)),
-                Piece(value = 'Q', position = Position(7, 3)),
-                Piece(value = 'K', position = Position(7, 4)),
-                Piece(value = 'B', position = Position(7, 5)),
-                Piece(value = 'N', position = Position(7, 6)),
-                Piece(value = 'R', position = Position(7, 7))
-            )
+        val initialBoardPositions: List<MutableList<Position>> = listOf(
+                mutableListOf(
+                    Position(line = 0, column = 0, piece = Rook(value = 'r')),
+                    Position(line = 0, column = 1, piece = Knight(value = 'n')),
+                    Position(line = 0, column = 2, piece = Bishop(value = 'b')),
+                    Position(line = 0, column = 3, piece = King(value = 'k')),
+                    Position(line = 0, column = 4, piece = Queen(value = 'q')),
+                    Position(line = 0, column = 5, piece = Bishop(value = 'b')),
+                    Position(line = 0, column = 6, piece = Knight(value = 'n')),
+                    Position(line = 0, column = 7, piece = Rook(value = 'r'))
+                ),
+                mutableListOf(
+                    Position(line = 1, column = 0, piece = Pawn(value = 'p')),
+                    Position(line = 1, column = 1, piece = Pawn(value = 'p')),
+                    Position(line = 1, column = 2, piece = Pawn(value = 'p')),
+                    Position(line = 1, column = 3, piece = Pawn(value = 'p')),
+                    Position(line = 1, column = 4, piece = Pawn(value = 'p')),
+                    Position(line = 1, column = 5, piece = Pawn(value = 'p')),
+                    Position(line = 1, column = 6, piece = Pawn(value = 'p')),
+                    Position(line = 1, column = 7, piece = Pawn(value = 'p'))
+                ),
+                mutableListOf(
+                    Position(line = 2, column = 0, piece = null),
+                    Position(line = 2, column = 1, piece = null),
+                    Position(line = 2, column = 2, piece = null),
+                    Position(line = 2, column = 3, piece = null),
+                    Position(line = 2, column = 4, piece = null),
+                    Position(line = 2, column = 5, piece = null),
+                    Position(line = 2, column = 6, piece = null),
+                    Position(line = 2, column = 7, piece = null)
+                ),
+                mutableListOf(
+                    Position(line = 3, column = 0, piece = null),
+                    Position(line = 3, column = 1, piece = null),
+                    Position(line = 3, column = 2, piece = null),
+                    Position(line = 3, column = 3, piece = null),
+                    Position(line = 3, column = 4, piece = null),
+                    Position(line = 3, column = 5, piece = null),
+                    Position(line = 3, column = 6, piece = null),
+                    Position(line = 3, column = 7, piece = null)
+                ),
+                mutableListOf(
+                    Position(line = 4, column = 0, piece = null),
+                    Position(line = 4, column = 1, piece = null),
+                    Position(line = 4, column = 2, piece = null),
+                    Position(line = 4, column = 3, piece = null),
+                    Position(line = 4, column = 4, piece = null),
+                    Position(line = 4, column = 5, piece = null),
+                    Position(line = 4, column = 6, piece = null),
+                    Position(line = 4, column = 7, piece = null)
+                ),
+                mutableListOf(
+                    Position(line = 5, column = 0, piece = null),
+                    Position(line = 5, column = 1, piece = null),
+                    Position(line = 5, column = 2, piece = null),
+                    Position(line = 5, column = 3, piece = null),
+                    Position(line = 5, column = 4, piece = null),
+                    Position(line = 5, column = 5, piece = null),
+                    Position(line = 5, column = 6, piece = null),
+                    Position(line = 5, column = 7, piece = null)
+                ),
+                mutableListOf(
+                    Position(line = 6, column = 0, piece = Pawn(value = 'P')),
+                    Position(line = 6, column = 1, piece = Pawn(value = 'P')),
+                    Position(line = 6, column = 2, piece = Pawn(value = 'P')),
+                    Position(line = 6, column = 3, piece = Pawn(value = 'P')),
+                    Position(line = 6, column = 4, piece = Pawn(value = 'P')),
+                    Position(line = 6, column = 5, piece = Pawn(value = 'P')),
+                    Position(line = 6, column = 6, piece = Pawn(value = 'P')),
+                    Position(line = 6, column = 7, piece = Pawn(value = 'P'))
+                ),
+                mutableListOf(
+                    Position(line = 7, column = 0, piece = Rook(value = 'R')),
+                    Position(line = 7, column = 1, piece = Knight(value = 'N')),
+                    Position(line = 7, column = 2, piece = Bishop(value = 'B')),
+                    Position(line = 7, column = 3, piece = Queen(value = 'Q')),
+                    Position(line = 7, column = 4, piece = King(value = 'K')),
+                    Position(line = 7, column = 5, piece = Bishop(value = 'B')),
+                    Position(line = 7, column = 6, piece = Knight(value = 'N')),
+                    Position(line = 7, column = 7, piece = Rook(value = 'R'))
+                )
         )
     }
 
@@ -125,7 +165,9 @@ class ChessServiceTest{
     private fun assertBoard(boardPositions: List<List<Piece?>>, expectedBoardPositions: List<List<Piece?>>) {
         for(line in 0..7) {
             for(column in 0..7) {
-                assertEquals(boardPositions[line][column]?.value, expectedBoardPositions[line][column]?.value)
+                assertEquals(boardPositions[line][column].piece?.value,
+                    expectedBoardPositions[line][column].piece?.value
+                )
             }
         }
     }

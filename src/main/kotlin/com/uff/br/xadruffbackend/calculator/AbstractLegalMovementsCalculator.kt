@@ -1,56 +1,56 @@
-package com.uff.br.xadruffbackend.calculator.generic
+package com.uff.br.xadruffbackend.calculator
 
-import com.uff.br.xadruffbackend.enum.Color
-import com.uff.br.xadruffbackend.model.Piece
+import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.direction.Direction
 
 
-abstract class AbstractLegalMovementsCalculator(protected val colorTurn: Color,
-                                                protected val boardPositions: List<List<Piece?>>) {
+abstract class AbstractLegalMovementsCalculator {
 
-    fun hasAlly(line: Int, col: Int) =
-        boardPositions.getOrNull(line)?.getOrNull(col)?.getColor() == colorTurn
+    fun hasAlly(line: Int, col: Int, board: Board) =
+        board.positions.getOrNull(line)?.getOrNull(col)?.piece?.getColor() == board.colorTurn
 
-    fun isEmpty(line: Int, col: Int) =
-        boardPositions.getOrNull(line)?.getOrNull(col) == null
+    fun isEmpty(line: Int, col: Int, board: Board) =
+        board.positions.getOrNull(line)?.getOrNull(col)?.piece == null
 
-    fun hasEnemy(line: Int, col: Int) =
-        boardPositions.getOrNull(line)?.getOrNull(col)?.getColor() != colorTurn
+    fun hasEnemy(line: Int, col: Int, board: Board) =
+        board.positions.getOrNull(line)?.getOrNull(col)?.piece?.getColor() != board.colorTurn
 
-    fun canMove(line: Int, col: Int) = isEmpty(line, col) || hasEnemy(line, col)
+    fun canMove(line: Int, col: Int, board: Board) = isEmpty(line, col, board) || hasEnemy(line, col, board)
 
-    fun buildAction(futureLine: Int, futureColumn: Int): String {
-        return if (hasEnemy(futureLine, futureColumn)) {
+    fun buildAction(futureLine: Int, futureColumn: Int, board: Board): String {
+        return if (hasEnemy(futureLine, futureColumn, board)) {
             "C"
         } else {
             ""
         }
     }
 
-    fun getLegalFuturePositions(index: Int, directions: List<Direction>): List<Position> {
+    fun getLegalFuturePositions(index: Int, directions: List<Direction>, board: Board): List<Position> {
         return directions.mapNotNull {
             val futureLine = it.getFutureLine(index)
             val futureColumn = it.getFutureColumn(index)
-            if (canMove(futureLine, futureColumn)) {
+            if (canMove(futureLine, futureColumn, board)) {
                 Position(
                     line = futureLine,
                     column = futureColumn,
-                    action = buildAction(futureLine, futureColumn)
+                    action = buildAction(futureLine, futureColumn, board),
+                    piece = board.positions[futureLine][futureColumn].piece
                 )
             } else null
         }
     }
 
-    abstract fun calculate(legalMovements: MutableList<String>, line: Int, col: Int)
+    abstract fun calculateLegalMovements(line: Int, col: Int, board: Board): MutableList<String>
 
-    fun MutableList<String>.calculate(directions: List<Direction>, indexRange: Int = 7) {
+    fun calculate(directions: List<Direction>, indexRange: Int = 7, board: Board): MutableList<String> {
         var availableDirections = directions
+        val legalMovements: MutableList<String> = mutableListOf()
 
         for(index in 1..indexRange){
-            val futurePositions = getLegalFuturePositions(index, availableDirections)
+            val futurePositions = getLegalFuturePositions(index, availableDirections, board)
             futurePositions.forEach {
-                addNewMove(
+                legalMovements.addNewMove(
                     originLine = availableDirections.first().line,
                     originCol = availableDirections.first().column,
                     futureLine = it.line,
@@ -58,15 +58,14 @@ abstract class AbstractLegalMovementsCalculator(protected val colorTurn: Color,
                     action = it.action
                 )
             }
-
             availableDirections = directions.filter{
-                isEmpty(it.getFutureLine(index), it.getFutureColumn(index))
+                isEmpty(it.getFutureLine(index), it.getFutureColumn(index), board)
             }
-
         }
+        return legalMovements
     }
 
-    private fun getFuturePositionFromMove(index: String, legalMoves: List<String>): List<String> =
+    fun getFuturePositionFromMove(index: String, legalMoves: List<String>): List<String> =
         legalMoves.filter { it.slice(0..1) == index }
             .map { it.slice(2..3) }
 
