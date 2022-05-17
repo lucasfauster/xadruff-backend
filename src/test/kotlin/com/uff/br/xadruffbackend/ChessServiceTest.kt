@@ -1,15 +1,10 @@
 package com.uff.br.xadruffbackend
 
+import com.uff.br.xadruffbackend.calculator.LegalMovementsCalculator
 import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.Position
-import com.uff.br.xadruffbackend.model.piece.Bishop
-import com.uff.br.xadruffbackend.model.piece.King
-import com.uff.br.xadruffbackend.model.piece.Knight
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Queen
-import com.uff.br.xadruffbackend.model.piece.Rook
 import com.uff.br.xadruffbackend.model.toJsonString
 import com.uff.br.xadruffbackend.model.toStringPositions
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
@@ -24,7 +19,8 @@ class ChessServiceTest{
 
     private val initialBoard: Board = buildInitialBoard()
     private val chessRepository = mockk<ChessRepository>()
-    private val chessService: ChessService = ChessService(chessRepository)
+    private val legalMovementsCalculator = LegalMovementsCalculator()
+    private val chessService: ChessService = ChessService(chessRepository, legalMovementsCalculator)
 
     init {
         every {
@@ -64,6 +60,18 @@ class ChessServiceTest{
         assertNotNull(chessResponse.boardId)
 
         // assertNotEquals(initialBoardPositions, chessResponse.board.positions) TODO após implementar movimentação da IA
+    }
+
+    @Test
+    fun `should generate initial legal movements from initial board`(){
+        val board = buildInitialBoard()
+        val legalMoves = chessService.calculateLegalMovements(board)
+
+        val correctLegalMoves = mutableListOf("a2a3", "a2a4", "b2b3", "b2b4", "c2c3", "c2c4", "d2d3", "d2d4",
+            "e2e3", "e2e4", "f2f3", "f2f4", "g2g3", "g2g4", "h2h3", "h2h4",
+            "b1a3", "b1c3", "g1f3", "g1h3")
+
+        assertEquals(correctLegalMoves, legalMoves.movements)
     }
 
     private fun assertBoard(boardPositions: List<List<Position>>, expectedBoardPositions: List<List<Position>>) {

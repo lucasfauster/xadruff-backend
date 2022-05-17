@@ -20,7 +20,8 @@ abstract class AbstractLegalMovementsCalculator {
             it.getColor() != board.colorTurn
         } ?: false
 
-    fun canMove(line: Int, col: Int, board: Board) = isEmpty(line, col, board) || hasEnemy(line, col, board)
+    fun canMove(line: Int, col: Int, board: Board) =
+        isEmpty(line, col, board) || hasEnemy(line, col, board)
 
     fun buildAction(futureLine: Int, futureColumn: Int, board: Board): String {
         return if (hasEnemy(futureLine, futureColumn, board)) {

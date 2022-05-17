@@ -1,5 +1,6 @@
 package com.uff.br.xadruffbackend
 
+import com.uff.br.xadruffbackend.calculator.LegalMovementsCalculator
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.Board
@@ -15,25 +16,29 @@ import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.model.piece.Rook
 import com.uff.br.xadruffbackend.model.toBoardResponse
 import com.uff.br.xadruffbackend.model.toJsonString
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class ChessService(private val chessRepository: ChessRepository) {
+class ChessService(
+    private val chessRepository: ChessRepository,
+
+    @Autowired
+    private val legalMovementsCalculator: LegalMovementsCalculator
+) {
 
     fun createNewGame(startBy: StartsBy): ChessResponse {
         val game = createInitialBoard()
-        var color = Color.WHITE
 
         if(startBy == StartsBy.AI){
             playAITurn(game)
-            color = Color.BLACK
         }
 
-        val playerLegalMovements = calculateLegalMovements(game.getBoard(), color)
+        val playerLegalMovements = calculateLegalMovements(game.getBoard())
         game.legalMovements = playerLegalMovements.toJsonString()
         chessRepository.save(game)
         return ChessResponse(boardId = game.boardId,
-            legalMovements = playerLegalMovements,
+            legalMovements = playerLegalMovements.movements,
             board = game.getBoard().toBoardResponse())
     }
 
@@ -44,13 +49,15 @@ class ChessService(private val chessRepository: ChessRepository) {
         // game.whiteDrawMoves = add movimento se n for peão
     }
 
-    fun calculateLegalMovements(board: Board, color: Color): LegalMovements { // TODO criar lista de movimentos legais
-        return LegalMovements(mapOf(Pair("a1", listOf("b1", "c1"))))
+    fun calculateLegalMovements(board: Board): LegalMovements {
+        val legalMovementsList = legalMovementsCalculator.calculatePseudoLegalMoves(board)
+        return LegalMovements(legalMovementsList)
     }
 
     fun createInitialBoard(): GameEntity {
         val positions = createInitialPositions()
         val board = Board(positions = positions)
+        board.colorTurn = Color.WHITE
         val gameEntity = GameEntity(board = board.toJsonString())
         chessRepository.save(gameEntity)
         return gameEntity
