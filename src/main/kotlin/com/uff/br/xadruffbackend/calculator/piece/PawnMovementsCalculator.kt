@@ -17,13 +17,13 @@ class PawnMovementsCalculator(colorTurn: Color, boardPositions: List<List<Piece?
 
     override fun calculate(legalMovements: MutableList<String>, line: Int, col: Int) {
         var initialLine = 1
-        var moveDirection = listOf<Direction>(UpColumnStraight(line, col))
-        var captureDirections = listOf(UpRightDiagonal(line, col), UpLeftDiagonal(line, col))
+        var moveDirection = listOf<Direction>(DownColumnStraight(line, col))
+        var captureDirections = listOf(DownRightDiagonal(line, col), DownLeftDiagonal(line, col))
 
-        if(colorTurn == Color.BLACK) {
-            moveDirection = listOf<Direction>(DownColumnStraight(line, col))
+        if(colorTurn == Color.WHITE) {
+            moveDirection = listOf<Direction>(UpColumnStraight(line, col))
             initialLine = 6
-            captureDirections = listOf(DownRightDiagonal(line, col), DownLeftDiagonal(line, col))
+            captureDirections = listOf(UpRightDiagonal(line, col), UpLeftDiagonal(line, col))
         }
 
         val indexRange = getIndexRange(line, initialLine)
