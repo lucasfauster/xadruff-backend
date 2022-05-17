@@ -1,5 +1,7 @@
 package com.uff.br.xadruffbackend
 
+import com.google.gson.Gson
+import com.uff.br.xadruffbackend.calculator.LegalMovementsCalculator
 import com.uff.br.xadruffbackend.enum.Color
 import com.uff.br.xadruffbackend.enum.StartsBy
 import com.uff.br.xadruffbackend.model.Board
@@ -23,7 +25,7 @@ class ChessService(private val chessRepository: ChessRepository) {
         }
 
         val playerLegalMovements = calculateLegalMovements(game.getBoard(), color)
-        game.legalMovements = playerLegalMovements.toJsonString()
+        game.legalMovements = Gson().toJson(playerLegalMovements)
         chessRepository.save(game)
         return ChessResponse(boardId = game.boardId,
             legalMovements = playerLegalMovements,
@@ -37,8 +39,8 @@ class ChessService(private val chessRepository: ChessRepository) {
         // game.whiteDrawMoves = add movimento se n for peão
     }
 
-    fun calculateLegalMovements(board: Board, color: Color): LegalMovements { // TODO criar lista de movimentos legais
-        return LegalMovements(mapOf(Pair("a1", listOf("b1", "c1"))))
+    fun calculateLegalMovements(board: Board, color: Color): MutableList<String> {
+        return LegalMovementsCalculator(board.positions, color).calculatePseudoLegalMoves(color)
     }
 
     fun createInitialBoard(): GameEntity {
