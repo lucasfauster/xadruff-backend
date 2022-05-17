@@ -1,8 +1,7 @@
-package com.uff.br.xadruffbackend.calculator.piece
+package com.uff.br.xadruffbackend.model.piece
 
-import com.uff.br.xadruffbackend.calculator.generic.AbstractLegalMovementsCalculator
 import com.uff.br.xadruffbackend.enum.Color
-import com.uff.br.xadruffbackend.model.Piece
+import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.direction.Direction
 import com.uff.br.xadruffbackend.model.direction.DownColumnStraight
 import com.uff.br.xadruffbackend.model.direction.DownLeftDiagonal
@@ -11,24 +10,28 @@ import com.uff.br.xadruffbackend.model.direction.UpColumnStraight
 import com.uff.br.xadruffbackend.model.direction.UpLeftDiagonal
 import com.uff.br.xadruffbackend.model.direction.UpRightDiagonal
 
+class Pawn(value: Char): Piece(value) {
 
-class PawnMovementsCalculator(colorTurn: Color, boardPositions: List<List<Piece?>>):
-    AbstractLegalMovementsCalculator(colorTurn, boardPositions) {
-
-    override fun calculate(legalMovements: MutableList<String>, line: Int, col: Int) {
-        var initialLine = 1
+    override fun calculateLegalMovements(line: Int, col: Int, board: Board): MutableList<String> {
+        var initialLine = 6
         var moveDirection = listOf<Direction>(UpColumnStraight(line, col))
         var captureDirections = listOf(UpRightDiagonal(line, col), UpLeftDiagonal(line, col))
 
-        if(colorTurn == Color.BLACK) {
+        if(board.colorTurn == Color.BLACK) {
             moveDirection = listOf<Direction>(DownColumnStraight(line, col))
-            initialLine = 6
+            initialLine = 1
             captureDirections = listOf(DownRightDiagonal(line, col), DownLeftDiagonal(line, col))
         }
 
-        val indexRange = getIndexRange(line, initialLine)
-        legalMovements.calculate(moveDirection, indexRange)
-        calculateCaptureMovement(legalMovements, captureDirections)
+        val legalMovements: MutableList<String> = calculate(
+            directions = moveDirection,
+            indexRange = getIndexRange(line, initialLine),
+            board = board
+        )
+
+        legalMovements.addAll(calculateCaptureMovement(captureDirections, board))
+
+        return legalMovements
     }
 
     private fun getIndexRange(line: Int, initialLine: Int): Int {
@@ -39,12 +42,14 @@ class PawnMovementsCalculator(colorTurn: Color, boardPositions: List<List<Piece?
         }
     }
 
-    fun calculateCaptureMovement(legalMovements: MutableList<String>, captureDirections: List<Direction>){
-        val pseudoLegalFuturePositions = getLegalFuturePositions(1, captureDirections)
+    fun calculateCaptureMovement(captureDirections: List<Direction>, board: Board): MutableList<String>{
+        val pseudoLegalFuturePositions = getLegalFuturePositions(1, captureDirections, board)
+        val legalCaptureMovements: MutableList<String> = mutableListOf()
+
         pseudoLegalFuturePositions.filter {
             it.action == "C"
         }.forEach {
-            legalMovements.addNewMove(
+            legalCaptureMovements.addNewMove(
                 originLine = captureDirections.first().line,
                 originCol = captureDirections.first().column,
                 futureLine = it.line,
@@ -52,10 +57,7 @@ class PawnMovementsCalculator(colorTurn: Color, boardPositions: List<List<Piece?
                 action = it.action
             )
         }
+
+        return legalCaptureMovements
     }
 }
-
-
-
-
-
