@@ -7,18 +7,18 @@ import com.uff.br.xadruffbackend.model.direction.Direction
 
 abstract class AbstractLegalMovementsCalculator {
 
-    fun hasAlly(line: Int, col: Int, board: Board) =
+    private fun hasAlly(line: Int, col: Int, board: Board) =
         board.positions.getOrNull(line)?.getOrNull(col)?.piece?.getColor() == board.colorTurn
 
-    fun isEmpty(line: Int, col: Int, board: Board) =
+    private fun isEmpty(line: Int, col: Int, board: Board) =
         board.positions.getOrNull(line)?.getOrNull(col)?.piece == null
 
-    fun hasEnemy(line: Int, col: Int, board: Board) =
+    private fun hasEnemy(line: Int, col: Int, board: Board) =
         board.positions.getOrNull(line)?.getOrNull(col)?.piece?.getColor() != board.colorTurn
 
-    fun canMove(line: Int, col: Int, board: Board) = isEmpty(line, col, board) || hasEnemy(line, col, board)
+    private fun canMove(line: Int, col: Int, board: Board) = !hasAlly(line, col, board) && line in (0..7) && col in (0..7)
 
-    fun buildAction(futureLine: Int, futureColumn: Int, board: Board): String {
+    private fun buildAction(futureLine: Int, futureColumn: Int, board: Board): String {
         return if (hasEnemy(futureLine, futureColumn, board)) {
             "C"
         } else {
@@ -65,7 +65,7 @@ abstract class AbstractLegalMovementsCalculator {
         return legalMovements
     }
 
-    fun getFuturePositionFromMove(index: String, legalMoves: List<String>): List<String> =
+    private fun getFuturePositionFromMove(index: String, legalMoves: List<String>): List<String> =
         legalMoves.filter { it.slice(0..1) == index }
             .map { it.slice(2..3) }
 
@@ -88,6 +88,6 @@ abstract class AbstractLegalMovementsCalculator {
         add(indexToString(originLine, originCol) + indexToString(futureLine, futureCol) + action)
     }
 
-    fun indexToString(line: Int, col: Int): String =
+    private fun indexToString(line: Int, col: Int): String =
         'a' + col + (8 - line).toString()
 }
