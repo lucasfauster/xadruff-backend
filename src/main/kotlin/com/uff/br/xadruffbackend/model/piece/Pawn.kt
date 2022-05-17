@@ -1,24 +1,24 @@
 package com.uff.br.xadruffbackend.model.piece
 
-import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.direction.Direction
-import com.uff.br.xadruffbackend.model.direction.DownColumnStraight
 import com.uff.br.xadruffbackend.model.direction.DownLeftDiagonal
 import com.uff.br.xadruffbackend.model.direction.DownRightDiagonal
-import com.uff.br.xadruffbackend.model.direction.UpColumnStraight
+import com.uff.br.xadruffbackend.model.direction.DownStraight
 import com.uff.br.xadruffbackend.model.direction.UpLeftDiagonal
 import com.uff.br.xadruffbackend.model.direction.UpRightDiagonal
+import com.uff.br.xadruffbackend.model.direction.UpStraight
+import com.uff.br.xadruffbackend.model.enum.Color
 
 class Pawn(value: Char): Piece(value) {
 
     override fun calculateLegalMovements(line: Int, col: Int, board: Board): MutableList<String> {
         var initialLine = 6
-        var moveDirection = listOf<Direction>(UpColumnStraight(line, col))
+        var moveDirection = listOf<Direction>(UpStraight(line, col))
         var captureDirections = listOf(UpRightDiagonal(line, col), UpLeftDiagonal(line, col))
 
         if(board.colorTurn == Color.BLACK) {
-            moveDirection = listOf<Direction>(DownColumnStraight(line, col))
+            moveDirection = listOf<Direction>(DownStraight(line, col))
             initialLine = 1
             captureDirections = listOf(DownRightDiagonal(line, col), DownLeftDiagonal(line, col))
         }

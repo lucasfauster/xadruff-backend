@@ -11,10 +11,14 @@ abstract class AbstractLegalMovementsCalculator {
         board.positions.getOrNull(line)?.getOrNull(col)?.piece?.getColor() == board.colorTurn
 
     fun isEmpty(line: Int, col: Int, board: Board) =
-        board.positions.getOrNull(line)?.getOrNull(col)?.piece == null
+        board.positions.getOrNull(line)?.getOrNull(col)?.let{
+            it.piece == null
+        } ?: false
 
     fun hasEnemy(line: Int, col: Int, board: Board) =
-        board.positions.getOrNull(line)?.getOrNull(col)?.piece?.getColor() != board.colorTurn
+        board.positions.getOrNull(line)?.getOrNull(col)?.piece?.let{
+            it.getColor() != board.colorTurn
+        } ?: false
 
     fun canMove(line: Int, col: Int, board: Board) = isEmpty(line, col, board) || hasEnemy(line, col, board)
 

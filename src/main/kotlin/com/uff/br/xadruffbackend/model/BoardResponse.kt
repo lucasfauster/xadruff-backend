@@ -7,7 +7,7 @@ fun Board.toBoardResponse() : BoardResponse {
     )
 }
 
-fun List<MutableList<Position>>.toStringPositions(): List<List<String>> {
+fun List<List<Position>>.toStringPositions(): List<List<String>> {
     return map {
             line -> line.map {
             it.piece?.value?.toString() ?: ""
