@@ -22,11 +22,9 @@ jacocoTestReport {
     }
 
     project.ext.exclusions = [
-            'src/main/kotlin/com/uff/br/xadruffbackend/model/**',
             'src/main/kotlin/com/uff/br/xadruffbackend/ChessController*',
             'src/main/kotlin/com/uff/br/xadruffbackend/GameRepository*',
             'src/main/kotlin/com/uff/br/xadruffbackend/XadruffBackendApplication*',
-            'src/main/kotlin/com/uff/br/xadruffbackend/enum/**'
     ]
 
     project.ext.exclusionsForJaCoCo = project.ext.exclusions.collect({

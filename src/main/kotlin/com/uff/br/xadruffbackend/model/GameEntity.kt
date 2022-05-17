@@ -1,9 +1,6 @@
 package com.uff.br.xadruffbackend.model
 
-import InterfaceAdapter
-import buildGson
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.uff.br.xadruffbackend.helper.buildGson
 import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.Id

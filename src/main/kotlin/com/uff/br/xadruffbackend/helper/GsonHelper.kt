@@ -1,3 +1,5 @@
+package com.uff.br.xadruffbackend.helper
+
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext

@@ -1,6 +1,6 @@
 package com.uff.br.xadruffbackend.model
 
-import buildGson
+import com.uff.br.xadruffbackend.helper.buildGson
 import com.uff.br.xadruffbackend.model.enum.Color
 
 data class Board(

@@ -10,7 +10,7 @@ fun Board.toBoardResponse() : BoardResponse {
 fun List<List<Position>>.toStringPositions(): List<List<String>> {
     return map {
             line -> line.map {
-            it.piece?.value?.toString() ?: ""
+            it.piece?.toString() ?: ""
         }
     }
 }
