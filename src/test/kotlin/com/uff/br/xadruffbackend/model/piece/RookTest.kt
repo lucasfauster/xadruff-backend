@@ -1,7 +1,7 @@
 package com.uff.br.xadruffbackend.model.piece
 
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class RookTest {
@@ -11,7 +11,7 @@ class RookTest {
         val board = buildInitialBoard()
         val leftRook = board.positions[7][0].piece!!
         val leftLegalMovements = leftRook.calculateLegalMovements(7, 0, board)
-        Assertions.assertNull(leftLegalMovements)
+        assertEquals(leftLegalMovements, mutableListOf<String>())
     }
 
     @Test
@@ -19,6 +19,6 @@ class RookTest {
         val board = buildInitialBoard()
         val rightRook = board.positions[7][7].piece!!
         val rightLegalMovements = rightRook.calculateLegalMovements(7, 7, board)
-        Assertions.assertNull(rightLegalMovements)
+        assertEquals(rightLegalMovements, mutableListOf<String>())
     }
 }

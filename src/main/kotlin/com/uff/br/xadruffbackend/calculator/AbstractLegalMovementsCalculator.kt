@@ -63,7 +63,7 @@ abstract class AbstractLegalMovementsCalculator {
                     action = it.action
                 )
             }
-            availableDirections = directions.filter{
+            availableDirections = availableDirections.filter{
                 isEmpty(it.getFutureLine(index), it.getFutureColumn(index), board)
             }
         }
