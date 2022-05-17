@@ -1,6 +1,5 @@
 package com.uff.br.xadruffbackend.calculator
 
-import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -12,7 +11,6 @@ class LegalMovementsCalculatorTest {
     @Test
     fun `should return initial legal movements for white player`() {
         val board = buildInitialBoard()
-        board.colorTurn = Color.WHITE
         val actualMovements = legalMovementsCalculator.calculatePseudoLegalMoves(board)
 
         val expectedMovements = mutableListOf("a2a3", "a2a4", "b2b3", "b2b4", "c2c3", "c2c4", "d2d3", "d2d4",

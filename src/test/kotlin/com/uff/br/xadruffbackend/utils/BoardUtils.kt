@@ -2,6 +2,7 @@ package com.uff.br.xadruffbackend.utils
 
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.Position
+import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Bishop
 import com.uff.br.xadruffbackend.model.piece.King
 import com.uff.br.xadruffbackend.model.piece.Knight
@@ -91,5 +92,6 @@ fun buildInitialBoard() = Board(
             Position(line = 7, column = 6, piece = Knight(value = 'N')),
             Position(line = 7, column = 7, piece = Rook(value = 'R'))
         )
-    )
+    ),
+    colorTurn = Color.WHITE
 )
