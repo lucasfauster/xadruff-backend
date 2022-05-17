@@ -1,9 +1,8 @@
 package com.uff.br.xadruffbackend
 
-import com.uff.br.xadruffbackend.enum.StartsBy
+import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.GameEntity
-import com.uff.br.xadruffbackend.model.piece.Piece
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.piece.Bishop
 import com.uff.br.xadruffbackend.model.piece.King

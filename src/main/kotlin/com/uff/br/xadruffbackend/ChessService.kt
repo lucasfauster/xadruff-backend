@@ -1,7 +1,7 @@
 package com.uff.br.xadruffbackend
 
-import com.uff.br.xadruffbackend.enum.Color
-import com.uff.br.xadruffbackend.enum.StartsBy
+import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.ChessResponse
 import com.uff.br.xadruffbackend.model.GameEntity

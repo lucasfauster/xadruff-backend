@@ -1,6 +1,6 @@
 package com.uff.br.xadruffbackend.calculator
 
-import com.uff.br.xadruffbackend.enum.Color
+import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.Board
 
 class LegalMovementsCalculator(

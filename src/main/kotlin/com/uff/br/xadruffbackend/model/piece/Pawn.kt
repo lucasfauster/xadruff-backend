@@ -1,6 +1,6 @@
 package com.uff.br.xadruffbackend.model.piece
 
-import com.uff.br.xadruffbackend.enum.Color
+import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.direction.Direction
 import com.uff.br.xadruffbackend.model.direction.DownColumnStraight

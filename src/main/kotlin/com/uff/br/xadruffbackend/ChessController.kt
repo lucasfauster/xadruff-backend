@@ -1,6 +1,6 @@
 package com.uff.br.xadruffbackend
 
-import com.uff.br.xadruffbackend.enum.StartsBy
+import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.ChessResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

@@ -1,9 +1,7 @@
 package com.uff.br.xadruffbackend.model
 
-import InterfaceAdapter
 import buildGson
-import com.google.gson.GsonBuilder
-import com.uff.br.xadruffbackend.enum.Color
+import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Bishop
 import com.uff.br.xadruffbackend.model.piece.King
 import com.uff.br.xadruffbackend.model.piece.Knight
