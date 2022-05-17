@@ -2,7 +2,7 @@ package com.uff.br.xadruffbackend.model.piece
 
 import org.junit.jupiter.api.Test
 
-class PawnTest {
+internal class PawnTest {
 
     @Test
     fun `should calculate movement from one white pawn with initial board`(){

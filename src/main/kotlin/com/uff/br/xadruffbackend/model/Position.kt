@@ -5,5 +5,15 @@ import com.uff.br.xadruffbackend.model.piece.Piece
 data class Position(
     val line: Int,
     val column: Int,
-    var piece: Piece?,
-    val action: String = "")
+    var piece: Piece? = null,
+    val action: String = ""
+) {
+    fun indexToString(): String =
+        column.toChessColumn() + line.toChessLine()
+
+    private fun Int.toChessLine() = (8 - this).toString()
+
+    private fun Int.toChessColumn() = 'a' + this
+}
+
+

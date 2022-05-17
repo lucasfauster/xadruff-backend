@@ -29,7 +29,6 @@ class ChessService(
 
     fun createNewGame(startBy: StartsBy): ChessResponse {
         val game = createInitialBoard()
-
         if(startBy == StartsBy.AI){
             playAITurn(game)
         }
@@ -37,9 +36,12 @@ class ChessService(
         val playerLegalMovements = calculateLegalMovements(game.getBoard())
         game.legalMovements = playerLegalMovements.toJsonString()
         chessRepository.save(game)
-        return ChessResponse(boardId = game.boardId,
+
+        return ChessResponse(
+            boardId = game.boardId,
             legalMovements = playerLegalMovements.movements,
-            board = game.getBoard().toBoardResponse())
+            board = game.getBoard().toBoardResponse()
+        )
     }
 
     fun playAITurn(game: GameEntity){ // TODO chamar módulo de movimentação da IA
@@ -50,8 +52,7 @@ class ChessService(
     }
 
     fun calculateLegalMovements(board: Board): LegalMovements {
-        val legalMovementsList = legalMovementsCalculator.calculatePseudoLegalMoves(board)
-        return LegalMovements(legalMovementsList)
+        return legalMovementsCalculator.calculatePseudoLegalMoves(board)
     }
 
     fun createInitialBoard(): GameEntity {
@@ -63,7 +64,7 @@ class ChessService(
         return gameEntity
     }
 
-    fun createInitialPositions() =
+    private fun createInitialPositions() =
         listOf(
             listOf(
                 Position(line = 0, column = 0, piece = Rook(value = 'r')),

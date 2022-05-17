@@ -2,7 +2,7 @@ package com.uff.br.xadruffbackend.model.piece
 
 import org.junit.jupiter.api.Test
 
-class BishopTest {
+internal class BishopTest {
 
     @Test
     fun `should calculate movement from white left bishop with initial board`(){

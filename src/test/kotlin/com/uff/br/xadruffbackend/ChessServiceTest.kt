@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
-class ChessServiceTest{
+internal class ChessServiceTest{
 
     private val initialBoard: Board = buildInitialBoard()
     private val chessRepository = mockk<ChessRepository>()

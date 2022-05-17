@@ -1,4 +1,4 @@
 package com.uff.br.xadruffbackend.model.piece
 
-class KnightTest {
+internal class KnightTest {
 }

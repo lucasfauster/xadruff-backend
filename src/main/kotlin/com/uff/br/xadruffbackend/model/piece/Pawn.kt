@@ -1,6 +1,8 @@
 package com.uff.br.xadruffbackend.model.piece
 
 import com.uff.br.xadruffbackend.model.Board
+import com.uff.br.xadruffbackend.model.LegalMovements
+import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.direction.Direction
 import com.uff.br.xadruffbackend.model.direction.DownLeftDiagonal
 import com.uff.br.xadruffbackend.model.direction.DownRightDiagonal
@@ -12,7 +14,7 @@ import com.uff.br.xadruffbackend.model.enum.Color
 
 class Pawn(value: Char): Piece(value) {
 
-    override fun calculateLegalMovements(line: Int, col: Int, board: Board): MutableList<String> {
+    override fun calculateLegalMovements(line: Int, col: Int, board: Board, legalMovements: LegalMovements) {
         var initialLine = 6
         var moveDirection = listOf<Direction>(UpStraight(line, col))
         var captureDirections = listOf(UpRightDiagonal(line, col), UpLeftDiagonal(line, col))
@@ -23,15 +25,13 @@ class Pawn(value: Char): Piece(value) {
             captureDirections = listOf(DownRightDiagonal(line, col), DownLeftDiagonal(line, col))
         }
 
-        val legalMovements: MutableList<String> = calculate(
+        legalMovements.calculate(
             directions = moveDirection,
             indexRange = getIndexRange(line, initialLine),
             board = board
         )
 
-        legalMovements.addAll(calculateCaptureMovement(captureDirections, board))
-
-        return legalMovements
+        legalMovements.calculateCaptureMovement(captureDirections, board)
     }
 
     private fun getIndexRange(line: Int, initialLine: Int): Int {
@@ -42,22 +42,17 @@ class Pawn(value: Char): Piece(value) {
         }
     }
 
-    fun calculateCaptureMovement(captureDirections: List<Direction>, board: Board): MutableList<String>{
+    fun LegalMovements.calculateCaptureMovement(captureDirections: List<Direction>, board: Board) {
         val pseudoLegalFuturePositions = getLegalFuturePositions(1, captureDirections, board)
-        val legalCaptureMovements: MutableList<String> = mutableListOf()
 
         pseudoLegalFuturePositions.filter {
             it.action == "C"
         }.forEach {
-            legalCaptureMovements.addNewMove(
-                originLine = captureDirections.first().line,
-                originCol = captureDirections.first().column,
-                futureLine = it.line,
-                futureCol = it.column,
+            addNewMove(
+                originPosition = Position(captureDirections.first().line, captureDirections.first().column),
+                futurePosition = it,
                 action = it.action
             )
         }
-
-        return legalCaptureMovements
     }
 }

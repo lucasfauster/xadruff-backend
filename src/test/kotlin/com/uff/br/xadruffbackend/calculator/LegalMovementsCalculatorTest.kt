@@ -4,7 +4,7 @@ import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class LegalMovementsCalculatorTest {
+internal class LegalMovementsCalculatorTest {
 
     private val legalMovementsCalculator = LegalMovementsCalculator()
 
@@ -17,6 +17,6 @@ class LegalMovementsCalculatorTest {
             "e2e3", "e2e4", "f2f3", "f2f4", "g2g3", "g2g4", "h2h3", "h2h4",
             "b1a3", "b1c3", "g1f3", "g1h3")
 
-        assertEquals(actualMovements, expectedMovements)
+        assertEquals(actualMovements.movements, expectedMovements)
     }
 }
