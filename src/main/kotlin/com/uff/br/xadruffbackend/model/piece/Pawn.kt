@@ -48,8 +48,11 @@ class Pawn(value: Char) : Piece(value) {
             board = board
         )
 
-        return if (captures) auxLegalMoves.movements.filter { it.contains("C")}
-                else auxLegalMoves.movements.filter { !it.contains("C")}
+        return if (captures) {
+            auxLegalMoves.movements.filter { it.contains("C")}
+        } else {
+            auxLegalMoves.movements.filter { !it.contains("C")}
+        }
     }
 
     private fun getIndexRange(line: Int, initialLine: Int): Int {

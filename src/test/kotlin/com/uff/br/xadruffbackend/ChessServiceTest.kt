@@ -83,7 +83,7 @@ internal class ChessServiceTest{
     fun `should generate possible movements of white pawn in initial position`(){
         val board = buildEmptyBoard()
         val whitePawn = Pawn('P')
-        board.positions[6][4].piece = whitePawn
+        board.position("e2").piece = whitePawn
 
         val legalMoves = chessService.calculateLegalMovements(board)
 
@@ -96,7 +96,7 @@ internal class ChessServiceTest{
     fun `should generate possible movements of black pawn in initial position`(){
         val board = buildEmptyBoard()
         val blackPawn = Pawn('p')
-        board.positions[1][4].piece = blackPawn
+        board.position("e7").piece = blackPawn
         board.colorTurn = Color.BLACK
 
         val legalMoves = chessService.calculateLegalMovements(board)
@@ -111,8 +111,8 @@ internal class ChessServiceTest{
         val board = buildEmptyBoard()
         val whitePawn = Pawn('P')
         val blackPawn = Pawn('p')
-        board.positions[6][4].piece = whitePawn
-        board.positions[5][4].piece = blackPawn
+        board.position("e2").piece = whitePawn
+        board.position("e3").piece = blackPawn
 
         val legalMoves = chessService.calculateLegalMovements(board)
 
@@ -126,8 +126,8 @@ internal class ChessServiceTest{
         val board = buildEmptyBoard()
         val whitePawn = Pawn('P')
         val blackPawn = Pawn('p')
-        board.positions[5][4].piece = whitePawn
-        board.positions[4][3].piece = blackPawn
+        board.position("e3").piece = whitePawn
+        board.position("d4").piece = blackPawn
 
         val legalMoves = chessService.calculateLegalMovements(board)
 
@@ -140,7 +140,7 @@ internal class ChessServiceTest{
     fun `should generate possible movements of horse`(){
         val board = buildEmptyBoard()
         val knight = Knight('N')
-        board.positions[4][4].piece = knight
+        board.position("e4").piece = knight
 
         val legalMoves = chessService.calculateLegalMovements(board)
 
@@ -154,8 +154,8 @@ internal class ChessServiceTest{
         val board = buildEmptyBoard()
         val knight = Knight('N')
         val blackPawn = Pawn('p')
-        board.positions[4][7].piece = knight
-        board.positions[3][5].piece = blackPawn
+        board.position("h4").piece = knight
+        board.position("f5").piece = blackPawn
 
         val legalMoves = chessService.calculateLegalMovements(board)
 
