@@ -1,14 +1,10 @@
 package com.uff.br.xadruffbackend.model.piece
 
-import com.uff.br.xadruffbackend.model.Board
-import com.uff.br.xadruffbackend.model.LegalMovements
-import com.uff.br.xadruffbackend.model.direction.buildStraightDirections
+import com.uff.br.xadruffbackend.model.direction.Direction
+import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.util.buildStraightDirections
 
-class Rook(value: Char): Piece(value) {
-
-    override fun calculateLegalMovements(line: Int, col: Int, board: Board, legalMovements: LegalMovements) =
-        legalMovements.calculate(
-            directions = buildStraightDirections(line, col),
-            board = board
-        )
+class Rook(color: Color): Piece('r', color) {
+    override val directions: List<Direction> = buildStraightDirections()
+    override val movementRange: Int = 7
 }

@@ -1,11 +1,10 @@
 package com.uff.br.xadruffbackend.model.piece
 
-import com.uff.br.xadruffbackend.model.Board
-import com.uff.br.xadruffbackend.model.LegalMovements
-import com.uff.br.xadruffbackend.model.direction.buildLDirections
+import com.uff.br.xadruffbackend.model.direction.Direction
+import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.util.buildLDirections
 
-class Knight(value: Char): Piece(value)  {
-    override fun calculateLegalMovements(line: Int, col: Int, board: Board, legalMovements: LegalMovements) =
-        legalMovements.calculate(directions = buildLDirections(line, col), indexRange = 1, board = board)
-
+class Knight(color: Color): Piece('n', color)  {
+    override val directions: List<Direction> = buildLDirections()
+    override val movementRange: Int = 1
 }

@@ -11,26 +11,26 @@ import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.model.piece.Rook
 
 fun buildInitialBoard() = Board(
-    positions = listOf(
+    listOf(
         listOf(
-            Position(line = 0, column = 0, piece = Rook(value = 'r')),
-            Position(line = 0, column = 1, piece = Knight(value = 'n')),
-            Position(line = 0, column = 2, piece = Bishop(value = 'b')),
-            Position(line = 0, column = 3, piece = King(value = 'k')),
-            Position(line = 0, column = 4, piece = Queen(value = 'q')),
-            Position(line = 0, column = 5, piece = Bishop(value = 'b')),
-            Position(line = 0, column = 6, piece = Knight(value = 'n')),
-            Position(line = 0, column = 7, piece = Rook(value = 'r'))
+            Position(line = 0, column = 0, piece = Rook(Color.BLACK)),
+            Position(line = 0, column = 1, piece = Knight(Color.BLACK)),
+            Position(line = 0, column = 2, piece = Bishop(Color.BLACK)),
+            Position(line = 0, column = 3, piece = King(Color.BLACK)),
+            Position(line = 0, column = 4, piece = Queen(Color.BLACK)),
+            Position(line = 0, column = 5, piece = Bishop(Color.BLACK)),
+            Position(line = 0, column = 6, piece = Knight(Color.BLACK)),
+            Position(line = 0, column = 7, piece = Rook(Color.BLACK))
         ),
         listOf(
-            Position(line = 1, column = 0, piece = Pawn(value = 'p')),
-            Position(line = 1, column = 1, piece = Pawn(value = 'p')),
-            Position(line = 1, column = 2, piece = Pawn(value = 'p')),
-            Position(line = 1, column = 3, piece = Pawn(value = 'p')),
-            Position(line = 1, column = 4, piece = Pawn(value = 'p')),
-            Position(line = 1, column = 5, piece = Pawn(value = 'p')),
-            Position(line = 1, column = 6, piece = Pawn(value = 'p')),
-            Position(line = 1, column = 7, piece = Pawn(value = 'p'))
+            Position(line = 1, column = 0, piece = Pawn(Color.BLACK)),
+            Position(line = 1, column = 1, piece = Pawn(Color.BLACK)),
+            Position(line = 1, column = 2, piece = Pawn(Color.BLACK)),
+            Position(line = 1, column = 3, piece = Pawn(Color.BLACK)),
+            Position(line = 1, column = 4, piece = Pawn(Color.BLACK)),
+            Position(line = 1, column = 5, piece = Pawn(Color.BLACK)),
+            Position(line = 1, column = 6, piece = Pawn(Color.BLACK)),
+            Position(line = 1, column = 7, piece = Pawn(Color.BLACK))
         ),
         listOf(
             Position(line = 2, column = 0, piece = null),
@@ -73,27 +73,26 @@ fun buildInitialBoard() = Board(
             Position(line = 5, column = 7, piece = null)
         ),
         listOf(
-            Position(line = 6, column = 0, piece = Pawn(value = 'P')),
-            Position(line = 6, column = 1, piece = Pawn(value = 'P')),
-            Position(line = 6, column = 2, piece = Pawn(value = 'P')),
-            Position(line = 6, column = 3, piece = Pawn(value = 'P')),
-            Position(line = 6, column = 4, piece = Pawn(value = 'P')),
-            Position(line = 6, column = 5, piece = Pawn(value = 'P')),
-            Position(line = 6, column = 6, piece = Pawn(value = 'P')),
-            Position(line = 6, column = 7, piece = Pawn(value = 'P'))
+            Position(line = 6, column = 0, piece = Pawn(Color.WHITE)),
+            Position(line = 6, column = 1, piece = Pawn(Color.WHITE)),
+            Position(line = 6, column = 2, piece = Pawn(Color.WHITE)),
+            Position(line = 6, column = 3, piece = Pawn(Color.WHITE)),
+            Position(line = 6, column = 4, piece = Pawn(Color.WHITE)),
+            Position(line = 6, column = 5, piece = Pawn(Color.WHITE)),
+            Position(line = 6, column = 6, piece = Pawn(Color.WHITE)),
+            Position(line = 6, column = 7, piece = Pawn(Color.WHITE))
         ),
         listOf(
-            Position(line = 7, column = 0, piece = Rook(value = 'R')),
-            Position(line = 7, column = 1, piece = Knight(value = 'N')),
-            Position(line = 7, column = 2, piece = Bishop(value = 'B')),
-            Position(line = 7, column = 3, piece = Queen(value = 'Q')),
-            Position(line = 7, column = 4, piece = King(value = 'K')),
-            Position(line = 7, column = 5, piece = Bishop(value = 'B')),
-            Position(line = 7, column = 6, piece = Knight(value = 'N')),
-            Position(line = 7, column = 7, piece = Rook(value = 'R'))
+            Position(line = 7, column = 0, piece = Rook(Color.WHITE)),
+            Position(line = 7, column = 1, piece = Knight(Color.WHITE)),
+            Position(line = 7, column = 2, piece = Bishop(Color.WHITE)),
+            Position(line = 7, column = 3, piece = Queen(Color.WHITE)),
+            Position(line = 7, column = 4, piece = King(Color.WHITE)),
+            Position(line = 7, column = 5, piece = Bishop(Color.WHITE)),
+            Position(line = 7, column = 6, piece = Knight(Color.WHITE)),
+            Position(line = 7, column = 7, piece = Rook(Color.WHITE))
         )
-    ),
-    colorTurn = Color.WHITE
+    )
 )
 
 fun buildEmptyBoard() = Board(
@@ -179,5 +178,5 @@ fun buildEmptyBoard() = Board(
             Position(line = 7, column = 7, piece = null)
         )
     ),
-    colorTurn = Color.WHITE
+    turnColor = Color.WHITE
 )

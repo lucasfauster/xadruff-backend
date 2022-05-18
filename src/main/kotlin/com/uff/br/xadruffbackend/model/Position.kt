@@ -7,13 +7,6 @@ data class Position(
     val column: Int,
     var piece: Piece? = null,
     val action: String = ""
-) {
-    fun indexToString(): String =
-        column.toChessColumn() + line.toChessLine()
-
-    private fun Int.toChessLine() = (8 - this).toString()
-
-    private fun Int.toChessColumn() = 'a' + this
-}
+)
 
 

@@ -1,6 +1,9 @@
 package com.uff.br.xadruffbackend
 
-import com.uff.br.xadruffbackend.calculator.LegalMovementsCalculator
+import com.uff.br.xadruffbackend.extension.BoardLegalMovementsCalculatorExtensions.calculatePseudoLegalMoves
+import com.uff.br.xadruffbackend.extension.toBoardResponse
+import com.uff.br.xadruffbackend.extension.toJsonString
+import com.uff.br.xadruffbackend.extension.toMap
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.ChessResponse
 import com.uff.br.xadruffbackend.model.GameEntity
@@ -14,18 +17,11 @@ import com.uff.br.xadruffbackend.model.piece.Knight
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.model.piece.Rook
-import com.uff.br.xadruffbackend.model.toBoardResponse
-import com.uff.br.xadruffbackend.model.toJsonString
-import com.uff.br.xadruffbackend.model.toMap
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
 class ChessService(
     private val chessRepository: ChessRepository,
-
-    @Autowired
-    private val legalMovementsCalculator: LegalMovementsCalculator
 ) {
 
     fun createNewGame(startBy: StartsBy): ChessResponse {
@@ -53,13 +49,13 @@ class ChessService(
     }
 
     fun calculateLegalMovements(board: Board): LegalMovements {
-        return legalMovementsCalculator.calculatePseudoLegalMoves(board)
+        return board.calculatePseudoLegalMoves()
     }
 
     fun createInitialBoard(): GameEntity {
         val positions = createInitialPositions()
         val board = Board(positions = positions)
-        board.colorTurn = Color.WHITE
+        board.turnColor = Color.WHITE
         val gameEntity = GameEntity(board = board.toJsonString())
         chessRepository.save(gameEntity)
         return gameEntity
@@ -68,24 +64,24 @@ class ChessService(
     private fun createInitialPositions() =
         listOf(
             listOf(
-                Position(line = 0, column = 0, piece = Rook(value = 'r')),
-                Position(line = 0, column = 1, piece = Knight(value = 'n')),
-                Position(line = 0, column = 2, piece = Bishop(value = 'b')),
-                Position(line = 0, column = 3, piece = King(value = 'k')),
-                Position(line = 0, column = 4, piece = Queen(value = 'q')),
-                Position(line = 0, column = 5, piece = Bishop(value = 'b')),
-                Position(line = 0, column = 6, piece = Knight(value = 'n')),
-                Position(line = 0, column = 7, piece = Rook(value = 'r'))
+                Position(line = 0, column = 0, piece = Rook(Color.BLACK)),
+                Position(line = 0, column = 1, piece = Knight(Color.BLACK)),
+                Position(line = 0, column = 2, piece = Bishop(Color.BLACK)),
+                Position(line = 0, column = 3, piece = King(Color.BLACK)),
+                Position(line = 0, column = 4, piece = Queen(Color.BLACK)),
+                Position(line = 0, column = 5, piece = Bishop(Color.BLACK)),
+                Position(line = 0, column = 6, piece = Knight(Color.BLACK)),
+                Position(line = 0, column = 7, piece = Rook(Color.BLACK))
             ),
             listOf(
-                Position(line = 1, column = 0, piece = Pawn(value = 'p')),
-                Position(line = 1, column = 1, piece = Pawn(value = 'p')),
-                Position(line = 1, column = 2, piece = Pawn(value = 'p')),
-                Position(line = 1, column = 3, piece = Pawn(value = 'p')),
-                Position(line = 1, column = 4, piece = Pawn(value = 'p')),
-                Position(line = 1, column = 5, piece = Pawn(value = 'p')),
-                Position(line = 1, column = 6, piece = Pawn(value = 'p')),
-                Position(line = 1, column = 7, piece = Pawn(value = 'p'))
+                Position(line = 1, column = 0, piece = Pawn(Color.BLACK)),
+                Position(line = 1, column = 1, piece = Pawn(Color.BLACK)),
+                Position(line = 1, column = 2, piece = Pawn(Color.BLACK)),
+                Position(line = 1, column = 3, piece = Pawn(Color.BLACK)),
+                Position(line = 1, column = 4, piece = Pawn(Color.BLACK)),
+                Position(line = 1, column = 5, piece = Pawn(Color.BLACK)),
+                Position(line = 1, column = 6, piece = Pawn(Color.BLACK)),
+                Position(line = 1, column = 7, piece = Pawn(Color.BLACK))
             ),
             listOf(
                 Position(line = 2, column = 0, piece = null),
@@ -128,24 +124,24 @@ class ChessService(
                 Position(line = 5, column = 7, piece = null)
             ),
             listOf(
-                Position(line = 6, column = 0, piece = Pawn(value = 'P')),
-                Position(line = 6, column = 1, piece = Pawn(value = 'P')),
-                Position(line = 6, column = 2, piece = Pawn(value = 'P')),
-                Position(line = 6, column = 3, piece = Pawn(value = 'P')),
-                Position(line = 6, column = 4, piece = Pawn(value = 'P')),
-                Position(line = 6, column = 5, piece = Pawn(value = 'P')),
-                Position(line = 6, column = 6, piece = Pawn(value = 'P')),
-                Position(line = 6, column = 7, piece = Pawn(value = 'P'))
+                Position(line = 6, column = 0, piece = Pawn(Color.WHITE)),
+                Position(line = 6, column = 1, piece = Pawn(Color.WHITE)),
+                Position(line = 6, column = 2, piece = Pawn(Color.WHITE)),
+                Position(line = 6, column = 3, piece = Pawn(Color.WHITE)),
+                Position(line = 6, column = 4, piece = Pawn(Color.WHITE)),
+                Position(line = 6, column = 5, piece = Pawn(Color.WHITE)),
+                Position(line = 6, column = 6, piece = Pawn(Color.WHITE)),
+                Position(line = 6, column = 7, piece = Pawn(Color.WHITE))
             ),
             listOf(
-                Position(line = 7, column = 0, piece = Rook(value = 'R')),
-                Position(line = 7, column = 1, piece = Knight(value = 'N')),
-                Position(line = 7, column = 2, piece = Bishop(value = 'B')),
-                Position(line = 7, column = 3, piece = Queen(value = 'Q')),
-                Position(line = 7, column = 4, piece = King(value = 'K')),
-                Position(line = 7, column = 5, piece = Bishop(value = 'B')),
-                Position(line = 7, column = 6, piece = Knight(value = 'N')),
-                Position(line = 7, column = 7, piece = Rook(value = 'R'))
+                Position(line = 7, column = 0, piece = Rook(Color.WHITE)),
+                Position(line = 7, column = 1, piece = Knight(Color.WHITE)),
+                Position(line = 7, column = 2, piece = Bishop(Color.WHITE)),
+                Position(line = 7, column = 3, piece = Queen(Color.WHITE)),
+                Position(line = 7, column = 4, piece = King(Color.WHITE)),
+                Position(line = 7, column = 5, piece = Bishop(Color.WHITE)),
+                Position(line = 7, column = 6, piece = Knight(Color.WHITE)),
+                Position(line = 7, column = 7, piece = Rook(Color.WHITE))
             )
         )
 
