@@ -6,7 +6,7 @@ import com.uff.br.xadruffbackend.model.Position
 
 fun LegalMovements.addNewMove(originPosition: Position, futurePosition: Position, action: String = "") {
     movements.add(
-        originPosition.indexToString() + futurePosition.indexToString() + action
+        originPosition.toChessPosition() + futurePosition.toChessPosition() + action
     )
 }
 

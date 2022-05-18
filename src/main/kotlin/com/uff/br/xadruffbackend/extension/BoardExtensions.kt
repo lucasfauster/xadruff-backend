@@ -13,3 +13,6 @@ fun Board.toJsonString(): String {
     val gson = buildGson()
     return gson.toJson(this)
 }
+
+fun Board.position(square: String) =
+    positions[8 - square.last().digitToInt()][square.first().code - 97]

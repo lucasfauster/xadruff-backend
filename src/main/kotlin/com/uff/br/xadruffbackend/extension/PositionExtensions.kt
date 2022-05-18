@@ -31,7 +31,7 @@ fun List<List<Position>>.toStringPositions(): List<List<String>> {
     }
 }
 
-fun Position.indexToString(): String =
+fun Position.toChessPosition(): String =
     column.toChessColumn() + line.toChessLine()
 
 private fun Int.toChessLine() = (8 - this).toString()

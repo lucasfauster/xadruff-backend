@@ -24,7 +24,7 @@ internal class PositionExtensionsTest {
         for(line in (0..7)){
             for(column in (0..7)){
                 val position = Position(line, column)
-                val stringPosition = position.indexToString()
+                val stringPosition = position.toChessPosition()
                 Assertions.assertEquals(chessPositions[line][column], stringPosition)
             }
         }
