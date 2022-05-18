@@ -5,8 +5,13 @@ import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.Position
+import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.piece.Knight
+import com.uff.br.xadruffbackend.model.piece.Pawn
+import com.uff.br.xadruffbackend.model.piece.Piece
 import com.uff.br.xadruffbackend.model.toJsonString
 import com.uff.br.xadruffbackend.model.toStringPositions
+import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import io.mockk.every
 import io.mockk.mockk
@@ -71,7 +76,92 @@ internal class ChessServiceTest{
             "e2e3", "e2e4", "f2f3", "f2f4", "g2g3", "g2g4", "h2h3", "h2h4",
             "b1a3", "b1c3", "g1f3", "g1h3")
 
-        assertEquals(correctLegalMoves, legalMoves.movements)
+        assert(correctLegalMoves.containsAll(legalMoves.movements))
+    }
+
+    @Test
+    fun `should generate possible movements of white pawn in initial position`(){
+        val board = buildEmptyBoard()
+        val whitePawn = Pawn('P')
+        board.positions[6][4].piece = whitePawn
+
+        val legalMoves = chessService.calculateLegalMovements(board)
+
+        val correctLegalMoves = mutableListOf("e2e3", "e2e4")
+
+        assert(correctLegalMoves.containsAll(legalMoves.movements))
+    }
+
+    @Test
+    fun `should generate possible movements of black pawn in initial position`(){
+        val board = buildEmptyBoard()
+        val blackPawn = Pawn('p')
+        board.positions[1][4].piece = blackPawn
+        board.colorTurn = Color.BLACK
+
+        val legalMoves = chessService.calculateLegalMovements(board)
+
+        val correctLegalMoves = mutableListOf("e7e6", "e7e5")
+
+        assert(correctLegalMoves.containsAll(legalMoves.movements))
+    }
+
+    @Test
+    fun `should generate empty possible movements of pawn in initial position with piece in the way`(){
+        val board = buildEmptyBoard()
+        val whitePawn = Pawn('P')
+        val blackPawn = Pawn('p')
+        board.positions[6][4].piece = whitePawn
+        board.positions[5][4].piece = blackPawn
+
+        val legalMoves = chessService.calculateLegalMovements(board)
+
+        val correctLegalMoves = listOf<String>()
+
+        assert(correctLegalMoves.containsAll(legalMoves.movements))
+    }
+
+    @Test
+    fun `should generate possible movements whit capture and one position foward for pawn`(){
+        val board = buildEmptyBoard()
+        val whitePawn = Pawn('P')
+        val blackPawn = Pawn('p')
+        board.positions[5][4].piece = whitePawn
+        board.positions[4][3].piece = blackPawn
+
+        val legalMoves = chessService.calculateLegalMovements(board)
+
+        val correctLegalMoves = listOf("e3e4", "e3d4C")
+
+        assert(correctLegalMoves.containsAll(legalMoves.movements))
+    }
+
+    @Test
+    fun `should generate possible movements of horse`(){
+        val board = buildEmptyBoard()
+        val knight = Knight('N')
+        board.positions[4][4].piece = knight
+
+        val legalMoves = chessService.calculateLegalMovements(board)
+
+        val correctLegalMoves = mutableListOf("e4d6", "e4f6", "e4c5", "e4g5", "e4c3", "e4g3", "e4d2", "e4f2")
+
+        assert(correctLegalMoves.containsAll(legalMoves.movements))
+    }
+
+    @Test
+    fun `should generate possible movements whit one capture and three moves for horse in the edge`(){
+        val board = buildEmptyBoard()
+        val knight = Knight('N')
+        val blackPawn = Pawn('p')
+        board.positions[4][7].piece = knight
+        board.positions[3][5].piece = blackPawn
+
+        val legalMoves = chessService.calculateLegalMovements(board)
+
+        val correctLegalMoves = mutableListOf("h4g6", "h4f5C", "h4f3", "h4g2")
+
+        assert(correctLegalMoves.containsAll(legalMoves.movements))
     }
 
     private fun assertBoard(boardPositions: List<List<Position>>, expectedBoardPositions: List<List<Position>>) {

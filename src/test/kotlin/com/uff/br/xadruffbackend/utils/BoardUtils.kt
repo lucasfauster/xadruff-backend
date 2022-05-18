@@ -95,3 +95,89 @@ fun buildInitialBoard() = Board(
     ),
     colorTurn = Color.WHITE
 )
+
+fun buildEmptyBoard() = Board(
+    positions = mutableListOf(
+        mutableListOf(
+            Position(line = 0, column = 0, piece = null),
+            Position(line = 0, column = 1, piece = null),
+            Position(line = 0, column = 2, piece = null),
+            Position(line = 0, column = 3, piece = null),
+            Position(line = 0, column = 4, piece = null),
+            Position(line = 0, column = 5, piece = null),
+            Position(line = 0, column = 6, piece = null),
+            Position(line = 0, column = 7, piece = null)
+        ),
+        mutableListOf(
+            Position(line = 1, column = 0, piece = null),
+            Position(line = 1, column = 1, piece = null),
+            Position(line = 1, column = 2, piece = null),
+            Position(line = 1, column = 3, piece = null),
+            Position(line = 1, column = 4, piece = null),
+            Position(line = 1, column = 5, piece = null),
+            Position(line = 1, column = 6, piece = null),
+            Position(line = 1, column = 7, piece = null)
+        ),
+        mutableListOf(
+            Position(line = 2, column = 0, piece = null),
+            Position(line = 2, column = 1, piece = null),
+            Position(line = 2, column = 2, piece = null),
+            Position(line = 2, column = 3, piece = null),
+            Position(line = 2, column = 4, piece = null),
+            Position(line = 2, column = 5, piece = null),
+            Position(line = 2, column = 6, piece = null),
+            Position(line = 2, column = 7, piece = null)
+        ),
+        mutableListOf(
+            Position(line = 3, column = 0, piece = null),
+            Position(line = 3, column = 1, piece = null),
+            Position(line = 3, column = 2, piece = null),
+            Position(line = 3, column = 3, piece = null),
+            Position(line = 3, column = 4, piece = null),
+            Position(line = 3, column = 5, piece = null),
+            Position(line = 3, column = 6, piece = null),
+            Position(line = 3, column = 7, piece = null)
+        ),
+        mutableListOf(
+            Position(line = 4, column = 0, piece = null),
+            Position(line = 4, column = 1, piece = null),
+            Position(line = 4, column = 2, piece = null),
+            Position(line = 4, column = 3, piece = null),
+            Position(line = 4, column = 4, piece = null),
+            Position(line = 4, column = 5, piece = null),
+            Position(line = 4, column = 6, piece = null),
+            Position(line = 4, column = 7, piece = null)
+        ),
+        mutableListOf(
+            Position(line = 5, column = 0, piece = null),
+            Position(line = 5, column = 1, piece = null),
+            Position(line = 5, column = 2, piece = null),
+            Position(line = 5, column = 3, piece = null),
+            Position(line = 5, column = 4, piece = null),
+            Position(line = 5, column = 5, piece = null),
+            Position(line = 5, column = 6, piece = null),
+            Position(line = 5, column = 7, piece = null)
+        ),
+        mutableListOf(
+            Position(line = 6, column = 0, piece = null),
+            Position(line = 6, column = 1, piece = null),
+            Position(line = 6, column = 2, piece = null),
+            Position(line = 6, column = 3, piece = null),
+            Position(line = 6, column = 4, piece = null),
+            Position(line = 6, column = 5, piece = null),
+            Position(line = 6, column = 6, piece = null),
+            Position(line = 6, column = 7, piece = null)
+        ),
+        mutableListOf(
+            Position(line = 7, column = 0, piece = null),
+            Position(line = 7, column = 1, piece = null),
+            Position(line = 7, column = 2, piece = null),
+            Position(line = 7, column = 3, piece = null),
+            Position(line = 7, column = 4, piece = null),
+            Position(line = 7, column = 5, piece = null),
+            Position(line = 7, column = 6, piece = null),
+            Position(line = 7, column = 7, piece = null)
+        )
+    ),
+    colorTurn = Color.WHITE
+)
