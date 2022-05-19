@@ -33,63 +33,63 @@ internal class PositionExtensionsTest {
     @Test
     fun `should return true in hasAllyPiece if has an ally`(){
         val board = buildInitialBoard()
-        val hasAllyPiece = board.positions[7][7].hasAllyPiece(board.turnColor)
+        val hasAllyPiece = board.position("h1").hasAllyPiece(board.turnColor)
         assert(hasAllyPiece)
     }
 
     @Test
     fun `should return false in hasAllyPiece if has an enemy`(){
         val board = buildInitialBoard()
-        val hasAllyPiece = board.positions[0][0].hasAllyPiece(board.turnColor)
+        val hasAllyPiece = board.position("a8").hasAllyPiece(board.turnColor)
         assertFalse(hasAllyPiece)
     }
 
     @Test
     fun `should return false in hasAllyPiece if is empty`(){
         val board = buildInitialBoard()
-        val hasAllyPiece = board.positions[5][5].hasAllyPiece(board.turnColor)
+        val hasAllyPiece = board.position("f3").hasAllyPiece(board.turnColor)
         assertFalse(hasAllyPiece)
     }
 
     @Test
     fun `should return false in hasEnemyPiece if has an ally`(){
         val board = buildInitialBoard()
-        val hasEnemyPiece = board.positions[7][7].hasEnemyPiece(board.turnColor)
+        val hasEnemyPiece = board.position("h1").hasEnemyPiece(board.turnColor)
         assertFalse(hasEnemyPiece)
     }
 
     @Test
     fun `should return true in hasEnemyPiece if has an enemy`(){
         val board = buildInitialBoard()
-        val hasEnemyPiece = board.positions[0][0].hasEnemyPiece(board.turnColor)
+        val hasEnemyPiece = board.position("a8").hasEnemyPiece(board.turnColor)
         assert(hasEnemyPiece)
     }
 
     @Test
     fun `should return false in hasEnemyPiece if is empty`(){
         val board = buildInitialBoard()
-        val hasEnemyPiece = board.positions[5][5].hasEnemyPiece(board.turnColor)
+        val hasEnemyPiece = board.position("f3").hasEnemyPiece(board.turnColor)
         assertFalse(hasEnemyPiece)
     }
 
     @Test
     fun `should return false in isEmpty if has an ally`(){
         val board = buildInitialBoard()
-        val isEmpty = board.positions[0][0].isEmpty()
+        val isEmpty = board.position("a8").isEmpty()
         assertFalse(isEmpty)
     }
 
     @Test
     fun `should return false in isEmpty if has an enemy`(){
         val board = buildInitialBoard()
-        val isEmpty = board.positions[7][7].isEmpty()
+        val isEmpty = board.position("h1").isEmpty()
         assertFalse(isEmpty)
     }
 
     @Test
     fun `should return true in isEmpty if is empty`(){
         val board = buildInitialBoard()
-        val isEmpty = board.positions[5][5].isEmpty()
+        val isEmpty = board.position("f3").isEmpty()
         assert(isEmpty)
     }
 }

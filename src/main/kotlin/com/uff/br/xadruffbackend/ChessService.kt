@@ -56,15 +56,19 @@ class ChessService(
     }
 
     fun calculateLegalMovements(board: Board): LegalMovements {
+        logger.debug("Calculating legal movements")
         return board.calculatePseudoLegalMoves()
     }
 
     fun createInitialBoard(): GameEntity {
+        logger.debug("Creating new board")
         val positions = createInitialPositions()
         val board = Board(positions = positions)
-        board.turnColor = Color.WHITE
+
+        logger.debug("Saving game in database")
         val gameEntity = GameEntity(board = board.toJsonString())
         chessRepository.save(gameEntity)
+
         return gameEntity
     }
 
