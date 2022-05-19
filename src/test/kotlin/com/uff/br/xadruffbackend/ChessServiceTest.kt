@@ -47,7 +47,6 @@ internal class ChessServiceTest{
     @Test
     fun `should create a new game with player playing first`(){
         val chessResponse = chessService.createNewGame(StartsBy.PLAYER)
-
         assertNotNull(chessResponse.legalMovements)
         assertNotNull(chessResponse.boardId)
         assertBoardResponse(boardPositions = chessResponse.board.positions,
