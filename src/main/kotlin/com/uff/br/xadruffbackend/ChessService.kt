@@ -1,6 +1,6 @@
 package com.uff.br.xadruffbackend
 
-import com.uff.br.xadruffbackend.extension.BoardLegalMovementsCalculatorExtensions.calculatePseudoLegalMoves
+import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
 import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toMap

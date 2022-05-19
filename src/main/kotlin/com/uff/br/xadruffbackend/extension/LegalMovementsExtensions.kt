@@ -10,9 +10,29 @@ fun LegalMovements.addNewMove(originPosition: Position, futurePosition: Position
     )
 }
 
+fun List<String>.toLegalMovements() = LegalMovements(
+    this.toMutableList()
+)
+
+@JvmName("flattenToLegalMovementsLegalMovements")
+fun List<LegalMovements>.flattenToLegalMovements(): LegalMovements {
+    return map {
+        it.movements
+    }.flatten().toLegalMovements()
+}
+
+fun List<List<LegalMovements>>.flattenToLegalMovements(): LegalMovements =
+    flatten().flattenToLegalMovements()
+
+
+fun createMovement(originPosition: Position, futurePosition: Position, action: String = "") =
+    originPosition.toChessPosition() + futurePosition.toChessPosition() + action
+
 fun LegalMovements.addAll(legalMovements: LegalMovements) = movements.addAll(legalMovements.movements)
 
 fun LegalMovements.toJsonString(): String = Gson().toJson(this)
+
+
 
 fun MutableList<String>.toMap(): Map<String, List<String>> {
 

@@ -4,14 +4,14 @@ import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Pawn
 
-fun Position.hasAlly(turnColor: Color) =
-    piece?.color == turnColor
+fun Position.hasAllyPiece(pieceColor: Color) =
+    piece?.color == pieceColor
 
 fun Position.isEmpty() = piece == null
 
-fun Position.hasEnemy(turnColor: Color) =
+fun Position.hasEnemyPiece(pieceColor: Color) =
     piece?.let{
-        it.color != turnColor
+        it.color != pieceColor
     } ?: false
 
 fun Position.handlePawnFirstMovementRange(): Int {
@@ -28,6 +28,14 @@ fun List<List<Position>>.toStringPositions(): List<List<String>> {
         line -> line.map {
             it.piece?.toString() ?: ""
         }
+    }
+}
+
+fun Position.getMovementRange(): Int {
+    return if (piece is Pawn) {
+        handlePawnFirstMovementRange()
+    } else {
+        piece!!.movementRange
     }
 }
 
