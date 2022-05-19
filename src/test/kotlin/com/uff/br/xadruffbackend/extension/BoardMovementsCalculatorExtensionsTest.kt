@@ -2,7 +2,9 @@ package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.buildAction
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
+import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -24,43 +26,43 @@ internal class BoardMovementsCalculatorExtensionsTest{
 
     @Test
     fun `should return C in buildAction for white piece if has enemy`(){
-        val board = buildInitialBoard()
-        val action = buildAction(board.positions[0][0], Color.WHITE)
+        val position = Position(0, 0, Pawn(Color.BLACK))
+        val action = buildAction(position, Color.WHITE)
         assertEquals("C", action)
     }
 
     @Test
     fun `should return empty string in buildAction for white piece if has ally`(){
-        val board = buildInitialBoard()
-        val action = buildAction(board.positions[7][7], Color.WHITE)
+        val position = Position(0, 0, Pawn(Color.WHITE))
+        val action = buildAction(position, Color.WHITE)
         assertEquals("", action)
     }
 
     @Test
     fun `should return empty string in buildAction for white piece if is empty`(){
-        val board = buildInitialBoard()
-        val action = buildAction(board.positions[5][5], Color.WHITE)
+        val position = Position(0, 0, null)
+        val action = buildAction(position, Color.WHITE)
         assertEquals("", action)
     }
 
     @Test
     fun `should return C in buildAction for black piece if has enemy`(){
-        val board = buildInitialBoard()
-        val action = buildAction(board.positions[7][7], Color.BLACK)
+        val position = Position(0, 0, Pawn(Color.WHITE))
+        val action = buildAction(position, Color.BLACK)
         assertEquals("C", action)
     }
 
     @Test
     fun `should return empty string in buildAction for black piece if has ally`(){
-        val board = buildInitialBoard()
-        val action = buildAction(board.positions[0][0], Color.BLACK)
+        val position = Position(0, 0, Pawn(Color.BLACK))
+        val action = buildAction(position, Color.BLACK)
         assertEquals("", action)
     }
 
     @Test
     fun `should return empty string in buildAction for black piece if is empty`(){
-        val board = buildInitialBoard()
-        val action = buildAction(board.positions[5][5], Color.BLACK)
+        val position = Position(0, 0, null)
+        val action = buildAction(position, Color.BLACK)
         assertEquals("", action)
     }
 }

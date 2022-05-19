@@ -75,7 +75,7 @@ internal class ChessServiceTest{
     }
 
     @Test
-    fun `should generate possible movements of knight `(){
+    fun `should generate possible movements of knight`(){
         val board = buildEmptyBoard()
         val knight = Knight(Color.WHITE)
         board.positions[4][4].piece = knight
