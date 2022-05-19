@@ -25,42 +25,42 @@ internal class BoardMovementsCalculatorExtensionsTest{
     @Test
     fun `should return C in buildAction for white piece if has enemy`(){
         val board = buildInitialBoard()
-        val action = buildAction(board.positions[0][0], Color.WHITE)
+        val action = buildAction(board.position("a8"), Color.WHITE)
         assertEquals("C", action)
     }
 
     @Test
     fun `should return empty string in buildAction for white piece if has ally`(){
         val board = buildInitialBoard()
-        val action = buildAction(board.positions[7][7], Color.WHITE)
+        val action = buildAction(board.position("h1"), Color.WHITE)
         assertEquals("", action)
     }
 
     @Test
     fun `should return empty string in buildAction for white piece if is empty`(){
         val board = buildInitialBoard()
-        val action = buildAction(board.positions[5][5], Color.WHITE)
+        val action = buildAction(board.position("f3"), Color.WHITE)
         assertEquals("", action)
     }
 
     @Test
     fun `should return C in buildAction for black piece if has enemy`(){
         val board = buildInitialBoard()
-        val action = buildAction(board.positions[7][7], Color.BLACK)
+        val action = buildAction(board.position("h1"), Color.BLACK)
         assertEquals("C", action)
     }
 
     @Test
     fun `should return empty string in buildAction for black piece if has ally`(){
         val board = buildInitialBoard()
-        val action = buildAction(board.positions[0][0], Color.BLACK)
+        val action = buildAction(board.position("a8"), Color.BLACK)
         assertEquals("", action)
     }
 
     @Test
     fun `should return empty string in buildAction for black piece if is empty`(){
         val board = buildInitialBoard()
-        val action = buildAction(board.positions[5][5], Color.BLACK)
+        val action = buildAction(board.position("f3"), Color.BLACK)
         assertEquals("", action)
     }
 }

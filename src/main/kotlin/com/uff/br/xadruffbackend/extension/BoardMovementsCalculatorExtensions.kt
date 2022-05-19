@@ -5,9 +5,11 @@ import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.direction.Direction
 import com.uff.br.xadruffbackend.model.enum.Color
+import org.slf4j.LoggerFactory
 
 
 object BoardMovementsCalculatorExtensions {
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun Board.calculatePseudoLegalMoves(): LegalMovements {
         return positions.map { line ->
@@ -20,6 +22,7 @@ object BoardMovementsCalculatorExtensions {
     }
 
     fun Board.calculateLegalMovementsInPosition(position: Position): LegalMovements {
+        logger.debug("Calculating legal moves for piece {} at line {} - column {}", position.piece, position.line, position.column)
         var availableDirections = position.piece!!.directions
         val legalMovementsList = (1..position.getMovementRange()).map{ range ->
             getLegalPositionsInRange(range, availableDirections, position)

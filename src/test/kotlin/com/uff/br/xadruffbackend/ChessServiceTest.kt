@@ -1,5 +1,6 @@
 package com.uff.br.xadruffbackend
 
+import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toStringPositions
 import com.uff.br.xadruffbackend.model.Board
@@ -75,25 +76,12 @@ internal class ChessServiceTest{
     }
 
     @Test
-    fun `should generate possible movements of knight `(){
-        val board = buildEmptyBoard()
-        val knight = Knight(Color.WHITE)
-        board.positions[4][4].piece = knight
-
-        val legalMoves = chessService.calculateLegalMovements(board)
-
-        val correctLegalMoves = mutableListOf("e4d6", "e4f6", "e4c5", "e4g5", "e4c3", "e4g3", "e4d2", "e4f2")
-
-        assert(correctLegalMoves.containsAll(legalMoves.movements))
-    }
-
-    @Test
-    fun `should generate possible movements whit one capture and three moves for knight in the edge`(){
+    fun `should generate possible movements with one capture and three moves for knight in the edge`(){
         val board = buildEmptyBoard()
         val knight = Knight(Color.WHITE)
         val blackPawn = Pawn(Color.BLACK)
-        board.positions[4][7].piece = knight
-        board.positions[3][5].piece = blackPawn
+        board.position("h4").piece = knight
+        board.position("f5").piece = blackPawn
 
         val legalMoves = chessService.calculateLegalMovements(board)
 
