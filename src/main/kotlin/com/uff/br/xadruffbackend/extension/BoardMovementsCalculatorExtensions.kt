@@ -6,7 +6,8 @@ import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.direction.Direction
 import com.uff.br.xadruffbackend.model.enum.Color
 import org.slf4j.LoggerFactory
-
+import org.springframework.stereotype.Component
+import kotlin.math.log
 
 object BoardMovementsCalculatorExtensions {
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -27,10 +28,15 @@ object BoardMovementsCalculatorExtensions {
         val legalMovementsList = (1..position.getMovementRange()).map{ range ->
             getLegalPositionsInRange(range, availableDirections, position)
                 .also {
+                    logger.debug("Legal positions {} calculated in range {}", it, range)
                     availableDirections = filterAvailableDirections(availableDirections, position, range)
+                    logger.debug("Available directions {} in range {}", availableDirections, range)
                 }
         }
-        return legalMovementsList.flattenToLegalMovements()
+        val legalMovements = legalMovementsList.flattenToLegalMovements()
+        logger.debug("LegalMovements calculated {} for piece {} at line {} - column {}",
+            legalMovements, position.piece, position.line, position.column)
+        return legalMovements
     }
 
     private fun Board.filterAvailableDirections(availableDirections: List<Direction>, position: Position, index: Int)
@@ -74,6 +80,8 @@ object BoardMovementsCalculatorExtensions {
                             piece = it.piece
                         )
                     } else null
+                }.also {
+                    logger.debug("Position {} calculated for direction {} in range {}", it, direction, index)
                 }
             }
     }
