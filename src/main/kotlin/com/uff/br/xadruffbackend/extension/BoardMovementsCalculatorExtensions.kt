@@ -42,7 +42,7 @@ object BoardMovementsCalculatorExtensions {
 
     private fun Board.filterAvailableDirections(availableDirections: List<Direction>, position: Position, index: Int)
     = availableDirections.filter { direction ->
-        getFuturePositionOrNull(direction, position, index)?.let { it.isEmpty(it.piece) }
+        getFuturePositionOrNull(direction, position, index)?.isEmpty()
         ?: false
     }
 

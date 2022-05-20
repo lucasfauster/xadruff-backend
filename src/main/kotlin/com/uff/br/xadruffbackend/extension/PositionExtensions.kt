@@ -1,14 +1,16 @@
 package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.model.Position
+import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Ghost
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Piece
 
-fun Position.hasAllyPiece(originPiece: Piece?) =
-    piece?.color == originPiece?.color && handleGhostPiece(originPiece)
+fun Position.hasAllyPiece(color: Color) =
+    piece?.color == color && piece !is Ghost
 
-fun Position.isEmpty(originPiece: Piece?) = piece == null && handleGhostPiece(originPiece)
+fun Position.isEmpty() =
+    piece == null || piece is Ghost
 
 fun Position.hasEnemyPiece(originPiece: Piece?) =
     piece?.let{
