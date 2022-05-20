@@ -14,8 +14,8 @@ object BoardMovementsCalculatorExtensions {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun Board.calculatePseudoLegalMoves(): LegalMovements {
-        return positions.map { line ->
-            line.filter {
+        return positions.map { row ->
+            row.filter {
                 it.piece?.color == turnColor
             }.map { position ->
                 calculateLegalMovementsInPosition(position)
