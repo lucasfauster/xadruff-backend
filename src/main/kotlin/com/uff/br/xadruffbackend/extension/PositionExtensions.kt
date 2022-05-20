@@ -1,18 +1,22 @@
 package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.model.Position
-import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.piece.Ghost
 import com.uff.br.xadruffbackend.model.piece.Pawn
+import com.uff.br.xadruffbackend.model.piece.Piece
 
-fun Position.hasAllyPiece(pieceColor: Color) =
-    piece?.color == pieceColor
+fun Position.hasAllyPiece(originPiece: Piece?) =
+    piece?.color == originPiece?.color && handleGhostPiece(originPiece)
 
-fun Position.isEmpty() = piece == null
+fun Position.isEmpty(originPiece: Piece?) = piece == null && handleGhostPiece(originPiece)
 
-fun Position.hasEnemyPiece(pieceColor: Color) =
+fun Position.hasEnemyPiece(originPiece: Piece?) =
     piece?.let{
-        it.color != pieceColor
+        it.color != originPiece?.color && handleGhostPiece(originPiece)
     } ?: false
+
+fun Position.handleGhostPiece(originPiece: Piece?) =
+    piece !is Ghost || originPiece is Pawn
 
 fun Position.handlePawnFirstMovementRange(): Int {
     val pawn = piece!! as Pawn

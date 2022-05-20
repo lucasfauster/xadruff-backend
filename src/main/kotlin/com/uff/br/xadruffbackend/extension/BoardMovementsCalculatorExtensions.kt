@@ -5,6 +5,7 @@ import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.direction.Direction
 import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.piece.Piece
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import kotlin.math.log
@@ -41,7 +42,7 @@ object BoardMovementsCalculatorExtensions {
 
     private fun Board.filterAvailableDirections(availableDirections: List<Direction>, position: Position, index: Int)
     = availableDirections.filter { direction ->
-        getFuturePositionOrNull(direction, position, index)?.isEmpty()
+        getFuturePositionOrNull(direction, position, index)?.let { it.isEmpty(it.piece) }
         ?: false
     }
 
@@ -76,7 +77,7 @@ object BoardMovementsCalculatorExtensions {
                         Position(
                             line = it.line,
                             column = it.column,
-                            action = buildAction(it, position.piece!!.color),
+                            action = buildAction(it, position.piece),
                             piece = it.piece
                         )
                     } else null
@@ -86,8 +87,8 @@ object BoardMovementsCalculatorExtensions {
             }
     }
 
-    fun buildAction(position: Position, pieceColor: Color): String {
-        return if (position.hasEnemyPiece(pieceColor)) {
+    fun buildAction(position: Position, originPiece: Piece?): String {
+        return if (position.hasEnemyPiece(originPiece)) {
             "C"
         } else {
             ""

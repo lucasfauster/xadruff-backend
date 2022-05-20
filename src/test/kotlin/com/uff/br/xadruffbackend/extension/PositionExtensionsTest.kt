@@ -1,6 +1,8 @@
 package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.model.Position
+import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -33,63 +35,72 @@ internal class PositionExtensionsTest {
     @Test
     fun `should return true in hasAllyPiece if has an ally`(){
         val board = buildInitialBoard()
-        val hasAllyPiece = board.position("h1").hasAllyPiece(board.turnColor)
+        val piece = Pawn(Color.WHITE)
+        val hasAllyPiece = board.position("h1").hasAllyPiece(piece)
         assert(hasAllyPiece)
     }
 
     @Test
     fun `should return false in hasAllyPiece if has an enemy`(){
         val board = buildInitialBoard()
-        val hasAllyPiece = board.position("a8").hasAllyPiece(board.turnColor)
+        val piece = Pawn(Color.WHITE)
+        val hasAllyPiece = board.position("a8").hasAllyPiece(piece)
         assertFalse(hasAllyPiece)
     }
 
     @Test
     fun `should return false in hasAllyPiece if is empty`(){
         val board = buildInitialBoard()
-        val hasAllyPiece = board.position("f3").hasAllyPiece(board.turnColor)
+        val piece = Pawn(Color.WHITE)
+        val hasAllyPiece = board.position("f3").hasAllyPiece(piece)
         assertFalse(hasAllyPiece)
     }
 
     @Test
     fun `should return false in hasEnemyPiece if has an ally`(){
         val board = buildInitialBoard()
-        val hasEnemyPiece = board.position("h1").hasEnemyPiece(board.turnColor)
+        val piece = Pawn(Color.WHITE)
+        val hasEnemyPiece = board.position("h1").hasEnemyPiece(piece)
         assertFalse(hasEnemyPiece)
     }
 
     @Test
     fun `should return true in hasEnemyPiece if has an enemy`(){
         val board = buildInitialBoard()
-        val hasEnemyPiece = board.position("a8").hasEnemyPiece(board.turnColor)
+        val piece = Pawn(Color.WHITE)
+        val hasEnemyPiece = board.position("a8").hasEnemyPiece(piece)
         assert(hasEnemyPiece)
     }
 
     @Test
     fun `should return false in hasEnemyPiece if is empty`(){
         val board = buildInitialBoard()
-        val hasEnemyPiece = board.position("f3").hasEnemyPiece(board.turnColor)
+        val piece = Pawn(Color.WHITE)
+        val hasEnemyPiece = board.position("f3").hasEnemyPiece(piece)
         assertFalse(hasEnemyPiece)
     }
 
     @Test
     fun `should return false in isEmpty if has an ally`(){
         val board = buildInitialBoard()
-        val isEmpty = board.position("a8").isEmpty()
+        val piece = Pawn(Color.WHITE)
+        val isEmpty = board.position("a8").isEmpty(piece)
         assertFalse(isEmpty)
     }
 
     @Test
     fun `should return false in isEmpty if has an enemy`(){
         val board = buildInitialBoard()
-        val isEmpty = board.position("h1").isEmpty()
+        val piece = Pawn(Color.WHITE)
+        val isEmpty = board.position("h1").isEmpty(piece)
         assertFalse(isEmpty)
     }
 
     @Test
     fun `should return true in isEmpty if is empty`(){
         val board = buildInitialBoard()
-        val isEmpty = board.position("f3").isEmpty()
+        val piece = Pawn(Color.WHITE)
+        val isEmpty = board.position("f3").isEmpty(piece)
         assert(isEmpty)
     }
 }
