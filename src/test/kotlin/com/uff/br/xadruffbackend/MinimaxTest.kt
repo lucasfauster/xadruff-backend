@@ -1,7 +1,7 @@
 package com.uff.br.xadruffbackend
 
-import com.uff.br.xadruffbackend.AI.AIService
-import com.uff.br.xadruffbackend.AI.model.BoardMock
+import com.uff.br.xadruffbackend.ai.AIService
+import com.uff.br.xadruffbackend.ai.model.BoardMock
 import org.junit.jupiter.api.Test
 
 class MinimaxTest {

@@ -1,6 +1,6 @@
 package com.uff.br.xadruffbackend.model
 
-import com.google.gson.Gson
+import com.uff.br.xadruffbackend.helper.buildGson
 import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -17,10 +17,12 @@ data class GameEntity(
     var whiteDrawMoves: Int = 0,
     var blackDrawMoves: Int = 0,
 ) {
+    @Transient
+    private val gson = buildGson()
 
-    fun getBoard(): Board = Gson().fromJson(board, Board::class.java)
+    fun getBoard(): Board = gson.fromJson(board, Board::class.java)
 
-    fun getLegalMovements(): LegalMovements = Gson().fromJson(legalMovements, LegalMovements::class.java)
+    fun getLegalMovements(): LegalMovements = gson.fromJson(legalMovements, LegalMovements::class.java)
 
 }
 

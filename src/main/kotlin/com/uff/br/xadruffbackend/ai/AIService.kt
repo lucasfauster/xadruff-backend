@@ -1,7 +1,7 @@
-package com.uff.br.xadruffbackend.AI
+package com.uff.br.xadruffbackend.ai
 
-import com.uff.br.xadruffbackend.AI.model.BoardMock
-import com.uff.br.xadruffbackend.AI.model.Weights
+import com.uff.br.xadruffbackend.ai.model.BoardMock
+import com.uff.br.xadruffbackend.ai.model.Weights
 import org.slf4j.LoggerFactory
 import kotlin.random.Random
 

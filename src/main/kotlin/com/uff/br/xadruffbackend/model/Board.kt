@@ -1,7 +1,8 @@
 package com.uff.br.xadruffbackend.model
 
-import com.google.gson.Gson
+import com.uff.br.xadruffbackend.model.enum.Color
 
-data class Board(val positions: List<MutableList<String>>)
-
-fun Board.toJsonString(): String = Gson().toJson(this)
+class Board(
+    val positions: List<List<Position>>,
+    var turnColor: Color = Color.WHITE
+)

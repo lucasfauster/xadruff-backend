@@ -22,11 +22,9 @@ jacocoTestReport {
     }
 
     project.ext.exclusions = [
-            'src/main/kotlin/com/uff/br/xadruffbackend/model/**',
             'src/main/kotlin/com/uff/br/xadruffbackend/ChessController*',
             'src/main/kotlin/com/uff/br/xadruffbackend/GameRepository*',
             'src/main/kotlin/com/uff/br/xadruffbackend/XadruffBackendApplication*',
-            'src/main/kotlin/com/uff/br/xadruffbackend/enum/**'
     ]
 
     project.ext.exclusionsForJaCoCo = project.ext.exclusions.collect({
@@ -49,7 +47,7 @@ jacocoTestReport {
         logger.lifecycle("Checking coverage results: ${report}")
 
         def parser = new XmlParser()
-        parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
         parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
         def results = parser.parse(report)
 

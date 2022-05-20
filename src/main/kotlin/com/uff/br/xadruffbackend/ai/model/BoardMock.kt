@@ -1,4 +1,4 @@
-package com.uff.br.xadruffbackend.AI.model
+package com.uff.br.xadruffbackend.ai.model
 
 class BoardMock {
     var state = listOf(
