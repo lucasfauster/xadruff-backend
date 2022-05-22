@@ -54,7 +54,7 @@ fun List<List<Position>>.position(square: String) =
 private fun List<List<Position>>.position(row: Char, column: Char) =
     this[row.toPositionRow()][column.toPositionColumn()]
 
-private fun Int.toChessLine() = (8 - this).toString()
+fun Int.toChessLine() = (8 - this).toString()
 
 private fun Int.toChessColumn() = 'a' + this
 

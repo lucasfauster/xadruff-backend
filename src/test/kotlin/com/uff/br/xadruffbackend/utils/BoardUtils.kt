@@ -17,8 +17,8 @@ fun buildInitialBoard() = Board(
             Position(line = 0, column = 0, piece = Rook(Color.BLACK)),
             Position(line = 0, column = 1, piece = Knight(Color.BLACK)),
             Position(line = 0, column = 2, piece = Bishop(Color.BLACK)),
-            Position(line = 0, column = 3, piece = King(Color.BLACK)),
-            Position(line = 0, column = 4, piece = Queen(Color.BLACK)),
+            Position(line = 0, column = 3, piece = Queen(Color.BLACK)),
+            Position(line = 0, column = 4, piece = King(Color.BLACK)),
             Position(line = 0, column = 5, piece = Bishop(Color.BLACK)),
             Position(line = 0, column = 6, piece = Knight(Color.BLACK)),
             Position(line = 0, column = 7, piece = Rook(Color.BLACK))

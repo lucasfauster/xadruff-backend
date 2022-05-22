@@ -78,8 +78,8 @@ class ChessService(
                 Position("a8", piece = Rook(Color.BLACK)),
                 Position("b8", piece = Knight(Color.BLACK)),
                 Position("c8", piece = Bishop(Color.BLACK)),
-                Position("d8", piece = King(Color.BLACK)),
-                Position("e8", piece = Queen(Color.BLACK)),
+                Position("d8", piece = Queen(Color.BLACK)),
+                Position("e8", piece = King(Color.BLACK)),
                 Position("f8", piece = Bishop(Color.BLACK)),
                 Position("g8", piece = Knight(Color.BLACK)),
                 Position("h8", piece = Rook(Color.BLACK))
