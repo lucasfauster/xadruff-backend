@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class BoardExtensionsTest {
 
     @Test
-    fun `should transform chess position to position`(){
+    fun `should transform chess position to position`() {
         val board = buildInitialBoard()
         val chessPositions = listOf(
             listOf("a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"),
@@ -20,8 +20,8 @@ class BoardExtensionsTest {
             listOf("a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1")
         )
 
-        for(line in (0..7)){
-            for(column in (0..7)){
+        for (line in (0..7)) {
+            for (column in (0..7)) {
                 val boardPosition = board.positions[line][column]
                 val boardPositionByChessPosition = board.position(chessPositions[line][column])
                 Assertions.assertEquals(boardPositionByChessPosition, boardPosition)

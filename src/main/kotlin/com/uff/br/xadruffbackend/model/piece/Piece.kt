@@ -6,12 +6,12 @@ import com.uff.br.xadruffbackend.model.enum.Color
 abstract class Piece(
     private val _value: Char?,
     val color: Color
-){
+) {
     abstract val directions: List<Direction>
     abstract val movementRange: Int
 
     val value: Char?
-        get() = if(color == Color.BLACK) {
+        get() = if (color == Color.BLACK) {
             _value
         } else {
             _value?.uppercaseChar()

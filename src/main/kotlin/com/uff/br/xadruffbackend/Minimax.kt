@@ -1,9 +1,9 @@
-//package com.uff.br.xadruffbackend.model
+// package com.uff.br.xadruffbackend.model
 //
 //
-//import kotlin.random.Random
+// import kotlin.random.Random
 //
-//class BoardMock {
+// class BoardMock {
 //    var state = mutableListOf("a")
 //    var legalMoves = mutableListOf("b")
 //    var position = listOf(mutableListOf('r'))
@@ -17,9 +17,9 @@
 //    }
 //
 //    fun getPieceAt(position: Int): Piece = com.uff.br.xadruffbackend.model.piece.Piece('N')
-//}
+// }
 //
-//class Minimax {
+// class Minimax {
 //    private val pieceWeights = mapOf(null to 0,
 //                                     'P' to 10,
 //                                     'N' to 30,
@@ -154,4 +154,4 @@
 //        }
 //        return weight
 //    }
-//}
+// }

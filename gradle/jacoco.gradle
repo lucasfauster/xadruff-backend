@@ -25,6 +25,8 @@ jacocoTestReport {
             'src/main/kotlin/com/uff/br/xadruffbackend/ChessController*',
             'src/main/kotlin/com/uff/br/xadruffbackend/GameRepository*',
             'src/main/kotlin/com/uff/br/xadruffbackend/XadruffBackendApplication*',
+            'src/main/kotlin/com/uff/br/xadruffbackend/ai**',
+            'src/main/kotlin/com/uff/br/xadruffbackend/helper**'
     ]
 
     project.ext.exclusionsForJaCoCo = project.ext.exclusions.collect({

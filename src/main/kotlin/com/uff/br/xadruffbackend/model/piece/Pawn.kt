@@ -19,4 +19,3 @@ class Pawn(color: Color) : Piece('p', color) {
 
     fun isWhiteFirstMovement(positionLine: Int) = color == Color.WHITE && positionLine == 6
 }
-

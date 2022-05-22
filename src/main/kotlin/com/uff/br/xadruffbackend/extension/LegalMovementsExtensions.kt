@@ -24,15 +24,12 @@ fun List<LegalMovements>.flattenToLegalMovements(): LegalMovements {
 fun List<List<LegalMovements>>.flattenToLegalMovements(): LegalMovements =
     flatten().flattenToLegalMovements()
 
-
 fun createMovement(originPosition: Position, futurePosition: Position, action: String = "") =
     originPosition.toChessPosition() + futurePosition.toChessPosition() + action
 
 fun LegalMovements.addAll(legalMovements: LegalMovements) = movements.addAll(legalMovements.movements)
 
 fun LegalMovements.toJsonString(): String = Gson().toJson(this)
-
-
 
 fun MutableList<String>.toMap(): Map<String, List<String>> {
 

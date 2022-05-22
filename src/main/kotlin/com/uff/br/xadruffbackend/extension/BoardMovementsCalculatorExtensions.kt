@@ -4,11 +4,8 @@ import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.direction.Direction
-import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Piece
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Component
-import kotlin.math.log
 
 object BoardMovementsCalculatorExtensions {
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -24,67 +21,68 @@ object BoardMovementsCalculatorExtensions {
     }
 
     fun Board.calculateLegalMovementsInPosition(position: Position): LegalMovements {
-        logger.debug("Calculating legal moves for piece {} at line {} - column {}", position.piece, position.line, position.column)
+        logger.debug(
+            "Calculating legal moves for piece ${position.piece} at " +
+                "line ${position.line} - column ${position.column}"
+        )
         var availableDirections = position.piece!!.directions
-        val legalMovementsList = (1..position.getMovementRange()).map{ range ->
+        val legalMovementsList = (1..position.getMovementRange()).map { range ->
             getLegalPositionsInRange(range, availableDirections, position)
                 .also {
-                    logger.debug("Legal positions {} calculated in range {}", it, range)
+                    logger.debug("Legal positions $it calculated in range $range")
                     availableDirections = filterAvailableDirections(availableDirections, position, range)
-                    logger.debug("Available directions {} in range {}", availableDirections, range)
+                    logger.debug("Available directions $availableDirections in range $range")
                 }
         }
-        val legalMovements = legalMovementsList.flattenToLegalMovements()
-        logger.debug("LegalMovements calculated {} for piece {} at line {} - column {}",
-            legalMovements, position.piece, position.line, position.column)
-        return legalMovements
-    }
-
-    private fun Board.filterAvailableDirections(availableDirections: List<Direction>, position: Position, index: Int)
-    = availableDirections.filter { direction ->
-        getFuturePositionOrNull(direction, position, index)?.isEmpty()
-        ?: false
-    }
-
-    private fun Board.getLegalPositionsInRange(range: Int, availableDirections: List<Direction>, position: Position)
-    : LegalMovements {
-        return getLegalFuturePositions(range, availableDirections, position)
-            .map {
-                createMovement(
-                    originPosition = position,
-                    futurePosition = it,
-                    action = it.action
+        return legalMovementsList.flattenToLegalMovements()
+            .also {
+                logger.debug(
+                    "LegalMovements calculated $it for piece ${position.piece} at " +
+                        "line ${position.line} - column ${position.column}"
                 )
-            }.toLegalMovements()
-    }
-
-    private fun Board.getFuturePositionOrNull(
-        direction: Direction,
-        position: Position,
-        index: Int,
-    ): Position? {
-        val futureLine = direction.getFutureLine(position.line, index)
-        val futureColumn = direction.getFutureColumn(position.column, index)
-        return positions.getOrNull(futureLine)?.getOrNull(futureColumn)
-    }
-
-    private fun Board.getLegalFuturePositions(index: Int, directions: List<Direction>, position: Position)
-    : List<Position> {
-        return directions.mapNotNull { direction ->
-            getFuturePositionOrNull(direction, position, index)
-                ?.let{
-                    if (position.piece!!.canMove(it, direction.hasMovement, direction.hasCapture)) {
-                        Position(
-                            line = it.line,
-                            column = it.column,
-                            action = buildAction(it, position.piece),
-                            piece = it.piece
-                        )
-                    } else null
-                }.also {
-                    logger.debug("Position {} calculated for direction {} in range {}", it, direction, index)
-                }
             }
+    }
+
+    private fun Board.filterAvailableDirections(availableDirections: List<Direction>, position: Position, index: Int) =
+        availableDirections.filter {
+            getFuturePositionOrNull(it, position, index)
+                ?.isEmpty() ?: false
+        }
+
+    private fun Board.getLegalPositionsInRange(
+        range: Int,
+        availableDirections: List<Direction>,
+        position: Position
+    ): LegalMovements {
+        val legalMovementList = availableDirections.mapNotNull { direction ->
+            getFuturePositionOrNull(direction, position, range)
+                ?.let { futurePosition ->
+                    position.buildMovementOrNull(futurePosition, direction.hasMovement, direction.hasCapture)
+                }.also {
+                    logger.debug("Position {} calculated for direction {} in range {}", it, direction, range)
+                }
+        }
+        return legalMovementList.toLegalMovements()
+    }
+
+    private fun Position.buildMovementOrNull(
+        futurePosition: Position,
+        hasMovement: Boolean,
+        hasCapture: Boolean
+    ): String? {
+        return if (piece!!.canMove(futurePosition, hasMovement, hasCapture)) {
+            createMovement(
+                originPosition = this,
+                futurePosition = futurePosition,
+                action = buildAction(futurePosition, piece),
+            )
+        } else null
+    }
+
+    private fun Board.getFuturePositionOrNull(direction: Direction, position: Position, range: Int): Position? {
+        val futureLine = direction.getFutureLine(position.line, range)
+        val futureColumn = direction.getFutureColumn(position.column, range)
+        return positions.getOrNull(futureLine)?.getOrNull(futureColumn)
     }
 
     fun buildAction(position: Position, originPiece: Piece?): String {

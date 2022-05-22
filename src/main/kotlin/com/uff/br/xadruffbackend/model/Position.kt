@@ -8,5 +8,3 @@ data class Position(
     var piece: Piece? = null,
     val action: String = ""
 )
-
-
