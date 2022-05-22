@@ -30,8 +30,7 @@ fun Position.handlePawnFirstMovementRange(): Int {
 }
 
 fun List<List<Position>>.toStringPositions(): List<List<String>> {
-    return map {
-        line ->
+    return map { line ->
         line.map {
             it.piece?.toString() ?: ""
         }
