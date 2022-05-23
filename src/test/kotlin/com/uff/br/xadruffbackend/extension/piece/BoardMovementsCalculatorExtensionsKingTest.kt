@@ -7,6 +7,7 @@ import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.King
 import com.uff.br.xadruffbackend.model.piece.Pawn
+import com.uff.br.xadruffbackend.model.piece.Rook
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -189,5 +190,113 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
             board.handleCastleMovements(position = board.position("e8"), legalMovements)
             assertEquals(listOf<String>(), legalMovements.movements)
         }
+    }
+
+    @Test
+    fun `should not calculate castle movements for white king when it has moved`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+
+        val whiteKing = King(Color.WHITE)
+        whiteKing.hasMoved = true
+        board.position("e1").piece = whiteKing
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e1"), legalMovements)
+        assertEquals(listOf<String>(), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate castle movements for black king when it has moved`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+
+        val blackKing = King(Color.BLACK)
+        blackKing.hasMoved = true
+        board.position("e8").piece = blackKing
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e8"), legalMovements)
+        assertEquals(listOf<String>(), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate castle movements for black king when left rook has moved`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+
+        val blackLeftRook = Rook(Color.BLACK)
+        blackLeftRook.hasMoved = true
+        board.position("a8").piece = blackLeftRook
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e8"), legalMovements)
+        assertEquals(listOf("e8g8"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate castle movements for black king when right rook has moved`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+
+        val blackRightRook = Rook(Color.BLACK)
+        blackRightRook.hasMoved = true
+        board.position("h8").piece = blackRightRook
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e8"), legalMovements)
+        assertEquals(listOf("e8c8"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate castle movements for white king when left rook has moved`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+
+        val whiteLeftRook = Rook(Color.WHITE)
+        whiteLeftRook.hasMoved = true
+        board.position("a1").piece = whiteLeftRook
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e1"), legalMovements)
+        assertEquals(listOf("e1g1"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate castle movements for white king when right rook has moved`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+
+        val whiteLeftRook = Rook(Color.WHITE)
+        whiteLeftRook.hasMoved = true
+        board.position("h1").piece = whiteLeftRook
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e1"), legalMovements)
+        assertEquals(listOf("e1c1"), legalMovements.movements)
     }
 }
