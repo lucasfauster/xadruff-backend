@@ -10,9 +10,9 @@ class MinimaxTest {
     private val minimax = AIService()
 
     @Test
-    fun `should return a move`(){
+    fun `should return a move`() {
         val move = minimax.getMovement(2, boardMock)
 
-        assert(move is String )
+        assert(move is String)
     }
 }

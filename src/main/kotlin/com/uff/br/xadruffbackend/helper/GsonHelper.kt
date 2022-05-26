@@ -13,7 +13,6 @@ import com.uff.br.xadruffbackend.model.direction.Direction
 import com.uff.br.xadruffbackend.model.piece.Piece
 import java.lang.reflect.Type
 
-
 fun buildGson(): Gson = GsonBuilder().registerTypeAdapter(Piece::class.java, InterfaceAdapter<Piece>())
     .registerTypeAdapter(Direction::class.java, InterfaceAdapter<Direction>())
     .create()

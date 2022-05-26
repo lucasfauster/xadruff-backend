@@ -23,6 +23,4 @@ data class GameEntity(
     fun getBoard(): Board = gson.fromJson(board, Board::class.java)
 
     fun getLegalMovements(): LegalMovements = gson.fromJson(legalMovements, LegalMovements::class.java)
-
 }
-

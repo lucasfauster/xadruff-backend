@@ -19,25 +19,27 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
-internal class ChessServiceTest{
+internal class ChessServiceTest {
 
     private val initialBoard: Board = buildInitialBoard()
-    private val chessRepository = mockk<ChessRepository>()
-    private val chessService: ChessService = ChessService(chessRepository)
+    private val gameRepository = mockk<GameRepository>()
+    private val chessService: ChessService = ChessService(gameRepository)
 
     init {
         every {
-            chessRepository.save(any<GameEntity>())
+            gameRepository.save(any<GameEntity>())
         } returns mockGameEntity()
     }
 
     @Test
-    fun `should create an initial board`(){
+    fun `should create an initial board`() {
 
         val gameEntity = chessService.createInitialBoard()
 
-        assertBoard(boardPositions = gameEntity.getBoard().positions,
-            expectedBoardPositions = initialBoard.positions)
+        assertBoard(
+            boardPositions = gameEntity.getBoard().positions,
+            expectedBoardPositions = initialBoard.positions
+        )
         assertNull(gameEntity.allMovements)
         assertNull(gameEntity.legalMovements)
         assertNull(gameEntity.winner)
@@ -46,17 +48,18 @@ internal class ChessServiceTest{
     }
 
     @Test
-    fun `should create a new game with player playing first`(){
+    fun `should create a new game with player playing first`() {
         val chessResponse = chessService.createNewGame(StartsBy.PLAYER)
         assertNotNull(chessResponse.legalMovements)
         assertNotNull(chessResponse.boardId)
-        assertBoardResponse(boardPositions = chessResponse.board.positions,
-            expectedBoardPositions = initialBoard.positions.toStringPositions())
-
+        assertBoardResponse(
+            boardPositions = chessResponse.board.positions,
+            expectedBoardPositions = initialBoard.positions.toStringPositions()
+        )
     }
 
     @Test
-    fun `should create a new game with AI playing first`(){
+    fun `should create a new game with AI playing first`() {
         val chessResponse = chessService.createNewGame(StartsBy.AI)
         assertNotNull(chessResponse.legalMovements)
         assertNotNull(chessResponse.boardId)
@@ -64,19 +67,21 @@ internal class ChessServiceTest{
     }
 
     @Test
-    fun `should generate initial legal movements from initial board`(){
+    fun `should generate initial legal movements from initial board`() {
         val board = buildInitialBoard()
         val legalMoves = chessService.calculateLegalMovements(board)
 
-        val correctLegalMoves = mutableListOf("a2a3", "a2a4", "b2b3", "b2b4", "c2c3", "c2c4", "d2d3", "d2d4",
+        val correctLegalMoves = mutableListOf(
+            "a2a3", "a2a4", "b2b3", "b2b4", "c2c3", "c2c4", "d2d3", "d2d4",
             "e2e3", "e2e4", "f2f3", "f2f4", "g2g3", "g2g4", "h2h3", "h2h4",
-            "b1a3", "b1c3", "g1f3", "g1h3")
+            "b1a3", "b1c3", "g1f3", "g1h3"
+        )
 
         assertEquals(correctLegalMoves, legalMoves.movements)
     }
 
     @Test
-    fun `should generate possible movements with one capture and three moves for knight in the edge`(){
+    fun `should generate possible movements with one capture and three moves for knight in the edge`() {
         val board = buildEmptyBoard()
         val knight = Knight(Color.WHITE)
         val blackPawn = Pawn(Color.BLACK)
@@ -91,25 +96,26 @@ internal class ChessServiceTest{
     }
 
     private fun assertBoard(boardPositions: List<List<Position>>, expectedBoardPositions: List<List<Position>>) {
-        for(line in 0..7) {
-            for(column in 0..7) {
-                assertEquals(boardPositions[line][column].piece?.value,
+        for (line in 0..7) {
+            for (column in 0..7) {
+                assertEquals(
+                    boardPositions[line][column].piece?.value,
                     expectedBoardPositions[line][column].piece?.value
                 )
             }
         }
     }
 
-    private fun assertBoardResponse(boardPositions: List<List<String>>,
-                                    expectedBoardPositions: List<List<String>>) {
-        for(line in 0..7) {
-            for(column in 0..7) {
+    private fun assertBoardResponse(
+        boardPositions: List<List<String>>,
+        expectedBoardPositions: List<List<String>>
+    ) {
+        for (line in 0..7) {
+            for (column in 0..7) {
                 assertEquals(boardPositions[line][column], expectedBoardPositions[line][column])
             }
         }
     }
 
-
     private fun mockGameEntity() = GameEntity(board = buildInitialBoard().toJsonString())
-
 }

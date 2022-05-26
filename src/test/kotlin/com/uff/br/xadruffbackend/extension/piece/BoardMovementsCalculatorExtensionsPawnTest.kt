@@ -9,11 +9,10 @@ import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-
-internal class BoardMovementsCalculatorExtensionsPawnTest{
+internal class BoardMovementsCalculatorExtensionsPawnTest {
 
     @Test
-    fun `should generate possible movements of white pawn in initial position`(){
+    fun `should generate possible movements of white pawn in initial position`() {
         val board = buildInitialBoard()
 
         val legalMovements = board.calculateLegalMovementsInPosition(board.positions[6][4])
@@ -24,7 +23,7 @@ internal class BoardMovementsCalculatorExtensionsPawnTest{
     }
 
     @Test
-    fun `should generate possible movements of black pawn in initial position`(){
+    fun `should generate possible movements of black pawn in initial position`() {
         val board = buildInitialBoard()
 
         board.turnColor = Color.BLACK
@@ -36,7 +35,7 @@ internal class BoardMovementsCalculatorExtensionsPawnTest{
     }
 
     @Test
-    fun `should generate empty possible movements of pawn in initial position with piece in the way`(){
+    fun `should generate empty possible movements of pawn in initial position with piece in the way`() {
         val board = buildEmptyBoard()
         val whitePawn = Pawn(Color.WHITE)
         val blackPawn = Pawn(Color.BLACK)
@@ -51,7 +50,7 @@ internal class BoardMovementsCalculatorExtensionsPawnTest{
     }
 
     @Test
-    fun `should generate possible movements with capture and one position forward for pawn`(){
+    fun `should generate possible movements with capture and one position forward for pawn`() {
         val board = buildEmptyBoard()
         val whitePawn = Pawn(Color.WHITE)
         val blackPawn = Pawn(Color.BLACK)

@@ -2,7 +2,6 @@ package com.uff.br.xadruffbackend.extension.piece
 
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculateLegalMovementsInPosition
 import com.uff.br.xadruffbackend.extension.position
-import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Rook
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
@@ -10,25 +9,24 @@ import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-
-internal class BoardMovementsCalculatorExtensionsRookTest{
+internal class BoardMovementsCalculatorExtensionsRookTest {
 
     @Test
-    fun `should calculate movement from white left rook with initial board`(){
+    fun `should calculate movement from white left rook with initial board`() {
         val board = buildInitialBoard()
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("a1"))
         assertEquals(mutableListOf<String>(), legalMovements.movements)
     }
 
     @Test
-    fun `should calculate movement from white right rook with initial board`(){
+    fun `should calculate movement from white right rook with initial board`() {
         val board = buildInitialBoard()
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("h1"))
         assertEquals(mutableListOf<String>(), legalMovements.movements)
     }
 
     @Test
-    fun `should calculate movement from black left rook with initial board`(){
+    fun `should calculate movement from black left rook with initial board`() {
         val board = buildInitialBoard()
         board.turnColor = Color.BLACK
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("a8"))
@@ -36,7 +34,7 @@ internal class BoardMovementsCalculatorExtensionsRookTest{
     }
 
     @Test
-    fun `should calculate movement from black right rook with initial board`(){
+    fun `should calculate movement from black right rook with initial board`() {
         val board = buildInitialBoard()
         board.turnColor = Color.BLACK
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("h8"))
@@ -44,27 +42,31 @@ internal class BoardMovementsCalculatorExtensionsRookTest{
     }
 
     @Test
-    fun `should calculate movement from black rook with empty board`(){
+    fun `should calculate movement from black rook with empty board`() {
         val board = buildEmptyBoard()
-        val expectedMovements = listOf("e5e6", "e5e4", "e5d5", "e5f5", "e5e7", "e5e3", "e5c5", "e5g5", "e5e8",
-            "e5e2", "e5b5", "e5h5", "e5e1", "e5a5")
+        val expectedMovements = listOf(
+            "e5e6", "e5e4", "e5d5", "e5f5", "e5e7", "e5e3", "e5c5", "e5g5", "e5e8",
+            "e5e2", "e5b5", "e5h5", "e5e1", "e5a5"
+        )
         board.position("e5").piece = Rook(Color.BLACK)
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
         assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
-    fun `should calculate movement from white rook with empty board`(){
+    fun `should calculate movement from white rook with empty board`() {
         val board = buildEmptyBoard()
-        val expectedMovements = listOf("e5e6", "e5e4", "e5d5", "e5f5", "e5e7", "e5e3", "e5c5", "e5g5", "e5e8",
-            "e5e2", "e5b5", "e5h5", "e5e1", "e5a5")
+        val expectedMovements = listOf(
+            "e5e6", "e5e4", "e5d5", "e5f5", "e5e7", "e5e3", "e5c5", "e5g5", "e5e8",
+            "e5e2", "e5b5", "e5h5", "e5e1", "e5a5"
+        )
         board.position("e5").piece = Rook(Color.WHITE)
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
         assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
-    fun `should calculate movement from black rook with capture in all directions`(){
+    fun `should calculate movement from black rook with capture in all directions`() {
         val board = buildEmptyBoard()
         val expectedMovements = listOf("e5e6C", "e5e4C", "e5d5C", "e5f5C")
         board.position("e5").piece = Rook(Color.BLACK)
@@ -77,7 +79,7 @@ internal class BoardMovementsCalculatorExtensionsRookTest{
     }
 
     @Test
-    fun `should calculate movement from white rook with capture in all directions`(){
+    fun `should calculate movement from white rook with capture in all directions`() {
         val board = buildEmptyBoard()
         val expectedMovements = listOf("e5e6C", "e5e4C", "e5d5C", "e5f5C")
         board.position("e5").piece = Rook(Color.WHITE)
@@ -88,5 +90,4 @@ internal class BoardMovementsCalculatorExtensionsRookTest{
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
         assertEquals(expectedMovements, legalMovements.movements)
     }
-
 }
