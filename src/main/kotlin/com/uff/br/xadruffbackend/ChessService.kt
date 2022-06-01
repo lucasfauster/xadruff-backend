@@ -1,6 +1,7 @@
 package com.uff.br.xadruffbackend
 
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
+import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.Position
 import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.extension.toJsonString
@@ -44,8 +45,46 @@ class ChessService(
         return ChessResponse(
             boardId = game.boardId,
             legalMovements = playerLegalMovements.movements.toMap(),
-            board = game.getBoard().toBoardResponse()
+            board = game.getBoard().toBoardResponse(),
+            aiMovement = "a1b1"
         )
+    }
+
+    fun movePiece(boardId: String, move: String): ChessResponse?{
+
+        val game = chessRepository.getById(boardId)
+
+        if(game.getLegalMovements().movements.any{ it == move}){
+
+            val board = game.getBoard()
+
+            applyMove(board, move)
+
+            game.board = board.toJsonString()
+
+            playAITurn(game)
+
+            return ChessResponse(
+
+                boardId = game.boardId,
+                legalMovements = game.getLegalMovements().movements.toMap(),
+                board = game.getBoard().toBoardResponse(),
+                aiMovement = "a1b1"
+
+            )
+
+        }
+
+        return null
+
+    }
+
+    fun applyMove(board: Board, move: String){
+
+        val piece = board.position(move.slice(0..1)).piece
+        board.position(move.slice(2..3)).piece = piece
+        board.position(move.slice(0..1)).piece = null
+
     }
 
     fun playAITurn(game: GameEntity) { // TODO chamar módulo de movimentação da IA
