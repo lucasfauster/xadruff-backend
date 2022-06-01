@@ -15,7 +15,7 @@ class Pawn(color: Color) : Piece('p', color) {
 
     override val movementRange: Int = 1
 
-    fun isBlackFirstMovement(positionLine: Int) = color == Color.BLACK && positionLine == 1
+    fun isBlackFirstMovement(positionRow: Int) = color == Color.BLACK && positionRow == 1
 
-    fun isWhiteFirstMovement(positionLine: Int) = color == Color.WHITE && positionLine == 6
+    fun isWhiteFirstMovement(positionRow: Int) = color == Color.WHITE && positionRow == 6
 }

@@ -14,44 +14,44 @@ import com.uff.br.xadruffbackend.model.piece.Rook
 fun buildInitialBoard() = Board(
     listOf(
         listOf(
-            Position(line = 0, column = 0, piece = Rook(Color.BLACK)),
-            Position(line = 0, column = 1, piece = Knight(Color.BLACK)),
-            Position(line = 0, column = 2, piece = Bishop(Color.BLACK)),
-            Position(line = 0, column = 3, piece = Queen(Color.BLACK)),
-            Position(line = 0, column = 4, piece = King(Color.BLACK)),
-            Position(line = 0, column = 5, piece = Bishop(Color.BLACK)),
-            Position(line = 0, column = 6, piece = Knight(Color.BLACK)),
-            Position(line = 0, column = 7, piece = Rook(Color.BLACK))
+            Position(row = 0, column = 0, piece = Rook(Color.BLACK)),
+            Position(row = 0, column = 1, piece = Knight(Color.BLACK)),
+            Position(row = 0, column = 2, piece = Bishop(Color.BLACK)),
+            Position(row = 0, column = 3, piece = Queen(Color.BLACK)),
+            Position(row = 0, column = 4, piece = King(Color.BLACK)),
+            Position(row = 0, column = 5, piece = Bishop(Color.BLACK)),
+            Position(row = 0, column = 6, piece = Knight(Color.BLACK)),
+            Position(row = 0, column = 7, piece = Rook(Color.BLACK))
         ),
         listOf(
-            Position(line = 1, column = 0, piece = Pawn(Color.BLACK)),
-            Position(line = 1, column = 1, piece = Pawn(Color.BLACK)),
-            Position(line = 1, column = 2, piece = Pawn(Color.BLACK)),
-            Position(line = 1, column = 3, piece = Pawn(Color.BLACK)),
-            Position(line = 1, column = 4, piece = Pawn(Color.BLACK)),
-            Position(line = 1, column = 5, piece = Pawn(Color.BLACK)),
-            Position(line = 1, column = 6, piece = Pawn(Color.BLACK)),
-            Position(line = 1, column = 7, piece = Pawn(Color.BLACK))
+            Position(row = 1, column = 0, piece = Pawn(Color.BLACK)),
+            Position(row = 1, column = 1, piece = Pawn(Color.BLACK)),
+            Position(row = 1, column = 2, piece = Pawn(Color.BLACK)),
+            Position(row = 1, column = 3, piece = Pawn(Color.BLACK)),
+            Position(row = 1, column = 4, piece = Pawn(Color.BLACK)),
+            Position(row = 1, column = 5, piece = Pawn(Color.BLACK)),
+            Position(row = 1, column = 6, piece = Pawn(Color.BLACK)),
+            Position(row = 1, column = 7, piece = Pawn(Color.BLACK))
         ),
         listOf(
-            Position(line = 2, column = 0, piece = null),
-            Position(line = 2, column = 1, piece = null),
-            Position(line = 2, column = 2, piece = null),
-            Position(line = 2, column = 3, piece = null),
-            Position(line = 2, column = 4, piece = null),
-            Position(line = 2, column = 5, piece = null),
-            Position(line = 2, column = 6, piece = null),
-            Position(line = 2, column = 7, piece = null)
+            Position(row = 2, column = 0, piece = null),
+            Position(row = 2, column = 1, piece = null),
+            Position(row = 2, column = 2, piece = null),
+            Position(row = 2, column = 3, piece = null),
+            Position(row = 2, column = 4, piece = null),
+            Position(row = 2, column = 5, piece = null),
+            Position(row = 2, column = 6, piece = null),
+            Position(row = 2, column = 7, piece = null)
         ),
         listOf(
-            Position(line = 3, column = 0, piece = null),
-            Position(line = 3, column = 1, piece = null),
-            Position(line = 3, column = 2, piece = null),
-            Position(line = 3, column = 3, piece = null),
-            Position(line = 3, column = 4, piece = null),
-            Position(line = 3, column = 5, piece = null),
-            Position(line = 3, column = 6, piece = null),
-            Position(line = 3, column = 7, piece = null)
+            Position(row = 3, column = 0, piece = null),
+            Position(row = 3, column = 1, piece = null),
+            Position(row = 3, column = 2, piece = null),
+            Position(row = 3, column = 3, piece = null),
+            Position(row = 3, column = 4, piece = null),
+            Position(row = 3, column = 5, piece = null),
+            Position(row = 3, column = 6, piece = null),
+            Position(row = 3, column = 7, piece = null)
         ),
         listOf(
             Position("a4", piece = null),
@@ -99,44 +99,44 @@ fun buildInitialBoard() = Board(
 fun buildEmptyBoard() = Board(
     positions = mutableListOf(
         mutableListOf(
-            Position(line = 0, column = 0, piece = null),
-            Position(line = 0, column = 1, piece = null),
-            Position(line = 0, column = 2, piece = null),
-            Position(line = 0, column = 3, piece = null),
-            Position(line = 0, column = 4, piece = null),
-            Position(line = 0, column = 5, piece = null),
-            Position(line = 0, column = 6, piece = null),
-            Position(line = 0, column = 7, piece = null)
+            Position(row = 0, column = 0, piece = null),
+            Position(row = 0, column = 1, piece = null),
+            Position(row = 0, column = 2, piece = null),
+            Position(row = 0, column = 3, piece = null),
+            Position(row = 0, column = 4, piece = null),
+            Position(row = 0, column = 5, piece = null),
+            Position(row = 0, column = 6, piece = null),
+            Position(row = 0, column = 7, piece = null)
         ),
         mutableListOf(
-            Position(line = 1, column = 0, piece = null),
-            Position(line = 1, column = 1, piece = null),
-            Position(line = 1, column = 2, piece = null),
-            Position(line = 1, column = 3, piece = null),
-            Position(line = 1, column = 4, piece = null),
-            Position(line = 1, column = 5, piece = null),
-            Position(line = 1, column = 6, piece = null),
-            Position(line = 1, column = 7, piece = null)
+            Position(row = 1, column = 0, piece = null),
+            Position(row = 1, column = 1, piece = null),
+            Position(row = 1, column = 2, piece = null),
+            Position(row = 1, column = 3, piece = null),
+            Position(row = 1, column = 4, piece = null),
+            Position(row = 1, column = 5, piece = null),
+            Position(row = 1, column = 6, piece = null),
+            Position(row = 1, column = 7, piece = null)
         ),
         mutableListOf(
-            Position(line = 2, column = 0, piece = null),
-            Position(line = 2, column = 1, piece = null),
-            Position(line = 2, column = 2, piece = null),
-            Position(line = 2, column = 3, piece = null),
-            Position(line = 2, column = 4, piece = null),
-            Position(line = 2, column = 5, piece = null),
-            Position(line = 2, column = 6, piece = null),
-            Position(line = 2, column = 7, piece = null)
+            Position(row = 2, column = 0, piece = null),
+            Position(row = 2, column = 1, piece = null),
+            Position(row = 2, column = 2, piece = null),
+            Position(row = 2, column = 3, piece = null),
+            Position(row = 2, column = 4, piece = null),
+            Position(row = 2, column = 5, piece = null),
+            Position(row = 2, column = 6, piece = null),
+            Position(row = 2, column = 7, piece = null)
         ),
         mutableListOf(
-            Position(line = 3, column = 0, piece = null),
-            Position(line = 3, column = 1, piece = null),
-            Position(line = 3, column = 2, piece = null),
-            Position(line = 3, column = 3, piece = null),
-            Position(line = 3, column = 4, piece = null),
-            Position(line = 3, column = 5, piece = null),
-            Position(line = 3, column = 6, piece = null),
-            Position(line = 3, column = 7, piece = null)
+            Position(row = 3, column = 0, piece = null),
+            Position(row = 3, column = 1, piece = null),
+            Position(row = 3, column = 2, piece = null),
+            Position(row = 3, column = 3, piece = null),
+            Position(row = 3, column = 4, piece = null),
+            Position(row = 3, column = 5, piece = null),
+            Position(row = 3, column = 6, piece = null),
+            Position(row = 3, column = 7, piece = null)
         ),
         listOf(
             Position("a4", piece = null),

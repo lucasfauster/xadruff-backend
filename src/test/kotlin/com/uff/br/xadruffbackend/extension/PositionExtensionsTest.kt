@@ -25,11 +25,11 @@ internal class PositionExtensionsTest {
             listOf("a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1")
         )
 
-        for (line in (0..7)) {
+        for (row in (0..7)) {
             for (column in (0..7)) {
-                val position = Position(line, column)
+                val position = Position(row, column)
                 val stringPosition = position.toChessPosition()
-                Assertions.assertEquals(chessPositions[line][column], stringPosition)
+                Assertions.assertEquals(chessPositions[row][column], stringPosition)
             }
         }
     }

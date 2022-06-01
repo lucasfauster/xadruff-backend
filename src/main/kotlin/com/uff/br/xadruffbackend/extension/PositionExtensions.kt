@@ -22,7 +22,7 @@ fun Position.handleGhostPiece(originPiece: Piece?) =
 
 fun Position.handlePawnFirstMovementRange(): Int {
     val pawn = piece!! as Pawn
-    return if (pawn.isBlackFirstMovement(line) || pawn.isWhiteFirstMovement(line)) {
+    return if (pawn.isBlackFirstMovement(row) || pawn.isWhiteFirstMovement(row)) {
         2
     } else {
         1
@@ -30,8 +30,8 @@ fun Position.handlePawnFirstMovementRange(): Int {
 }
 
 fun List<List<Position>>.toStringPositions(): List<List<String>> {
-    return map { line ->
-        line.map {
+    return map { row ->
+        row.map {
             it.piece?.toString() ?: ""
         }
     }
@@ -46,7 +46,7 @@ fun Position.getMovementRange(): Int {
 }
 
 fun Position.toChessPosition(): String =
-    column.toChessColumn() + line.toChessLine()
+    column.toChessColumn() + row.toChessRow()
 
 fun List<List<Position>>.position(square: String) =
     position(square.last(), square.first())
@@ -54,7 +54,7 @@ fun List<List<Position>>.position(square: String) =
 private fun List<List<Position>>.position(row: Char, column: Char) =
     this[row.toPositionRow()][column.toPositionColumn()]
 
-fun Int.toChessLine() = (8 - this).toString()
+fun Int.toChessRow() = (8 - this).toString()
 
 private fun Int.toChessColumn() = 'a' + this
 
@@ -63,7 +63,7 @@ private fun Char.toPositionRow() = 8 - digitToInt()
 private fun Char.toPositionColumn() = code - 97
 
 fun Position(square: String, piece: Piece? = null, action: String = "") = Position(
-    line = square.last().toPositionRow(),
+    row = square.last().toPositionRow(),
     column = square.first().toPositionColumn(),
     piece = piece,
     action = action

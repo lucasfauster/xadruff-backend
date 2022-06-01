@@ -20,10 +20,10 @@ class BoardExtensionsTest {
             listOf("a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1")
         )
 
-        for (line in (0..7)) {
+        for (row in (0..7)) {
             for (column in (0..7)) {
-                val boardPosition = board.positions[line][column]
-                val boardPositionByChessPosition = board.position(chessPositions[line][column])
+                val boardPosition = board.positions[row][column]
+                val boardPositionByChessPosition = board.position(chessPositions[row][column])
                 Assertions.assertEquals(boardPositionByChessPosition, boardPosition)
             }
         }

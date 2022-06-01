@@ -127,12 +127,12 @@ internal class ChessServiceTest {
         game.legalMovements = LegalMovements(buildInitialLegalMovements()).toJsonString()
 
         every {
-            chessRepository.getById(game.boardId)
+            gameRepository.getById(game.boardId)
         } returns game
 
         val boardResponse = chessService.movePiece(game.boardId, "a2a3")
         assertEquals(game.boardId, boardResponse!!.boardId)
-        assertEquals("",boardResponse!!.board.positions[6][0])
+        assertEquals("",boardResponse.board.positions[6][0])
         assertEquals(Pawn(Color.WHITE).value.toString(), boardResponse.board.positions[5][0])
 
     }
@@ -144,12 +144,12 @@ internal class ChessServiceTest {
         game.legalMovements = LegalMovements(buildInitialLegalMovements()).toJsonString()
 
         every {
-            chessRepository.getById(game.boardId)
+            gameRepository.getById(game.boardId)
         } returns game
 
         val boardResponse = chessService.movePiece(game.boardId, "a1a2")
         assertEquals(game.boardId, boardResponse!!.boardId)
-        assertEquals("",boardResponse!!.board.positions[6][0])
+        assertEquals("",boardResponse.board.positions[6][0])
         assertEquals(Pawn(Color.WHITE).value.toString(), boardResponse.board.positions[5][0])
 
     }
@@ -161,7 +161,7 @@ internal class ChessServiceTest {
         game.legalMovements = LegalMovements(buildInitialLegalMovements()).toJsonString()
 
         every {
-            chessRepository.getById(any<String>())
+            gameRepository.getById(any<String>())
         } throws EntityNotFoundException()
 
         assertThrows<EntityNotFoundException> {
@@ -181,11 +181,11 @@ internal class ChessServiceTest {
     }
 
     private fun assertBoard(boardPositions: List<List<Position>>, expectedBoardPositions: List<List<Position>>) {
-        for (line in 0..7) {
+        for (row in 0..7) {
             for (column in 0..7) {
                 assertEquals(
-                    boardPositions[line][column].piece?.value,
-                    expectedBoardPositions[line][column].piece?.value
+                    boardPositions[row][column].piece?.value,
+                    expectedBoardPositions[row][column].piece?.value
                 )
             }
         }
@@ -195,9 +195,9 @@ internal class ChessServiceTest {
         boardPositions: List<List<String>>,
         expectedBoardPositions: List<List<String>>
     ) {
-        for (line in 0..7) {
+        for (row in 0..7) {
             for (column in 0..7) {
-                assertEquals(boardPositions[line][column], expectedBoardPositions[line][column])
+                assertEquals(boardPositions[row][column], expectedBoardPositions[row][column])
             }
         }
     }

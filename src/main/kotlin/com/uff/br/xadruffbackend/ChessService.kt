@@ -52,7 +52,7 @@ class ChessService(
 
     fun movePiece(boardId: String, move: String): ChessResponse?{
 
-        val game = chessRepository.getById(boardId)
+        val game = gameRepository.getById(boardId)
 
         if(game.getLegalMovements().movements.any{ it == move}){
 
