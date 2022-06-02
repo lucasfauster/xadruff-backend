@@ -20,7 +20,10 @@ class ChessController(private val chessService: ChessService) {
 
     @PostMapping("/move")
     fun movePiece(
-        @RequestParam(name = "board-id") boardId: String,
-        @RequestBody moveRequest: MoveRequest
-    ): ChessResponse = chessService.movePiece(boardId, moveRequest.move)!!
+        @RequestParam(name = "board-id")
+        boardId: String,
+
+        @RequestBody
+        moveRequest: MoveRequest
+    ): ChessResponse = chessService.movePiece(boardId, moveRequest.move)
 }

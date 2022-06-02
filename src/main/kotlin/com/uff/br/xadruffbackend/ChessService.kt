@@ -65,7 +65,7 @@ class ChessService(
         try {
             gameRepository.getById(boardId)
         } catch (exc: JpaObjectRetrievalFailureException) {
-            throw GameNotFoundException("Jogo com id '$boardId' não encontrado.")
+            throw GameNotFoundException("A game with board-id $boardId was not found.")
         }
 
     fun movePiece(boardId: String, move: String): ChessResponse {
