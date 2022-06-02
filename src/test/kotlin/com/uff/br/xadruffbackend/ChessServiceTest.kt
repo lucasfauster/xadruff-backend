@@ -1,5 +1,6 @@
 package com.uff.br.xadruffbackend
 
+import com.uff.br.xadruffbackend.exception.GameNotFoundException
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toJsonString
@@ -22,6 +23,8 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.mockito.ArgumentMatchers.any
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import javax.persistence.EntityNotFoundException
 
 internal class ChessServiceTest {
@@ -160,9 +163,9 @@ internal class ChessServiceTest {
 
         every {
             gameRepository.getById(any<String>())
-        } throws EntityNotFoundException()
+        } throws JpaObjectRetrievalFailureException(EntityNotFoundException())
 
-        assertThrows<EntityNotFoundException> {
+        assertThrows<GameNotFoundException> {
             chessService.movePiece(game.boardId, "a2a3")
         }
     }
