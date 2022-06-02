@@ -6,7 +6,7 @@ import com.uff.br.xadruffbackend.model.enum.Color
 class Ghost(color: Color) : Piece('g', color) {
     override val directions: List<Direction> = emptyList()
 
-    override val movementRange = 0
+    override val movementRange = MovementRange.ZERO
 
     override fun toString(): String {
         return ""

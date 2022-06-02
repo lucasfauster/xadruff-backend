@@ -14,8 +14,8 @@ object BoardMovementsCalculatorExtensions {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun Board.calculatePseudoLegalMoves(): LegalMovements {
-        return positions.map { line ->
-            line.filter {
+        return positions.map { row ->
+            row.filter {
                 it.piece?.color == turnColor
             }.map { position ->
                 calculateLegalMovementsInPosition(position)
@@ -26,7 +26,7 @@ object BoardMovementsCalculatorExtensions {
     fun Board.calculateLegalMovementsInPosition(position: Position): LegalMovements {
         logger.debug(
             "Calculating legal moves for piece ${position.piece} at " +
-                "line ${position.line} - column ${position.column}"
+                "row ${position.row} - column ${position.column}"
         )
         var availableDirections = position.piece!!.directions
         val legalMovementsList = (1..position.getMovementRange()).map { range ->
@@ -45,7 +45,7 @@ object BoardMovementsCalculatorExtensions {
             .also {
                 logger.debug(
                     "LegalMovements calculated $it for piece ${position.piece} at " +
-                        "line ${position.line} - column ${position.column}"
+                        "row ${position.row} - column ${position.column}"
                 )
             }
     }
@@ -53,10 +53,10 @@ object BoardMovementsCalculatorExtensions {
     fun Board.handleCastleMovements(position: Position, legalMovements: LegalMovements) {
         val piece = position.piece
         if (piece is King && !piece.hasMoved) {
-            val line = position.line.toChessLine()
+            val row = position.row.toChessRow()
             val movements = listOfNotNull(
-                getCastleMovement("e$line", "a$line"),
-                getCastleMovement("e$line", "h$line")
+                getCastleMovement("e$row", "a$row"),
+                getCastleMovement("e$row", "h$row")
             )
             if (movements.isNotEmpty()) {
                 legalMovements.movements.addAll(movements)
@@ -66,7 +66,11 @@ object BoardMovementsCalculatorExtensions {
 
     fun Board.getCastleMovement(kingSquare: String, rookSquare: String): String? {
         val piece = position(rookSquare).piece
-        return if (piece is Rook && !piece.hasMoved && isEmptyBetween(position(kingSquare), position(rookSquare))) {
+        return if (piece is Rook && !piece.hasMoved && isEmptyBetween(
+                position(kingSquare),
+                position(rookSquare)
+            )
+        ) {
             "$kingSquare${getFutureCastleKingPosition(rookSquare)}"
         } else {
             null
@@ -83,7 +87,7 @@ object BoardMovementsCalculatorExtensions {
         val leftColumn = getLeftPosition(kingPosition, rookPosition).column
         val range = (kingPosition.column - rookPosition.column).absoluteValue - 1
         return (1..range).takeWhile {
-            positions[rookPosition.line][leftColumn + it].isEmpty()
+            positions[rookPosition.row][leftColumn + it].isEmpty()
         }.count() == range
     }
 
@@ -133,9 +137,9 @@ object BoardMovementsCalculatorExtensions {
     }
 
     private fun Board.getFuturePositionOrNull(direction: Direction, position: Position, range: Int): Position? {
-        val futureLine = direction.getFutureLine(position.line, range)
+        val futureRow = direction.getFutureRow(position.row, range)
         val futureColumn = direction.getFutureColumn(position.column, range)
-        return positions.getOrNull(futureLine)?.getOrNull(futureColumn)
+        return positions.getOrNull(futureRow)?.getOrNull(futureColumn)
     }
 
     fun buildAction(position: Position, originPiece: Piece?): String {

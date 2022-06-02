@@ -6,5 +6,5 @@ import com.uff.br.xadruffbackend.util.buildDiagonalDirections
 
 class Bishop(color: Color) : Piece('b', color) {
     override val directions: List<Direction> = buildDiagonalDirections()
-    override val movementRange: Int = 7
+    override val movementRange: Int = MovementRange.ALL_BOARD
 }

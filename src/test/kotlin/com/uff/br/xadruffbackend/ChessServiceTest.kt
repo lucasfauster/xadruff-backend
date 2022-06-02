@@ -1,10 +1,13 @@
 package com.uff.br.xadruffbackend
 
+import com.uff.br.xadruffbackend.exception.GameNotFoundException
+import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toStringPositions
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.GameEntity
+import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.enum.StartsBy
@@ -17,7 +20,12 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.mockito.ArgumentMatchers.any
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
+import javax.persistence.EntityNotFoundException
 
 internal class ChessServiceTest {
 
@@ -40,7 +48,7 @@ internal class ChessServiceTest {
             boardPositions = gameEntity.getBoard().positions,
             expectedBoardPositions = initialBoard.positions
         )
-        assertNull(gameEntity.allMovements)
+        assertTrue(gameEntity.allMovements.isEmpty())
         assertNull(gameEntity.legalMovements)
         assertNull(gameEntity.winner)
         assertEquals(gameEntity.blackDrawMoves, 0)
@@ -63,7 +71,8 @@ internal class ChessServiceTest {
         val chessResponse = chessService.createNewGame(StartsBy.AI)
         assertNotNull(chessResponse.legalMovements)
         assertNotNull(chessResponse.boardId)
-        // assertNotEquals(initialBoardPositions, chessResponse.board.positions) TODO após implementar movimentação da IA
+        // assertNotEquals(initialBoardPositions, chessResponse.board.positions)
+        // TODO após implementar movimentação da IA
     }
 
     @Test
@@ -71,11 +80,7 @@ internal class ChessServiceTest {
         val board = buildInitialBoard()
         val legalMoves = chessService.calculateLegalMovements(board)
 
-        val correctLegalMoves = mutableListOf(
-            "a2a3", "a2a4", "b2b3", "b2b4", "c2c3", "c2c4", "d2d3", "d2d4",
-            "e2e3", "e2e4", "f2f3", "f2f4", "g2g3", "g2g4", "h2h3", "h2h4",
-            "b1a3", "b1c3", "g1f3", "g1h3"
-        )
+        val correctLegalMoves = buildInitialLegalMovements()
 
         assertEquals(correctLegalMoves, legalMoves.movements)
     }
@@ -95,12 +100,91 @@ internal class ChessServiceTest {
         assert(correctLegalMoves.containsAll(legalMoves.movements))
     }
 
+    @Test
+    fun `should apply movement a1 to a2`() {
+
+        val board = buildEmptyBoard()
+        val pawn = Pawn(Color.WHITE)
+        board.position("a1").piece = pawn
+
+        chessService.applyMove(board, "a1a2")
+        assertNull(board.position("a1").piece)
+        assertEquals(pawn, board.position("a2").piece)
+    }
+
+    @Test
+    fun `should apply movement a1 to a2 with capture`() {
+
+        val board = buildEmptyBoard()
+        val pawn = Pawn(Color.WHITE)
+        board.position("a1").piece = pawn
+
+        chessService.applyMove(board, "a1a2C")
+        assertNull(board.position("a1").piece)
+        assertEquals(pawn, board.position("a2").piece)
+    }
+
+    @Test
+    fun `should move piece from a2 to a3 with initial board`() {
+
+        val game = mockGameEntity()
+        game.legalMovements = LegalMovements(buildInitialLegalMovements()).toJsonString()
+
+        every {
+            gameRepository.getById(game.boardId)
+        } returns game
+
+        val boardResponse = chessService.movePiece(game.boardId, "a2a3")
+        assertEquals(game.boardId, boardResponse!!.boardId)
+        assertEquals("", boardResponse.board.positions[6][0])
+        assertEquals(Pawn(Color.WHITE).value.toString(), boardResponse.board.positions[5][0])
+    }
+
+    @Test
+    fun `should not move piece from a1 to a2 with initial board`() {
+
+        val game = mockGameEntity()
+        game.legalMovements = LegalMovements(buildInitialLegalMovements()).toJsonString()
+
+        every {
+            gameRepository.getById(game.boardId)
+        } returns game
+
+        assertThrows<InvalidMovementException> {
+            chessService.movePiece(game.boardId, "a1a2")
+        }
+    }
+
+    @Test
+    fun `should not move piece if game is not found`() {
+
+        val game = mockGameEntity()
+        game.legalMovements = LegalMovements(buildInitialLegalMovements()).toJsonString()
+
+        every {
+            gameRepository.getById(any<String>())
+        } throws JpaObjectRetrievalFailureException(EntityNotFoundException())
+
+        assertThrows<GameNotFoundException> {
+            chessService.movePiece(game.boardId, "a2a3")
+        }
+    }
+
+    fun buildInitialLegalMovements(): MutableList<String> {
+
+        return mutableListOf(
+            "a2a3", "a2a4", "b2b3", "b2b4", "c2c3", "c2c4", "d2d3", "d2d4",
+            "e2e3", "e2e4", "f2f3", "f2f4", "g2g3", "g2g4", "h2h3", "h2h4",
+            "b1a3", "b1c3", "g1f3", "g1h3"
+        )
+    }
+
     private fun assertBoard(boardPositions: List<List<Position>>, expectedBoardPositions: List<List<Position>>) {
-        for (line in 0..7) {
+        for (row in 0..7) {
             for (column in 0..7) {
                 assertEquals(
-                    boardPositions[line][column].piece?.value,
-                    expectedBoardPositions[line][column].piece?.value
+                    boardPositions[row][column].piece?.value,
+                    expectedBoardPositions[row][column].piece?.value
                 )
             }
         }
@@ -110,9 +194,9 @@ internal class ChessServiceTest {
         boardPositions: List<List<String>>,
         expectedBoardPositions: List<List<String>>
     ) {
-        for (line in 0..7) {
+        for (row in 0..7) {
             for (column in 0..7) {
-                assertEquals(boardPositions[line][column], expectedBoardPositions[line][column])
+                assertEquals(boardPositions[row][column], expectedBoardPositions[row][column])
             }
         }
     }

@@ -6,5 +6,5 @@ import com.uff.br.xadruffbackend.util.buildAllDirections
 
 class Queen(color: Color) : Piece('q', color) {
     override val directions: List<Direction> = buildAllDirections()
-    override val movementRange: Int = 7
+    override val movementRange: Int = MovementRange.ALL_BOARD
 }

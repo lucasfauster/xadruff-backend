@@ -7,5 +7,6 @@ import org.springframework.boot.runApplication
 class XadruffBackendApplication
 
 fun main(args: Array<String>) {
+    @Suppress("SpreadOperator")
     runApplication<XadruffBackendApplication>(*args)
 }

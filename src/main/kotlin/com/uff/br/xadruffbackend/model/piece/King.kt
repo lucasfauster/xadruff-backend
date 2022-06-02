@@ -5,6 +5,6 @@ import com.uff.br.xadruffbackend.util.buildAllDirections
 
 class King(color: Color) : Piece('k', color) {
     override val directions = buildAllDirections()
-    override val movementRange = 1
+    override val movementRange = MovementRange.ONE
     var hasMoved = false
 }
