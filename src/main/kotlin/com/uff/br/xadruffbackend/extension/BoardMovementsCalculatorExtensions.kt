@@ -66,7 +66,11 @@ object BoardMovementsCalculatorExtensions {
 
     fun Board.getCastleMovement(kingSquare: String, rookSquare: String): String? {
         val piece = position(rookSquare).piece
-        return if (piece is Rook && !piece.hasMoved && isEmptyBetween(position(kingSquare), position(rookSquare))) {
+        return if (piece is Rook && !piece.hasMoved && isEmptyBetween(
+                position(kingSquare),
+                position(rookSquare)
+            )
+        ) {
             "$kingSquare${getFutureCastleKingPosition(rookSquare)}"
         } else {
             null

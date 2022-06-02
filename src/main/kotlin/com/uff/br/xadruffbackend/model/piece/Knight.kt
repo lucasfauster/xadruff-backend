@@ -6,5 +6,5 @@ import com.uff.br.xadruffbackend.util.buildLDirections
 
 class Knight(color: Color) : Piece('n', color) {
     override val directions: List<Direction> = buildLDirections()
-    override val movementRange: Int = 1
+    override val movementRange: Int = MovementRange.ONE
 }

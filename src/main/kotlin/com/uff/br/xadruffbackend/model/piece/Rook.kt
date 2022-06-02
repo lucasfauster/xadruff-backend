@@ -6,6 +6,6 @@ import com.uff.br.xadruffbackend.util.buildStraightDirections
 
 class Rook(color: Color) : Piece('r', color) {
     override val directions: List<Direction> = buildStraightDirections()
-    override val movementRange: Int = 7
+    override val movementRange: Int = MovementRange.ALL_BOARD
     var hasMoved = false
 }

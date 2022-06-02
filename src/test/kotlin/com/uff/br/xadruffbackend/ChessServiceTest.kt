@@ -1,5 +1,6 @@
 package com.uff.br.xadruffbackend
 
+import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toStringPositions
@@ -18,6 +19,7 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import javax.persistence.EntityNotFoundException
@@ -43,7 +45,7 @@ internal class ChessServiceTest {
             boardPositions = gameEntity.getBoard().positions,
             expectedBoardPositions = initialBoard.positions
         )
-        assertNull(gameEntity.allMovements)
+        assertTrue(gameEntity.allMovements.isEmpty())
         assertNull(gameEntity.legalMovements)
         assertNull(gameEntity.winner)
         assertEquals(gameEntity.blackDrawMoves, 0)
@@ -66,7 +68,8 @@ internal class ChessServiceTest {
         val chessResponse = chessService.createNewGame(StartsBy.AI)
         assertNotNull(chessResponse.legalMovements)
         assertNotNull(chessResponse.boardId)
-        // assertNotEquals(initialBoardPositions, chessResponse.board.positions) TODO após implementar movimentação da IA
+        // assertNotEquals(initialBoardPositions, chessResponse.board.positions)
+        // TODO após implementar movimentação da IA
     }
 
     @Test
@@ -95,7 +98,7 @@ internal class ChessServiceTest {
     }
 
     @Test
-    fun `should apply movement a1 to a2`(){
+    fun `should apply movement a1 to a2`() {
 
         val board = buildEmptyBoard()
         val pawn = Pawn(Color.WHITE)
@@ -104,11 +107,10 @@ internal class ChessServiceTest {
         chessService.applyMove(board, "a1a2")
         assertNull(board.position("a1").piece)
         assertEquals(pawn, board.position("a2").piece)
-
     }
 
     @Test
-    fun `should apply movement a1 to a2 with capture`(){
+    fun `should apply movement a1 to a2 with capture`() {
 
         val board = buildEmptyBoard()
         val pawn = Pawn(Color.WHITE)
@@ -117,11 +119,10 @@ internal class ChessServiceTest {
         chessService.applyMove(board, "a1a2C")
         assertNull(board.position("a1").piece)
         assertEquals(pawn, board.position("a2").piece)
-
     }
 
     @Test
-    fun `should move piece from a2 to a3 with initial board`(){
+    fun `should move piece from a2 to a3 with initial board`() {
 
         val game = mockGameEntity()
         game.legalMovements = LegalMovements(buildInitialLegalMovements()).toJsonString()
@@ -132,13 +133,12 @@ internal class ChessServiceTest {
 
         val boardResponse = chessService.movePiece(game.boardId, "a2a3")
         assertEquals(game.boardId, boardResponse!!.boardId)
-        assertEquals("",boardResponse.board.positions[6][0])
+        assertEquals("", boardResponse.board.positions[6][0])
         assertEquals(Pawn(Color.WHITE).value.toString(), boardResponse.board.positions[5][0])
-
     }
 
-    //@Test
-    fun `should not move piece from a1 to a2 with initial board`(){
+    @Test
+    fun `should not move piece from a1 to a2 with initial board`() {
 
         val game = mockGameEntity()
         game.legalMovements = LegalMovements(buildInitialLegalMovements()).toJsonString()
@@ -147,15 +147,13 @@ internal class ChessServiceTest {
             gameRepository.getById(game.boardId)
         } returns game
 
-        val boardResponse = chessService.movePiece(game.boardId, "a1a2")
-        assertEquals(game.boardId, boardResponse!!.boardId)
-        assertEquals("",boardResponse.board.positions[6][0])
-        assertEquals(Pawn(Color.WHITE).value.toString(), boardResponse.board.positions[5][0])
-
+        assertThrows<InvalidMovementException> {
+            chessService.movePiece(game.boardId, "a1a2")
+        }
     }
 
     @Test
-    fun `should not move piece if game is not found`(){
+    fun `should not move piece if game is not found`() {
 
         val game = mockGameEntity()
         game.legalMovements = LegalMovements(buildInitialLegalMovements()).toJsonString()
@@ -167,7 +165,6 @@ internal class ChessServiceTest {
         assertThrows<EntityNotFoundException> {
             chessService.movePiece(game.boardId, "a2a3")
         }
-
     }
 
     fun buildInitialLegalMovements(): MutableList<String> {
@@ -177,7 +174,6 @@ internal class ChessServiceTest {
             "e2e3", "e2e4", "f2f3", "f2f4", "g2g3", "g2g4", "h2h3", "h2h4",
             "b1a3", "b1c3", "g1f3", "g1h3"
         )
-
     }
 
     private fun assertBoard(boardPositions: List<List<Position>>, expectedBoardPositions: List<List<Position>>) {

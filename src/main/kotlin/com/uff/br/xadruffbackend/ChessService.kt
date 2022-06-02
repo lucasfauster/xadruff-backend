@@ -1,8 +1,10 @@
 package com.uff.br.xadruffbackend
 
+import com.uff.br.xadruffbackend.exception.GameNotFoundException
+import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
+import com.uff.br.xadruffbackend.extension.ChessSliceIndex
 import com.uff.br.xadruffbackend.extension.position
-import com.uff.br.xadruffbackend.extension.Position
 import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toMap
@@ -19,6 +21,7 @@ import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.model.piece.Rook
 import org.slf4j.LoggerFactory
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.stereotype.Service
 
 @Service
@@ -38,10 +41,12 @@ class ChessService(
 
         val playerLegalMovements = calculateLegalMovements(game.getBoard())
         game.legalMovements = playerLegalMovements.toJsonString()
-        logger.info("Calculated player possible movements, boardId = {}, legalMovements = {}", game.boardId, game.legalMovements)
+        logger.info(
+            "Calculated player possible movements, boardId = {}, legalMovements = {}",
+            game.boardId, game.legalMovements
+        )
 
         gameRepository.save(game)
-
         return ChessResponse(
             boardId = game.boardId,
             legalMovements = playerLegalMovements.movements.toMap(),
@@ -50,43 +55,45 @@ class ChessService(
         )
     }
 
-    fun movePiece(boardId: String, move: String): ChessResponse?{
+    private fun verifyIsAllowedMove(legalMovements: LegalMovements, move: String) {
+        if (legalMovements.movements.none { it == move }) {
+            throw InvalidMovementException("The move '$move' is an invalid movement.")
+        }
+    }
 
-        val game = gameRepository.getById(boardId)
-
-        if(game.getLegalMovements().movements.any{ it == move}){
-
-            val board = game.getBoard()
-
-            applyMove(board, move)
-
-            game.board = board.toJsonString()
-
-            playAITurn(game)
-
-            return ChessResponse(
-
-                boardId = game.boardId,
-                legalMovements = game.getLegalMovements().movements.toMap(),
-                board = game.getBoard().toBoardResponse(),
-                aiMovement = "a1b1"
-
-            )
-
+    fun getGameById(boardId: String): GameEntity =
+        try {
+            gameRepository.getById(boardId)
+        } catch (exc: JpaObjectRetrievalFailureException) {
+            throw GameNotFoundException("Jogo com id '$boardId' não encontrado.")
         }
 
-        return null
+    fun movePiece(boardId: String, move: String): ChessResponse {
+        val game = getGameById(boardId)
 
+        verifyIsAllowedMove(game.getLegalMovements(), move)
+
+        val board = game.getBoard()
+        applyMove(board, move)
+        game.allMovements += " $move"
+        game.board = board.toJsonString()
+        playAITurn(game)
+
+        return ChessResponse(
+            boardId = game.boardId,
+            legalMovements = game.getLegalMovements().movements.toMap(),
+            board = game.getBoard().toBoardResponse(),
+            aiMovement = "a1b1"
+        )
     }
 
-    fun applyMove(board: Board, move: String){
-
-        val piece = board.position(move.slice(0..1)).piece
-        board.position(move.slice(2..3)).piece = piece
-        board.position(move.slice(0..1)).piece = null
-
+    fun applyMove(board: Board, move: String) {
+        val piece = board.position(move.slice(ChessSliceIndex.FIRST_POSITION)).piece
+        board.position(move.slice(ChessSliceIndex.SECOND_POSITION)).piece = piece
+        board.position(move.slice(ChessSliceIndex.FIRST_POSITION)).piece = null
     }
 
+    @Suppress("UnusedPrivateMember")
     fun playAITurn(game: GameEntity) { // TODO chamar módulo de movimentação da IA
         // val legalMovements = calculateLegalMovements(game.boardPositions, color)
         // iaService.movePieces(game.boardPositions, blackLegalMovements)
@@ -111,87 +118,88 @@ class ChessService(
         return gameEntity
     }
 
+    @Suppress("LongMethod")
     private fun createInitialPositions() =
         listOf(
             listOf(
-                Position("a8", piece = Rook(Color.BLACK)),
-                Position("b8", piece = Knight(Color.BLACK)),
-                Position("c8", piece = Bishop(Color.BLACK)),
-                Position("d8", piece = Queen(Color.BLACK)),
-                Position("e8", piece = King(Color.BLACK)),
-                Position("f8", piece = Bishop(Color.BLACK)),
-                Position("g8", piece = Knight(Color.BLACK)),
-                Position("h8", piece = Rook(Color.BLACK))
+                position("a8", piece = Rook(Color.BLACK)),
+                position("b8", piece = Knight(Color.BLACK)),
+                position("c8", piece = Bishop(Color.BLACK)),
+                position("d8", piece = Queen(Color.BLACK)),
+                position("e8", piece = King(Color.BLACK)),
+                position("f8", piece = Bishop(Color.BLACK)),
+                position("g8", piece = Knight(Color.BLACK)),
+                position("h8", piece = Rook(Color.BLACK))
             ),
             listOf(
-                Position("a7", piece = Pawn(Color.BLACK)),
-                Position("b7", piece = Pawn(Color.BLACK)),
-                Position("c7", piece = Pawn(Color.BLACK)),
-                Position("d7", piece = Pawn(Color.BLACK)),
-                Position("e7", piece = Pawn(Color.BLACK)),
-                Position("f7", piece = Pawn(Color.BLACK)),
-                Position("g7", piece = Pawn(Color.BLACK)),
-                Position("h7", piece = Pawn(Color.BLACK))
+                position("a7", piece = Pawn(Color.BLACK)),
+                position("b7", piece = Pawn(Color.BLACK)),
+                position("c7", piece = Pawn(Color.BLACK)),
+                position("d7", piece = Pawn(Color.BLACK)),
+                position("e7", piece = Pawn(Color.BLACK)),
+                position("f7", piece = Pawn(Color.BLACK)),
+                position("g7", piece = Pawn(Color.BLACK)),
+                position("h7", piece = Pawn(Color.BLACK))
             ),
             listOf(
-                Position("a6", piece = null),
-                Position("b6", piece = null),
-                Position("c6", piece = null),
-                Position("d6", piece = null),
-                Position("e6", piece = null),
-                Position("f6", piece = null),
-                Position("g6", piece = null),
-                Position("h6", piece = null)
+                position("a6", piece = null),
+                position("b6", piece = null),
+                position("c6", piece = null),
+                position("d6", piece = null),
+                position("e6", piece = null),
+                position("f6", piece = null),
+                position("g6", piece = null),
+                position("h6", piece = null)
             ),
             listOf(
-                Position("a5", piece = null),
-                Position("b5", piece = null),
-                Position("c5", piece = null),
-                Position("d5", piece = null),
-                Position("e5", piece = null),
-                Position("f5", piece = null),
-                Position("g5", piece = null),
-                Position("h5", piece = null)
+                position("a5", piece = null),
+                position("b5", piece = null),
+                position("c5", piece = null),
+                position("d5", piece = null),
+                position("e5", piece = null),
+                position("f5", piece = null),
+                position("g5", piece = null),
+                position("h5", piece = null)
             ),
             listOf(
-                Position("a4", piece = null),
-                Position("b4", piece = null),
-                Position("c4", piece = null),
-                Position("d4", piece = null),
-                Position("e4", piece = null),
-                Position("f4", piece = null),
-                Position("g4", piece = null),
-                Position("h4", piece = null)
+                position("a4", piece = null),
+                position("b4", piece = null),
+                position("c4", piece = null),
+                position("d4", piece = null),
+                position("e4", piece = null),
+                position("f4", piece = null),
+                position("g4", piece = null),
+                position("h4", piece = null)
             ),
             listOf(
-                Position("a3", piece = null),
-                Position("b3", piece = null),
-                Position("c3", piece = null),
-                Position("d3", piece = null),
-                Position("e3", piece = null),
-                Position("f3", piece = null),
-                Position("g3", piece = null),
-                Position("h3", piece = null)
+                position("a3", piece = null),
+                position("b3", piece = null),
+                position("c3", piece = null),
+                position("d3", piece = null),
+                position("e3", piece = null),
+                position("f3", piece = null),
+                position("g3", piece = null),
+                position("h3", piece = null)
             ),
             listOf(
-                Position("a2", piece = Pawn(Color.WHITE)),
-                Position("b2", piece = Pawn(Color.WHITE)),
-                Position("c2", piece = Pawn(Color.WHITE)),
-                Position("d2", piece = Pawn(Color.WHITE)),
-                Position("e2", piece = Pawn(Color.WHITE)),
-                Position("f2", piece = Pawn(Color.WHITE)),
-                Position("g2", piece = Pawn(Color.WHITE)),
-                Position("h2", piece = Pawn(Color.WHITE))
+                position("a2", piece = Pawn(Color.WHITE)),
+                position("b2", piece = Pawn(Color.WHITE)),
+                position("c2", piece = Pawn(Color.WHITE)),
+                position("d2", piece = Pawn(Color.WHITE)),
+                position("e2", piece = Pawn(Color.WHITE)),
+                position("f2", piece = Pawn(Color.WHITE)),
+                position("g2", piece = Pawn(Color.WHITE)),
+                position("h2", piece = Pawn(Color.WHITE))
             ),
             listOf(
-                Position("a1", piece = Rook(Color.WHITE)),
-                Position("b1", piece = Knight(Color.WHITE)),
-                Position("c1", piece = Bishop(Color.WHITE)),
-                Position("d1", piece = Queen(Color.WHITE)),
-                Position("e1", piece = King(Color.WHITE)),
-                Position("f1", piece = Bishop(Color.WHITE)),
-                Position("g1", piece = Knight(Color.WHITE)),
-                Position("h1", piece = Rook(Color.WHITE))
+                position("a1", piece = Rook(Color.WHITE)),
+                position("b1", piece = Knight(Color.WHITE)),
+                position("c1", piece = Bishop(Color.WHITE)),
+                position("d1", piece = Queen(Color.WHITE)),
+                position("e1", piece = King(Color.WHITE)),
+                position("f1", piece = Bishop(Color.WHITE)),
+                position("g1", piece = Knight(Color.WHITE)),
+                position("h1", piece = Rook(Color.WHITE))
             )
         )
 }

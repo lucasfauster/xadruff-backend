@@ -54,17 +54,23 @@ fun List<List<Position>>.position(square: String) =
 private fun List<List<Position>>.position(row: Char, column: Char) =
     this[row.toPositionRow()][column.toPositionColumn()]
 
-fun Int.toChessRow() = (8 - this).toString()
+fun Int.toChessRow() = (RowColumnConstants.ROW_CONSTANT - this).toString()
 
-private fun Int.toChessColumn() = 'a' + this
+private fun Int.toChessColumn() = RowColumnConstants.COLUMN_INT_CONSTANT + this
 
-private fun Char.toPositionRow() = 8 - digitToInt()
+private fun Char.toPositionRow() = RowColumnConstants.ROW_CONSTANT - digitToInt()
 
-private fun Char.toPositionColumn() = code - 97
+private fun Char.toPositionColumn() = code - RowColumnConstants.COLUMN_CODE_CONSTANT
 
-fun Position(square: String, piece: Piece? = null, action: String = "") = Position(
+fun position(square: String, piece: Piece? = null, action: String = "") = Position(
     row = square.last().toPositionRow(),
     column = square.first().toPositionColumn(),
     piece = piece,
     action = action
 )
+
+object RowColumnConstants {
+    const val ROW_CONSTANT = 8
+    const val COLUMN_INT_CONSTANT = 'a'
+    const val COLUMN_CODE_CONSTANT = 97
+}

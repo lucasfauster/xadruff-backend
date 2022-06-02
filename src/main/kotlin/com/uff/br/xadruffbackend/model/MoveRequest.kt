@@ -1,5 +1,5 @@
 package com.uff.br.xadruffbackend.model
 
-data class MoveRequest (
+data class MoveRequest(
     val move: String
 )
