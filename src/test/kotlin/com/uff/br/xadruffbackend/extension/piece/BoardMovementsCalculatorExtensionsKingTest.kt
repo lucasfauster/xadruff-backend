@@ -69,6 +69,7 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("d8").piece = null
         board.position("f8").piece = null
         board.position("g8").piece = null
+        board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
         assertEquals(listOf("e8c8", "e8g8"), legalMovements.movements)
@@ -184,6 +185,7 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         val blackLeftRook = Rook(Color.BLACK)
         blackLeftRook.hasMoved = true
         board.position("a8").piece = blackLeftRook
+        board.turnColor = Color.BLACK
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
@@ -202,6 +204,7 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         val blackRightRook = Rook(Color.BLACK)
         blackRightRook.hasMoved = true
         board.position("h8").piece = blackRightRook
+        board.turnColor = Color.BLACK
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
@@ -242,5 +245,248 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
         assertEquals(listOf("e1c1"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate castle movements for white king when has threat in both ways`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+        board.position("d2").piece = null
+        board.position("b2").piece = null
+        board.position("f2").piece = null
+        board.position("d3").piece = Rook(Color.BLACK)
+        board.position("b3").piece = Rook(Color.BLACK)
+        board.position("f3").piece = Rook(Color.BLACK)
+
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e1"), legalMovements)
+        assertEquals(emptyList<String>(), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate left castle movements for white king when has threat in left way`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+        board.position("d2").piece = null
+        board.position("b2").piece = null
+        board.position("d3").piece = Rook(Color.BLACK)
+        board.position("b3").piece = Rook(Color.BLACK)
+
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e1"), legalMovements)
+        assertEquals(listOf("e1g1"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate right castle movements for white king when has threat in right way`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+        board.position("f2").piece = null
+        board.position("f3").piece = Rook(Color.BLACK)
+
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e1"), legalMovements)
+        assertEquals(listOf("e1c1"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate left castle movements for white king when has pawn threat in left way`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+        board.position("c2").piece = Pawn(Color.BLACK)
+
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e1"), legalMovements)
+        assertEquals(listOf("e1g1"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate right castle movements for white king when has pawn threat in right way`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+        board.position("g2").piece = Pawn(Color.BLACK)
+
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e1"), legalMovements)
+        assertEquals(listOf("e1c1"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate castle movements for white king when has pawn threat in both ways`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+        board.position("e2").piece = Pawn(Color.BLACK)
+
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e1"), legalMovements)
+        assertEquals(emptyList<String>(), legalMovements.movements)
+    }
+
+    @Test
+    fun `should calculate left castle movements for white king even if have pawn in front of the castle`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+        board.position("a2").piece = Pawn(Color.BLACK)
+
+
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e1"), legalMovements)
+        assertEquals(listOf("e1c1", "e1g1"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate castle movements for black king when has threat in both ways`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+        board.position("d7").piece = null
+        board.position("f7").piece = null
+        board.position("d6").piece = Rook(Color.WHITE)
+        board.position("f6").piece = Rook(Color.WHITE)
+
+        board.turnColor = Color.BLACK
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e8"), legalMovements)
+        assertEquals(emptyList<String>(), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate left castle movements for black king when has threat in left way`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+        board.position("d7").piece = null
+        board.position("d6").piece = Rook(Color.WHITE)
+
+        board.turnColor = Color.BLACK
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e8"), legalMovements)
+        assertEquals(listOf("e8g8"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate right castle movements for black king when has threat in right way`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+        board.position("f7").piece = null
+        board.position("f6").piece = Rook(Color.WHITE)
+
+
+        board.turnColor = Color.BLACK
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e8"), legalMovements)
+        assertEquals(listOf("e8c8"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate left castle movements for black king when has pawn threat in left way`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+        board.position("c7").piece = Pawn(Color.WHITE)
+
+
+        board.turnColor = Color.BLACK
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e8"), legalMovements)
+        assertEquals(listOf("e8g8"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate right castle movements for black king when has pawn threat in right way`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+        board.position("g7").piece = Pawn(Color.WHITE)
+
+
+        board.turnColor = Color.BLACK
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e8"), legalMovements)
+        assertEquals(listOf("e8c8"), legalMovements.movements)
+    }
+
+    @Test
+    fun `should not calculate castle movements for black king when has pawn threat in both ways`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+        board.position("e7").piece = Pawn(Color.WHITE)
+
+
+        board.turnColor = Color.BLACK
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e8"), legalMovements)
+        assertEquals(emptyList<String>(), legalMovements.movements)
+    }
+
+    @Test
+    fun `should calculate left castle movements for black king even if have pawn in front of the castle`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+        board.position("a7").piece = Pawn(Color.WHITE)
+
+
+        board.turnColor = Color.BLACK
+        val legalMovements = LegalMovements()
+        board.handleCastleMovements(position = board.position("e8"), legalMovements)
+        assertEquals(listOf("e8c8", "e8g8"), legalMovements.movements)
     }
 }

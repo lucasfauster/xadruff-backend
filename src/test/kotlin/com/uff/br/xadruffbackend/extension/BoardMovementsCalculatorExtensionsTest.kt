@@ -10,6 +10,7 @@ import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
 internal class BoardMovementsCalculatorExtensionsTest {
@@ -51,7 +52,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
         board.position("e5").piece = King(Color.WHITE)
         board.position("e6").piece = Pawn(Color.BLACK)
         board.turnColor = Color.BLACK
-        assert(!board.hasCheckForOpponent())
+        assertFalse(board.hasCheckForOpponent())
     }
 
     @Test
@@ -59,7 +60,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
         val board = buildEmptyBoard()
         board.position("e5").piece = King(Color.BLACK)
         board.position("e4").piece = Pawn(Color.WHITE)
-        assert(!board.hasCheckForOpponent())
+        assertFalse(board.hasCheckForOpponent())
     }
 
     @Test

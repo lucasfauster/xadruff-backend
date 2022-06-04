@@ -12,6 +12,7 @@ import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.enum.StartsBy
+import com.uff.br.xadruffbackend.model.piece.Bishop
 import com.uff.br.xadruffbackend.model.piece.King
 import com.uff.br.xadruffbackend.model.piece.Knight
 import com.uff.br.xadruffbackend.model.piece.Pawn
@@ -152,6 +153,17 @@ internal class ChessServiceTest {
         board.position("e4").piece = Pawn(Color.WHITE)
         board.position("e6").piece = Pawn(Color.WHITE)
         board.turnColor = Color.BLACK
+        val legalMovements = chessService.calculateLegalMovements(board)
+        assertEquals(expectedMovements, legalMovements.movements)
+    }
+
+    @Test
+    fun `should have no legal movements for pinned pawn`() {
+        val board = buildEmptyBoard()
+        val expectedMovements = listOf("f6g7", "f6e7", "f6g5", "f6f7", "f6f5", "f6e6", "f6g6")
+        board.position("f6").piece = King(Color.WHITE)
+        board.position("e5").piece = Pawn(Color.WHITE)
+        board.position("c3").piece = Bishop(Color.BLACK)
         val legalMovements = chessService.calculateLegalMovements(board)
         assertEquals(expectedMovements, legalMovements.movements)
     }

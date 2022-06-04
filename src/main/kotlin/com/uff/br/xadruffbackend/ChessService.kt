@@ -101,8 +101,9 @@ class ChessService(
 
     fun calculateLegalMovements(board: Board): LegalMovements {
         logger.debug("Calculating legal movements")
-        var legalMovements = board.calculatePseudoLegalMoves()
+        val legalMovements = board.calculatePseudoLegalMoves()
         logger.debug("Calculated pseudo legal movements: {}", legalMovements)
+
         return LegalMovements(legalMovements.movements.filter {
             val fakeBoard = board.deepCopy()
             applyMove(fakeBoard, it)
