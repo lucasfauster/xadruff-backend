@@ -2,12 +2,9 @@ package com.uff.br.xadruffbackend
 
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
+import com.uff.br.xadruffbackend.extension.*
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
-import com.uff.br.xadruffbackend.extension.ChessSliceIndex
-import com.uff.br.xadruffbackend.extension.position
-import com.uff.br.xadruffbackend.extension.toBoardResponse
-import com.uff.br.xadruffbackend.extension.toJsonString
-import com.uff.br.xadruffbackend.extension.toMap
+import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.hasCheckForOpponent
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.ChessResponse
 import com.uff.br.xadruffbackend.model.GameEntity
@@ -91,6 +88,7 @@ class ChessService(
         val piece = board.position(move.slice(ChessSliceIndex.FIRST_POSITION)).piece
         board.position(move.slice(ChessSliceIndex.SECOND_POSITION)).piece = piece
         board.position(move.slice(ChessSliceIndex.FIRST_POSITION)).piece = null
+        board.changeTurn()
     }
 
     @Suppress("UnusedPrivateMember")
@@ -103,7 +101,15 @@ class ChessService(
 
     fun calculateLegalMovements(board: Board): LegalMovements {
         logger.debug("Calculating legal movements")
-        return board.calculatePseudoLegalMoves()
+        var legalMovements = board.calculatePseudoLegalMoves()
+        logger.debug("Calculated pseudo legal movements: {}", legalMovements)
+        return LegalMovements(legalMovements.movements.filter {
+            val fakeBoard = board.deepCopy()
+            applyMove(fakeBoard, it)
+            val hasCheck = fakeBoard.hasCheckForOpponent()
+            logger.debug("Applied move {} hasCheck ? {}", it, hasCheck)
+            !hasCheck
+        } as MutableList<String>)
     }
 
     fun createInitialBoard(): GameEntity {

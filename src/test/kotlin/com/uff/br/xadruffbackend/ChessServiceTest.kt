@@ -2,6 +2,7 @@ package com.uff.br.xadruffbackend
 
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
+import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculateLegalMovementsInPosition
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toStringPositions
@@ -11,6 +12,7 @@ import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.enum.StartsBy
+import com.uff.br.xadruffbackend.model.piece.King
 import com.uff.br.xadruffbackend.model.piece.Knight
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
@@ -98,6 +100,60 @@ internal class ChessServiceTest {
         val correctLegalMoves = mutableListOf("h4g6", "h4f5C", "h4f3", "h4g2")
 
         assert(correctLegalMoves.containsAll(legalMoves.movements))
+    }
+
+    @Test
+    fun `should calculate movement from white king with capture in six directions`() {
+        val board = buildEmptyBoard()
+        val expectedMovements = listOf("e5f6C", "e5d6C", "e5d4C", "e5f4C", "e5e6", "e5d5C", "e5f5C")
+        board.position("e5").piece = King(Color.WHITE)
+        board.position("d4").piece = Pawn(Color.BLACK)
+        board.position("f4").piece = Pawn(Color.BLACK)
+        board.position("d6").piece = Pawn(Color.BLACK)
+        board.position("f6").piece = Pawn(Color.BLACK)
+        board.position("d5").piece = Pawn(Color.BLACK)
+        board.position("f5").piece = Pawn(Color.BLACK)
+        val legalMovements = chessService.calculateLegalMovements(board)
+        assertEquals(expectedMovements, legalMovements.movements)
+    }
+
+    @Test
+    fun `should calculate movement from white king with capture in two directions`() {
+        val board = buildEmptyBoard()
+        val expectedMovements = listOf("e5f6", "e5d6", "e5d4", "e5f4", "e5e6C", "e5e4C")
+        board.position("e5").piece = King(Color.WHITE)
+        board.position("e4").piece = Pawn(Color.BLACK)
+        board.position("e6").piece = Pawn(Color.BLACK)
+        val legalMovements = chessService.calculateLegalMovements(board)
+        assertEquals(expectedMovements, legalMovements.movements)
+    }
+
+    @Test
+    fun `should calculate movement from black king with capture in six directions`() {
+        val board = buildEmptyBoard()
+        val expectedMovements = listOf("e5f6C", "e5d6C", "e5d4C", "e5f4C", "e5e4", "e5d5C", "e5f5C")
+        board.position("e5").piece = King(Color.BLACK)
+        board.position("d4").piece = Pawn(Color.WHITE)
+        board.position("f4").piece = Pawn(Color.WHITE)
+        board.position("d6").piece = Pawn(Color.WHITE)
+        board.position("f6").piece = Pawn(Color.WHITE)
+        board.position("d5").piece = Pawn(Color.WHITE)
+        board.position("f5").piece = Pawn(Color.WHITE)
+        board.turnColor = Color.BLACK
+        val legalMovements = chessService.calculateLegalMovements(board)
+        assertEquals(expectedMovements, legalMovements.movements)
+    }
+
+    @Test
+    fun `should calculate movement from black king with capture in two directions`() {
+        val board = buildEmptyBoard()
+        val expectedMovements = listOf("e5f6", "e5d6", "e5d4", "e5f4", "e5e6C", "e5e4C")
+        board.position("e5").piece = King(Color.BLACK)
+        board.position("e4").piece = Pawn(Color.WHITE)
+        board.position("e6").piece = Pawn(Color.WHITE)
+        board.turnColor = Color.BLACK
+        val legalMovements = chessService.calculateLegalMovements(board)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test

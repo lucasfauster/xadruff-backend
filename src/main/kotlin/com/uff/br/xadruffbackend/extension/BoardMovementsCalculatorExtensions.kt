@@ -1,5 +1,6 @@
 package com.uff.br.xadruffbackend.extension
 
+import com.uff.br.xadruffbackend.helper.buildGson
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
@@ -89,6 +90,19 @@ object BoardMovementsCalculatorExtensions {
         return (1..range).takeWhile {
             positions[rookPosition.row][leftColumn + it].isEmpty()
         }.count() == range
+    }
+
+    fun Board.hasCheckForOpponent(): Boolean {
+        val legalMovements = this.calculatePseudoLegalMoves()
+        logger.debug("Legal movements for check checking: $legalMovements")
+        return legalMovements.movements.any {
+             isOpponentKingCapture(it)
+        }
+    }
+
+    private fun Board.isOpponentKingCapture(movement: String): Boolean {
+        val capturedPiece = position(movement.slice(ChessSliceIndex.SECOND_POSITION)).piece
+        return capturedPiece is King
     }
 
     private fun getLeftPosition(

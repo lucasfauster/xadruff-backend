@@ -48,62 +48,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         assertEquals(expectedMovements, legalMovements.movements)
     }
 
-    // TODO - Tirar ignore após criação do cheque
-//    @Test
-    fun `should calculate movement from white king with capture in six directions`() {
-        val board = buildEmptyBoard()
-        val expectedMovements = listOf("e5f6C", "e5d6C", "e5d4C", "e5f4C", "e5d5C", "e5f5C")
-        board.position("e5").piece = King(Color.WHITE)
-        board.position("d4").piece = Pawn(Color.BLACK)
-        board.position("f4").piece = Pawn(Color.BLACK)
-        board.position("d6").piece = Pawn(Color.BLACK)
-        board.position("f6").piece = Pawn(Color.BLACK)
-        board.position("d5").piece = Pawn(Color.BLACK)
-        board.position("f5").piece = Pawn(Color.BLACK)
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        assertEquals(expectedMovements, legalMovements.movements)
-    }
-
-    // TODO - Tirar ignore após criação do cheque
-//    @Test
-    fun `should calculate movement from white king with capture in two directions`() {
-        val board = buildEmptyBoard()
-        val expectedMovements = listOf("e5f6", "e5d6", "e5d4", "e5f4", "e5e6C", "e5e4C")
-        board.position("e5").piece = King(Color.WHITE)
-        board.position("e4").piece = Pawn(Color.BLACK)
-        board.position("e6").piece = Pawn(Color.BLACK)
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        assertEquals(expectedMovements, legalMovements.movements)
-    }
-
-    // TODO - Tirar ignore após criação do cheque
-//    @Test
-    fun `should calculate movement from black king with capture in six directions`() {
-        val board = buildEmptyBoard()
-        val expectedMovements = listOf("e5f6C", "e5d6C", "e5d4C", "e5f4C", "e5d5C", "e5f5C")
-        board.position("e5").piece = King(Color.BLACK)
-        board.position("d4").piece = Pawn(Color.WHITE)
-        board.position("f4").piece = Pawn(Color.WHITE)
-        board.position("d6").piece = Pawn(Color.WHITE)
-        board.position("f6").piece = Pawn(Color.WHITE)
-        board.position("d5").piece = Pawn(Color.WHITE)
-        board.position("f5").piece = Pawn(Color.WHITE)
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        assertEquals(expectedMovements, legalMovements.movements)
-    }
-
-    // TODO - Tirar ignore após criação do cheque
-//    @Test
-    fun `should calculate movement from black king with capture in two directions`() {
-        val board = buildEmptyBoard()
-        val expectedMovements = listOf("e5f6", "e5d6", "e5d4", "e5f4", "e5e6C", "e5e4C")
-        board.position("e5").piece = King(Color.BLACK)
-        board.position("e4").piece = Pawn(Color.WHITE)
-        board.position("e6").piece = Pawn(Color.WHITE)
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        assertEquals(expectedMovements, legalMovements.movements)
-    }
-
     @Test
     fun `should calculate castle movements for white king`() {
         val board = buildInitialBoard()
