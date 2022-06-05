@@ -1,6 +1,5 @@
 package com.uff.br.xadruffbackend.extension
 
-import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions
@@ -32,7 +31,7 @@ class BoardExtensionsTest {
     }
 
     @Test
-    fun `should return same board`(){
+    fun `should return same board`() {
         val board = buildInitialBoard()
         val board2 = board.deepCopy()
         assertBoard(board.positions, board2.positions)

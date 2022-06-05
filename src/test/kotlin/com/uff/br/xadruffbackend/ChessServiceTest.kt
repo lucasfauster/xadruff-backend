@@ -2,7 +2,6 @@ package com.uff.br.xadruffbackend
 
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
-import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculateLegalMovementsInPosition
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toStringPositions

@@ -30,7 +30,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     }
 
     @Test
-    fun `should return true for white king capture`(){
+    fun `should return true for white king capture`() {
         val board = buildEmptyBoard()
         board.position("e5").piece = King(Color.WHITE)
         board.position("f6").piece = Pawn(Color.BLACK)
@@ -39,7 +39,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     }
 
     @Test
-    fun `should return true for black king capture`(){
+    fun `should return true for black king capture`() {
         val board = buildEmptyBoard()
         board.position("e5").piece = King(Color.BLACK)
         board.position("f4").piece = Pawn(Color.WHITE)
@@ -47,7 +47,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     }
 
     @Test
-    fun `should return false for white king capture`(){
+    fun `should return false for white king capture`() {
         val board = buildEmptyBoard()
         board.position("e5").piece = King(Color.WHITE)
         board.position("e6").piece = Pawn(Color.BLACK)
@@ -56,7 +56,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     }
 
     @Test
-    fun `should return false for black king capture`(){
+    fun `should return false for black king capture`() {
         val board = buildEmptyBoard()
         board.position("e5").piece = King(Color.BLACK)
         board.position("e4").piece = Pawn(Color.WHITE)

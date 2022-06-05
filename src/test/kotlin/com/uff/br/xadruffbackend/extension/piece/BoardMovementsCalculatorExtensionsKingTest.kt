@@ -262,7 +262,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("b3").piece = Rook(Color.BLACK)
         board.position("f3").piece = Rook(Color.BLACK)
 
-
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
         assertEquals(emptyList<String>(), legalMovements.movements)
@@ -281,7 +280,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("d3").piece = Rook(Color.BLACK)
         board.position("b3").piece = Rook(Color.BLACK)
 
-
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
         assertEquals(listOf("e1g1"), legalMovements.movements)
@@ -298,7 +296,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("f2").piece = null
         board.position("f3").piece = Rook(Color.BLACK)
 
-
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
         assertEquals(listOf("e1c1"), legalMovements.movements)
@@ -313,7 +310,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("f1").piece = null
         board.position("g1").piece = null
         board.position("c2").piece = Pawn(Color.BLACK)
-
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
@@ -330,7 +326,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("g1").piece = null
         board.position("g2").piece = Pawn(Color.BLACK)
 
-
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
         assertEquals(listOf("e1c1"), legalMovements.movements)
@@ -346,7 +341,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("g1").piece = null
         board.position("e2").piece = Pawn(Color.BLACK)
 
-
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
         assertEquals(emptyList<String>(), legalMovements.movements)
@@ -361,7 +355,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("f1").piece = null
         board.position("g1").piece = null
         board.position("a2").piece = Pawn(Color.BLACK)
-
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
@@ -415,7 +408,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("f7").piece = null
         board.position("f6").piece = Rook(Color.WHITE)
 
-
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
@@ -431,7 +423,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("f8").piece = null
         board.position("g8").piece = null
         board.position("c7").piece = Pawn(Color.WHITE)
-
 
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
@@ -449,7 +440,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("g8").piece = null
         board.position("g7").piece = Pawn(Color.WHITE)
 
-
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
@@ -466,7 +456,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("g8").piece = null
         board.position("e7").piece = Pawn(Color.WHITE)
 
-
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
@@ -482,7 +471,6 @@ internal class BoardMovementsCalculatorExtensionsKingTest {
         board.position("f8").piece = null
         board.position("g8").piece = null
         board.position("a7").piece = Pawn(Color.WHITE)
-
 
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()

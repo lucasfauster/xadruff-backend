@@ -97,25 +97,25 @@ object BoardMovementsCalculatorExtensions {
         val legalMovements = this.calculatePseudoLegalMoves()
         logger.debug("Legal movements for check checking: $legalMovements")
         return legalMovements.movements.any {
-             isOpponentKingCapture(it)
+            isOpponentKingCapture(it)
         }
     }
 
     fun Board.hasThreatInTheWay(rookSquare: String): Boolean {
-            val fakeBoard = this.deepCopy()
-            fakeBoard.changeTurn()
-            val legalMovements = fakeBoard.calculatePseudoLegalMoves()
-            val rookColumn = rookSquare.first()
-            val rookRow = rookSquare.last()
-            val rookWay = if (rookColumn == 'a') {
-                "d$rookRow"
-            } else {
-                "f$rookRow"
-            }
+        val fakeBoard = this.deepCopy()
+        fakeBoard.changeTurn()
+        val legalMovements = fakeBoard.calculatePseudoLegalMoves()
+        val rookColumn = rookSquare.first()
+        val rookRow = rookSquare.last()
+        val rookWay = if (rookColumn == 'a') {
+            "d$rookRow"
+        } else {
+            "f$rookRow"
+        }
 
-            return legalMovements.movements.any { legalMovement ->
-                legalMovement.slice(ChessSliceIndex.SECOND_POSITION) == rookWay
-            } || fakeBoard.hasPawnThreat(rookColumn)
+        return legalMovements.movements.any { legalMovement ->
+            legalMovement.slice(ChessSliceIndex.SECOND_POSITION) == rookWay
+        } || fakeBoard.hasPawnThreat(rookColumn)
     }
 
     private fun Board.isOpponentKingCapture(movement: String): Boolean {
@@ -130,7 +130,7 @@ object BoardMovementsCalculatorExtensions {
         } else {
             'e'..'g'
         }
-        val line = if(turnColor == Color.WHITE) {
+        val line = if (turnColor == Color.WHITE) {
             '7'
         } else {
             '2'
