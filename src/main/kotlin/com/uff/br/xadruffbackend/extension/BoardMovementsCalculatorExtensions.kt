@@ -4,7 +4,9 @@ import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.direction.Direction
+import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.King
+import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Piece
 import com.uff.br.xadruffbackend.model.piece.Rook
 import org.slf4j.LoggerFactory
@@ -69,7 +71,7 @@ object BoardMovementsCalculatorExtensions {
         return if (piece is Rook && !piece.hasMoved && isEmptyBetween(
                 position(kingSquare),
                 position(rookSquare)
-            )
+            ) && !hasThreatInTheWay(rookSquare)
         ) {
             "$kingSquare${getFutureCastleKingPosition(rookSquare)}"
         } else {
@@ -89,6 +91,55 @@ object BoardMovementsCalculatorExtensions {
         return (1..range).takeWhile {
             positions[rookPosition.row][leftColumn + it].isEmpty()
         }.count() == range
+    }
+
+    fun Board.hasCheckForOpponent(): Boolean {
+        val legalMovements = this.calculatePseudoLegalMoves()
+        logger.debug("Legal movements for check checking: $legalMovements")
+        return legalMovements.movements.any {
+            isOpponentKingCapture(it)
+        }
+    }
+
+    fun Board.hasThreatInTheWay(rookSquare: String): Boolean {
+        val fakeBoard = this.deepCopy()
+        fakeBoard.changeTurn()
+        val legalMovements = fakeBoard.calculatePseudoLegalMoves()
+        val rookColumn = rookSquare.first()
+        val rookRow = rookSquare.last()
+        val rookWay = if (rookColumn == 'a') {
+            "d$rookRow"
+        } else {
+            "f$rookRow"
+        }
+
+        return legalMovements.movements.any { legalMovement ->
+            legalMovement.slice(ChessSliceIndex.SECOND_POSITION) == rookWay
+        } || fakeBoard.hasPawnThreat(rookColumn)
+    }
+
+    private fun Board.isOpponentKingCapture(movement: String): Boolean {
+        val capturedPiece = position(movement.slice(ChessSliceIndex.SECOND_POSITION)).piece
+        logger.debug("Captured piece ${capturedPiece?.value}")
+        return capturedPiece is King
+    }
+
+    private fun Board.hasPawnThreat(rookColumn: Char): Boolean {
+        val columnRange = if (rookColumn == 'a') {
+            'c'..'e'
+        } else {
+            'e'..'g'
+        }
+        val line = if (turnColor == Color.WHITE) {
+            '7'
+        } else {
+            '2'
+        }
+
+        return columnRange.any { column ->
+            val piece = position("$column$line").piece
+            piece is Pawn && piece.color == turnColor
+        }
     }
 
     private fun getLeftPosition(

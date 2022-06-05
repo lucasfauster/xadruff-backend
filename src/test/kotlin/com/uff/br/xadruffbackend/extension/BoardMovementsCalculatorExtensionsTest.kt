@@ -2,11 +2,15 @@ package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.buildAction
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
+import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.hasCheckForOpponent
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.piece.King
 import com.uff.br.xadruffbackend.model.piece.Pawn
+import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
 internal class BoardMovementsCalculatorExtensionsTest {
@@ -23,6 +27,40 @@ internal class BoardMovementsCalculatorExtensionsTest {
         )
 
         assertEquals(expectedMovements, actualMovements.movements)
+    }
+
+    @Test
+    fun `should return true for white king capture`() {
+        val board = buildEmptyBoard()
+        board.position("e5").piece = King(Color.WHITE)
+        board.position("f6").piece = Pawn(Color.BLACK)
+        board.turnColor = Color.BLACK
+        assert(board.hasCheckForOpponent())
+    }
+
+    @Test
+    fun `should return true for black king capture`() {
+        val board = buildEmptyBoard()
+        board.position("e5").piece = King(Color.BLACK)
+        board.position("f4").piece = Pawn(Color.WHITE)
+        assert(board.hasCheckForOpponent())
+    }
+
+    @Test
+    fun `should return false for white king capture`() {
+        val board = buildEmptyBoard()
+        board.position("e5").piece = King(Color.WHITE)
+        board.position("e6").piece = Pawn(Color.BLACK)
+        board.turnColor = Color.BLACK
+        assertFalse(board.hasCheckForOpponent())
+    }
+
+    @Test
+    fun `should return false for black king capture`() {
+        val board = buildEmptyBoard()
+        board.position("e5").piece = King(Color.BLACK)
+        board.position("e4").piece = Pawn(Color.WHITE)
+        assertFalse(board.hasCheckForOpponent())
     }
 
     @Test
