@@ -1,5 +1,6 @@
 package com.uff.br.xadruffbackend
 
+import com.uff.br.xadruffbackend.ai.AIService
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
@@ -29,32 +30,30 @@ import org.springframework.stereotype.Service
 
 @Service
 class ChessService(
-    private val gameRepository: GameRepository,
+    private val gameRepository: GameRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun createNewGame(startBy: StartsBy): ChessResponse {
-        val game = createInitialBoard()
+        var game = createInitialBoard()
         logger.info("Initialized new game entity with id = {}", game.boardId)
 
         if (startBy == StartsBy.AI) {
-            playAITurn(game)
+            game = playAITurn(game)
+        } else {
+            val playerLegalMovements = calculateLegalMovements(game.getBoard())
+            logger.info(
+                "Calculated player possible movements = {} for boardId = {}", playerLegalMovements, game.boardId
+            )
+            game.legalMovements = playerLegalMovements.toJsonString()
+            gameRepository.save(game)
         }
 
-        val playerLegalMovements = calculateLegalMovements(game.getBoard())
-        game.legalMovements = playerLegalMovements.toJsonString()
-        logger.info(
-            "Calculated player possible movements, boardId = {}, legalMovements = {}",
-            game.boardId, game.legalMovements
-        )
-
-        gameRepository.save(game)
         return ChessResponse(
             boardId = game.boardId,
-            legalMovements = playerLegalMovements.movements.toMap(),
-            board = game.getBoard().toBoardResponse(),
-            aiMovement = "a1b1"
+            legalMovements = game.getLegalMovements().movements.toMap(),
+            board = game.getBoard().toBoardResponse()
         )
     }
 
@@ -72,22 +71,27 @@ class ChessService(
         }
 
     fun movePiece(boardId: String, move: String): ChessResponse {
-        val game = getGameById(boardId)
+        var game = getGameById(boardId)
 
         verifyIsAllowedMove(game.getLegalMovements(), move)
-
         val board = game.getBoard()
         applyMove(board, move)
-        game.allMovements += " $move"
-        game.board = board.toJsonString()
-        playAITurn(game)
+        game = saveGameState(game, board, move)
+        game = playAITurn(game)
 
         return ChessResponse(
             boardId = game.boardId,
             legalMovements = game.getLegalMovements().movements.toMap(),
-            board = game.getBoard().toBoardResponse(),
-            aiMovement = "a1b1"
+            board = game.getBoard().toBoardResponse()
         )
+    }
+
+    private fun saveGameState(game: GameEntity, board: Board, move: String): GameEntity {
+        game.board = board.toJsonString()
+        game.legalMovements = calculateLegalMovements(board).toJsonString()
+        game.allMovements += " $move"
+        gameRepository.save(game)
+        return game
     }
 
     fun applyMove(board: Board, move: String) {
@@ -97,18 +101,18 @@ class ChessService(
         board.changeTurn()
     }
 
-    @Suppress("UnusedPrivateMember")
-    fun playAITurn(game: GameEntity) { // TODO chamar módulo de movimentação da IA
-        // val legalMovements = calculateLegalMovements(game.boardPositions, color)
-        // iaService.movePieces(game.boardPositions, blackLegalMovements)
-        // game.allMovements = add movimento da IA
-        // game.whiteDrawMoves = add movimento se n for peão
+    fun playAITurn(game: GameEntity): GameEntity {
+        val board = game.getBoard()
+        val aIMovement = AIService(this).play(3, board)
+        applyMove(board, aIMovement)
+        return saveGameState(game, board, aIMovement)
     }
 
     fun calculateLegalMovements(board: Board): LegalMovements {
         logger.debug("Calculating legal movements")
         val legalMovements = board.calculatePseudoLegalMoves()
         logger.debug("Calculated pseudo legal movements: {}", legalMovements)
+
 
         return LegalMovements(
             legalMovements.movements.filter {
