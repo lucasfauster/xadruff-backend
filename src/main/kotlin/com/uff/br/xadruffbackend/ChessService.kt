@@ -36,11 +36,13 @@ class ChessService(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun createNewGame(startBy: StartsBy): ChessResponse {
-        var game = createInitialBoard()
+        val game = createInitialBoard()
         logger.info("Initialized new game entity with id = {}", game.boardId)
 
+        var iaMove = ""
         if (startBy == StartsBy.AI) {
-            game = playAITurn(game)
+            playAITurn(game)
+            iaMove = game.allMovements.split(" ").last()
         } else {
             val playerLegalMovements = calculateLegalMovements(game.getBoard())
             logger.info(
@@ -53,7 +55,8 @@ class ChessService(
         return ChessResponse(
             boardId = game.boardId,
             legalMovements = game.getLegalMovements().movements.toMap(),
-            board = game.getBoard().toBoardResponse()
+            board = game.getBoard().toBoardResponse(),
+            iaMovement = iaMove
         )
     }
 
@@ -71,27 +74,28 @@ class ChessService(
         }
 
     fun movePiece(boardId: String, move: String): ChessResponse {
-        var game = getGameById(boardId)
-
+        val game = getGameById(boardId)
         verifyIsAllowedMove(game.getLegalMovements(), move)
         val board = game.getBoard()
-        applyMove(board, move)
-        game = saveGameState(game, board, move)
-        game = playAITurn(game)
 
+        applyMove(board, move)
+        saveGameState(game, board, move)
+        playAITurn(game)
+
+        val iaMove = game.allMovements.split(" ").last()
         return ChessResponse(
             boardId = game.boardId,
             legalMovements = game.getLegalMovements().movements.toMap(),
-            board = game.getBoard().toBoardResponse()
+            board = game.getBoard().toBoardResponse(),
+            iaMovement = iaMove
         )
     }
 
-    private fun saveGameState(game: GameEntity, board: Board, move: String): GameEntity {
+    private fun saveGameState(game: GameEntity, board: Board, move: String) {
         game.board = board.toJsonString()
         game.legalMovements = calculateLegalMovements(board).toJsonString()
         game.allMovements += " $move"
         gameRepository.save(game)
-        return game
     }
 
     fun applyMove(board: Board, move: String) {
@@ -101,18 +105,18 @@ class ChessService(
         board.changeTurn()
     }
 
-    fun playAITurn(game: GameEntity): GameEntity {
+    fun playAITurn(game: GameEntity) {
+        logger.info("Starting AI turn for game with id = {}", game.boardId)
         val board = game.getBoard()
-        val aIMovement = AIService(this).play(3, board)
+        val aIMovement = AIService(this).play(AIService.DEPTH, board)
         applyMove(board, aIMovement)
-        return saveGameState(game, board, aIMovement)
+        saveGameState(game, board, aIMovement)
     }
 
     fun calculateLegalMovements(board: Board): LegalMovements {
         logger.debug("Calculating legal movements")
         val legalMovements = board.calculatePseudoLegalMoves()
         logger.debug("Calculated pseudo legal movements: {}", legalMovements)
-
 
         return LegalMovements(
             legalMovements.movements.filter {

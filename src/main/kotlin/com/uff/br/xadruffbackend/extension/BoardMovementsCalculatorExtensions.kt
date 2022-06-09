@@ -68,15 +68,18 @@ object BoardMovementsCalculatorExtensions {
 
     fun Board.getCastleMovement(kingSquare: String, rookSquare: String): String? {
         val piece = position(rookSquare).piece
-        return if (piece is Rook && !piece.hasMoved && isEmptyBetween(
-                position(kingSquare),
-                position(rookSquare)
-            ) && !hasThreatInTheWay(rookSquare)
-        ) {
+        return if (rookMovementRulesAreSatisfied(this, piece, kingSquare, rookSquare)) {
             "$kingSquare${getFutureCastleKingPosition(rookSquare)}"
         } else {
             null
         }
+    }
+
+    private fun rookMovementRulesAreSatisfied(board: Board, piece: Piece?, kingSquare: String, rookSquare: String): Boolean {
+        return piece is Rook && !piece.hasMoved && board.isEmptyBetween(
+            position(kingSquare),
+            position(rookSquare)
+        ) && !board.hasThreatInTheWay(rookSquare)
     }
 
     fun getFutureCastleKingPosition(rookSquare: String): String =
@@ -107,10 +110,9 @@ object BoardMovementsCalculatorExtensions {
         val legalMovements = fakeBoard.calculatePseudoLegalMoves()
         val rookColumn = rookSquare.first()
         val rookRow = rookSquare.last()
-        val rookWay = if (rookColumn == 'a') {
-            "d$rookRow"
-        } else {
-            "f$rookRow"
+        val rookWay = when (rookColumn) {
+            'a' -> "d$rookRow"
+            else -> "f$rookRow"
         }
 
         return legalMovements.movements.any { legalMovement ->
@@ -125,15 +127,13 @@ object BoardMovementsCalculatorExtensions {
     }
 
     private fun Board.hasPawnThreat(rookColumn: Char): Boolean {
-        val columnRange = if (rookColumn == 'a') {
-            'c'..'e'
-        } else {
-            'e'..'g'
+        val columnRange = when (rookColumn) {
+            'a' -> 'c'..'e'
+            else -> 'e'..'g'
         }
-        val line = if (turnColor == Color.WHITE) {
-            '7'
-        } else {
-            '2'
+        val line = when (turnColor) {
+            Color.WHITE -> '7'
+            else -> '2'
         }
 
         return columnRange.any { column ->

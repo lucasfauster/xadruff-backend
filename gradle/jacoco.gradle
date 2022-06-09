@@ -25,7 +25,6 @@ jacocoTestReport {
             'src/main/kotlin/com/uff/br/xadruffbackend/ChessController*',
             'src/main/kotlin/com/uff/br/xadruffbackend/GameRepository*',
             'src/main/kotlin/com/uff/br/xadruffbackend/XadruffBackendApplication*',
-            'src/main/kotlin/com/uff/br/xadruffbackend/ai**',
             'src/main/kotlin/com/uff/br/xadruffbackend/helper**',
             'src/main/kotlin/com/uff/br/xadruffbackend/exception**'
     ]
