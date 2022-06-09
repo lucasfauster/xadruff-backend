@@ -202,7 +202,7 @@ internal class ChessServiceTest {
         } returns game
 
         val boardResponse = chessService.movePiece(game.boardId, "a2a3")
-        assertEquals(game.boardId, boardResponse!!.boardId)
+        assertEquals(game.boardId, boardResponse.boardId)
         assertEquals("", boardResponse.board.positions[6][0])
         assertEquals(Pawn(Color.WHITE).value.toString(), boardResponse.board.positions[5][0])
     }

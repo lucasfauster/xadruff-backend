@@ -1,31 +1,30 @@
 package com.uff.br.xadruffbackend.extension
 
+import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.handleCastleMovements
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.direction.Direction
-import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.King
-import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Piece
-import com.uff.br.xadruffbackend.model.piece.Rook
 import org.slf4j.LoggerFactory
-import kotlin.math.absoluteValue
 
 object BoardMovementsCalculatorExtensions {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    fun Board.calculatePseudoLegalMoves(): LegalMovements {
+    fun Board.calculatePseudoLegalMoves(withCastle: Boolean = true): LegalMovements {
         return positions.map { row ->
             row.filter {
                 it.piece?.color == turnColor
             }.map { position ->
-                calculateLegalMovementsInPosition(position)
+                calculateLegalMovementsInPosition(position, withCastle)
             }
-        }.flattenToLegalMovements()
+        }.flattenToLegalMovements().also {
+            logger.info("Calculated all legal movements for color $turnColor = ${it.movements}.")
+        }
     }
 
-    fun Board.calculateLegalMovementsInPosition(position: Position): LegalMovements {
+    fun Board.calculateLegalMovementsInPosition(position: Position, withCastle: Boolean = true): LegalMovements {
         logger.debug(
             "Calculating legal moves for piece ${position.piece} at " +
                 "row ${position.row} - column ${position.column}"
@@ -42,7 +41,9 @@ object BoardMovementsCalculatorExtensions {
 
         return legalMovementsList.flattenToLegalMovements()
             .also {
-                handleCastleMovements(position, it)
+                if (withCastle) {
+                    handleCastleMovements(position, it)
+                }
             }
             .also {
                 logger.debug(
@@ -50,50 +51,6 @@ object BoardMovementsCalculatorExtensions {
                         "row ${position.row} - column ${position.column}"
                 )
             }
-    }
-
-    fun Board.handleCastleMovements(position: Position, legalMovements: LegalMovements) {
-        val piece = position.piece
-        if (piece is King && !piece.hasMoved) {
-            val row = position.row.toChessRow()
-            val movements = listOfNotNull(
-                getCastleMovement("e$row", "a$row"),
-                getCastleMovement("e$row", "h$row")
-            )
-            if (movements.isNotEmpty()) {
-                legalMovements.movements.addAll(movements)
-            }
-        }
-    }
-
-    fun Board.getCastleMovement(kingSquare: String, rookSquare: String): String? {
-        val piece = position(rookSquare).piece
-        return if (rookMovementRulesAreSatisfied(this, piece, kingSquare, rookSquare)) {
-            "$kingSquare${getFutureCastleKingPosition(rookSquare)}"
-        } else {
-            null
-        }
-    }
-
-    private fun rookMovementRulesAreSatisfied(board: Board, piece: Piece?, kingSquare: String, rookSquare: String): Boolean {
-        return piece is Rook && !piece.hasMoved && board.isEmptyBetween(
-            position(kingSquare),
-            position(rookSquare)
-        ) && !board.hasThreatInTheWay(rookSquare)
-    }
-
-    fun getFutureCastleKingPosition(rookSquare: String): String =
-        when (rookSquare.first()) {
-            'a' -> "c${rookSquare.last()}"
-            else -> "g${rookSquare.last()}"
-        }
-
-    fun Board.isEmptyBetween(kingPosition: Position, rookPosition: Position): Boolean {
-        val leftColumn = getLeftPosition(kingPosition, rookPosition).column
-        val range = (kingPosition.column - rookPosition.column).absoluteValue - 1
-        return (1..range).takeWhile {
-            positions[rookPosition.row][leftColumn + it].isEmpty()
-        }.count() == range
     }
 
     fun Board.hasCheckForOpponent(): Boolean {
@@ -104,51 +61,10 @@ object BoardMovementsCalculatorExtensions {
         }
     }
 
-    fun Board.hasThreatInTheWay(rookSquare: String): Boolean {
-        val fakeBoard = this.deepCopy()
-        fakeBoard.changeTurn()
-        val legalMovements = fakeBoard.calculatePseudoLegalMoves()
-        val rookColumn = rookSquare.first()
-        val rookRow = rookSquare.last()
-        val rookWay = when (rookColumn) {
-            'a' -> "d$rookRow"
-            else -> "f$rookRow"
-        }
-
-        return legalMovements.movements.any { legalMovement ->
-            legalMovement.slice(ChessSliceIndex.SECOND_POSITION) == rookWay
-        } || fakeBoard.hasPawnThreat(rookColumn)
-    }
-
     private fun Board.isOpponentKingCapture(movement: String): Boolean {
         val capturedPiece = position(movement.slice(ChessSliceIndex.SECOND_POSITION)).piece
         logger.debug("Captured piece ${capturedPiece?.value}")
         return capturedPiece is King
-    }
-
-    private fun Board.hasPawnThreat(rookColumn: Char): Boolean {
-        val columnRange = when (rookColumn) {
-            'a' -> 'c'..'e'
-            else -> 'e'..'g'
-        }
-        val line = when (turnColor) {
-            Color.WHITE -> '7'
-            else -> '2'
-        }
-
-        return columnRange.any { column ->
-            val piece = position("$column$line").piece
-            piece is Pawn && piece.color == turnColor
-        }
-    }
-
-    private fun getLeftPosition(
-        kingPosition: Position,
-        rookPosition: Position
-    ) = if (kingPosition.column < rookPosition.column) {
-        kingPosition
-    } else {
-        rookPosition
     }
 
     private fun Board.filterAvailableDirections(availableDirections: List<Direction>, position: Position, index: Int) =
