@@ -5,9 +5,10 @@ Esse projeto é responsável pela parte de Back-End do XadrUFF, ele foi desenvol
 
 [Visualize o Projeto de Front-End aqui!](https://github.com/lucasfauster/xadruff-frontend)
 
- - [Visualize nossa página no Notion](https://www.figma.com/file/xH4MrdVl8TFi4ADzO0zdcs/XadrUFF?node-id=0%3A1)
+
+ - [Visualize nossa página no Notion](https://luamz.notion.site/XadrUFF-7e272f2c22a74ca9be39b6a00ae1c440)
  - [Visualize a Análise de Valor Agregado](https://docs.google.com/spreadsheets/d/1GNKjPhV9bs--8fbKKEkWH3g1j96xQNvAf8fyJ7w5q3w/edit#gid=692033079)
- - [Visualize o EAP](https://docs.google.com/spreadsheets/d/1GNKjPhV9bs--8fbKKEkWH3g1j96xQNvAf8fyJ7w5q3w/edit#gid=692033079)
+ - [Visualize o EAP](https://drive.google.com/file/d/1JPSLjALye_b2cY7z7KKQy7uQ3KSip3cZ/view)
  - [Visualize o Layout no Figma](https://www.figma.com/file/xH4MrdVl8TFi4ADzO0zdcs/XadrUFF?node-id=0%3A1)
 
 ## Subindo aplicação local
