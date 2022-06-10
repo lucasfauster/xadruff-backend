@@ -1,31 +1,36 @@
 package com.uff.br.xadruffbackend.ai
 
-import com.uff.br.xadruffbackend.ChessService
 import com.uff.br.xadruffbackend.ai.model.Weights
 import com.uff.br.xadruffbackend.extension.deepCopy
-import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toBoardResponse
-import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.model.Board
+import com.uff.br.xadruffbackend.service.MovementService
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 import kotlin.random.Random
 
-class AIService(private val chessService: ChessService) {
+@Component
+class AIService(@Autowired private val movementService: MovementService) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+
     companion object {
-        const val DEPTH = 2
+        const val DEPTH = 1
+        const val FIRST_DEPTH = 0
+        const val INITIAL_MAX_BEST_NUMBER = -10000.0
+        const val INITIAL_MIN_BEST_NUMBER = 10000.0
     }
 
     fun play(depth: Int, board: Board): String {
-        val bestMoveValue = mutableListOf(Double.MIN_VALUE, Double.MIN_VALUE)
+        val bestMoveValue = mutableListOf(-Double.MAX_VALUE, -Double.MAX_VALUE)
         val finalMove = mutableListOf("", "")
-        val legalMovements = chessService.calculateLegalMovements(board)
+        val legalMovements = movementService.calculateLegalMovements(board)
 
         for (move in legalMovements.movements) {
             logger.debug("Applying move {} in depth {}", move, depth)
             val fakeBoard = board.deepCopy()
-            chessService.applyMove(fakeBoard, move)
-            val moveValue = max(depth - 1, fakeBoard, Double.MIN_VALUE, Double.MAX_VALUE)
+            movementService.applyMove(fakeBoard, move)
+            val moveValue = max(depth - 1, fakeBoard, -Double.MAX_VALUE, Double.MAX_VALUE)
 
             for (i in 0..1) {
                 if (moveValue > bestMoveValue[i]) {
@@ -35,6 +40,7 @@ class AIService(private val chessService: ChessService) {
                 }
             }
         }
+
         val moveId = Random.nextInt(0, 1)
         val selectedMovement = finalMove[moveId]
         logger.info("Selected move by AI: {}", selectedMovement)
@@ -42,16 +48,16 @@ class AIService(private val chessService: ChessService) {
     }
 
     fun max(depth: Int, board: Board, maxMoveValueLimit: Double, minMoveValueLimit: Double): Double {
-        if (depth == 0) {
+        if (depth == FIRST_DEPTH) {
             return -evaluate(board)
         }
-        var bestMoveValue = -10000.0
-        val legalMovements = chessService.calculateLegalMovements(board)
+        var bestMoveValue = INITIAL_MAX_BEST_NUMBER
+        val legalMovements = movementService.calculateLegalMovements(board)
 
         for (move in legalMovements.movements) {
             logger.debug("Applying move {} in depth {} for maximize", move, depth)
             val fakeBoard = board.deepCopy()
-            chessService.applyMove(fakeBoard, move)
+            movementService.applyMove(fakeBoard, move)
             bestMoveValue =
                 bestMoveValue.coerceAtLeast(min(depth - 1, fakeBoard, maxMoveValueLimit, minMoveValueLimit))
 
@@ -59,23 +65,23 @@ class AIService(private val chessService: ChessService) {
             val maxMoveValue = maxMoveValueLimit.coerceAtLeast(bestMoveValue)
             if (minMoveValueLimit <= maxMoveValue) {
                 logger.debug("Value high limit {} is reached for move {} in depth {}", maxMoveValue, move, depth)
-                return bestMoveValue
+                break
             }
         }
         return bestMoveValue
     }
 
     fun min(depth: Int, board: Board, maxMoveValueLimit: Double, minMoveValueLimit: Double): Double {
-        if (depth == 0) {
+        if (depth == FIRST_DEPTH) {
             return -evaluate(board)
         }
-        var worseMoveValue = 10000.0
-        val legalMovements = chessService.calculateLegalMovements(board)
+        var worseMoveValue = INITIAL_MIN_BEST_NUMBER
+        val legalMovements = movementService.calculateLegalMovements(board)
 
         for (move in legalMovements.movements) {
             logger.debug("Applying move {} in depth {} for minimize", move, depth)
             val fakeBoard = board.deepCopy()
-            chessService.applyMove(fakeBoard, move)
+            movementService.applyMove(fakeBoard, move)
             worseMoveValue =
                 worseMoveValue.coerceAtMost(max(depth - 1, fakeBoard, maxMoveValueLimit, minMoveValueLimit))
 
@@ -83,7 +89,7 @@ class AIService(private val chessService: ChessService) {
             val minMoveValue = minMoveValueLimit.coerceAtMost(worseMoveValue)
             if (minMoveValue <= maxMoveValueLimit) {
                 logger.debug("Value low limit {} is reached for move {} in depth {}", minMoveValue, move, depth)
-                return worseMoveValue
+                break
             }
         }
         return worseMoveValue

@@ -1,5 +1,6 @@
 package com.uff.br.xadruffbackend.ai.model
 
+@Suppress("MagicNumber")
 object Weights {
     val pieceWeights = mapOf(
         null to 0,

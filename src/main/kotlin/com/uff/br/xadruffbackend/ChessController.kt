@@ -3,6 +3,7 @@ package com.uff.br.xadruffbackend
 import com.uff.br.xadruffbackend.model.ChessResponse
 import com.uff.br.xadruffbackend.model.MoveRequest
 import com.uff.br.xadruffbackend.model.enum.StartsBy
+import com.uff.br.xadruffbackend.service.ChessService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

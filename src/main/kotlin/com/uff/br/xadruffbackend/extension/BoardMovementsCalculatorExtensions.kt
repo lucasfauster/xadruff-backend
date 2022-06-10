@@ -6,21 +6,28 @@ import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.direction.Direction
 import com.uff.br.xadruffbackend.model.piece.King
+import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Piece
+import com.uff.br.xadruffbackend.util.parallelMap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
+import kotlin.math.absoluteValue
 
 object BoardMovementsCalculatorExtensions {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun Board.calculatePseudoLegalMoves(withCastle: Boolean = true): LegalMovements {
-        return positions.map { row ->
-            row.filter {
-                it.piece?.color == turnColor
-            }.map { position ->
-                calculateLegalMovementsInPosition(position, withCastle)
+        return runBlocking(Dispatchers.Default) {
+            positions.parallelMap { row ->
+                row.filter {
+                    it.piece?.color == turnColor
+                }.parallelMap { position ->
+                    calculateLegalMovementsInPosition(position, withCastle)
+                }
+            }.flattenToLegalMovements().also {
+                logger.debug("Calculated all legal movements for color $turnColor = ${it.movements}.")
             }
-        }.flattenToLegalMovements().also {
-            logger.debug("Calculated all legal movements for color $turnColor = ${it.movements}.")
         }
     }
 
@@ -54,7 +61,7 @@ object BoardMovementsCalculatorExtensions {
     }
 
     fun Board.hasCheckForOpponent(): Boolean {
-        val legalMovements = this.calculatePseudoLegalMoves()
+        val legalMovements = this.calculatePseudoLegalMoves(withCastle = false)
         logger.debug("Legal movements for check checking: $legalMovements")
         return legalMovements.movements.any {
             isOpponentKingCapture(it)
@@ -89,12 +96,15 @@ object BoardMovementsCalculatorExtensions {
         return legalMovementList.toLegalMovements()
     }
 
+    private fun Position.handlePawnCapture(futurePosition: Position) =
+        piece !is Pawn || futurePosition.column == column || (futurePosition.row - row).absoluteValue == 1
+
     private fun Position.buildMovementOrNull(
         futurePosition: Position,
         hasMovement: Boolean,
         hasCapture: Boolean
     ): String? {
-        return if (piece!!.canMove(futurePosition, hasMovement, hasCapture)) {
+        return if (handlePawnCapture(futurePosition) && piece!!.canMove(futurePosition, hasMovement, hasCapture)) {
             createMovement(
                 originPosition = this,
                 futurePosition = futurePosition,
