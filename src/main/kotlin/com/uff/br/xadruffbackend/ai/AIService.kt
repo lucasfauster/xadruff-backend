@@ -13,7 +13,7 @@ import kotlin.random.Random
 class AIService(private val chessService: ChessService) {
     private val logger = LoggerFactory.getLogger(this::class.java)
     companion object {
-        const val DEPTH = 3
+        const val DEPTH = 2
     }
 
     fun play(depth: Int, board: Board): String {

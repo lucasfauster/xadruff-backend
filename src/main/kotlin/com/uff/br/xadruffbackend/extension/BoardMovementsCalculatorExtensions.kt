@@ -20,7 +20,7 @@ object BoardMovementsCalculatorExtensions {
                 calculateLegalMovementsInPosition(position, withCastle)
             }
         }.flattenToLegalMovements().also {
-            logger.info("Calculated all legal movements for color $turnColor = ${it.movements}.")
+            logger.debug("Calculated all legal movements for color $turnColor = ${it.movements}.")
         }
     }
 
