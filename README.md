@@ -1,6 +1,6 @@
 <img align="right"  src="https://user-images.githubusercontent.com/50959073/172961331-f144bf54-3d6d-4e67-a63c-d55a44a649fc.png" width="300" height="300" />
 
-# XadrUFF - Backend
+# XadrUFF - Back-End
 Esse projeto é responsável pela parte de Back-End do XadrUFF, ele foi desenvolvido em Kotlin com SpringBoot. 
 
 [Visualize o Projeto de Front-End aqui!](https://github.com/lucasfauster/xadruff-frontend)
