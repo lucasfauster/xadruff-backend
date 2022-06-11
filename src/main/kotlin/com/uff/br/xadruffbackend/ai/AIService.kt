@@ -15,7 +15,7 @@ class AIService(@Autowired private val movementService: MovementService) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     companion object {
-        const val DEPTH = 1
+        const val DEPTH = 2
         const val FIRST_DEPTH = 0
         const val INITIAL_MAX_BEST_NUMBER = -10000.0
         const val INITIAL_MIN_BEST_NUMBER = 10000.0
