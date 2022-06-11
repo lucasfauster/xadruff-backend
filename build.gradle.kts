@@ -26,6 +26,9 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.6.1-native-mt")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.1-native-mt")
     implementation("org.springframework.boot:spring-boot-starter-web:2.6.7")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.6.7")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
@@ -34,6 +37,7 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:3.32.3.2")
     implementation("com.github.gwenn:sqlite-dialect:0.1.0")
     implementation("com.google.code.gson:gson:2.9.0")
+    implementation("org.projectlombok:lombok:1.18.20")
 
     testImplementation(group = "io.mockk", name = "mockk", version = "1.9.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.6.7")

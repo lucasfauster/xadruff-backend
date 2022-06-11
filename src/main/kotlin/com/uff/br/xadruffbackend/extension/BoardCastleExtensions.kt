@@ -62,10 +62,9 @@ object BoardCastleExtensions {
         val legalMovements = fakeBoard.calculatePseudoLegalMoves(withCastle = false)
         val rookColumn = rookSquare.first()
         val rookRow = rookSquare.last()
-        val rookWay = if (rookColumn == 'a') {
-            "d$rookRow"
-        } else {
-            "f$rookRow"
+        val rookWay = when (rookColumn) {
+            'a' -> "d$rookRow"
+            else -> "f$rookRow"
         }
 
         return legalMovements.movements.any { legalMovement ->
@@ -74,15 +73,13 @@ object BoardCastleExtensions {
     }
 
     fun Board.hasPawnThreat(rookColumn: Char): Boolean {
-        val columnRange = if (rookColumn == 'a') {
-            'c'..'e'
-        } else {
-            'e'..'g'
+        val columnRange = when (rookColumn) {
+            'a' -> 'c'..'e'
+            else -> 'e'..'g'
         }
-        val line = if (turnColor == Color.WHITE) {
-            '7'
-        } else {
-            '2'
+        val line = when (turnColor) {
+            Color.WHITE -> '7'
+            Color.BLACK -> '2'
         }
 
         return columnRange.any { column ->

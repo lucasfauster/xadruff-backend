@@ -1,29 +1,20 @@
 package com.uff.br.xadruffbackend.ai.model
 
+@Suppress("MagicNumber")
 object Weights {
     val pieceWeights = mapOf(
-        "" to 0,
-        "P" to 10,
-        "N" to 30,
-        "B" to 30,
-        "R" to 50,
-        "Q" to 90,
-        "K" to 900
+        null to 0,
+        'P' to 10,
+        'N' to 30,
+        'B' to 30,
+        'R' to 50,
+        'Q' to 90,
+        'K' to 900
     )
 
     val piecePositionWeights =
         mapOf(
-            "" to listOf(
-                mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-            ),
-            "P" to listOf(
+            'P' to listOf(
                 mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
                 mutableListOf(5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0),
                 mutableListOf(1.0, 1.0, 2.0, 3.0, 3.0, 2.0, 1.0, 1.0),
@@ -33,7 +24,7 @@ object Weights {
                 mutableListOf(0.5, 1.0, 1.0, -2.0, -2.0, 1.0, 1.0, 0.5),
                 mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
             ),
-            "N" to listOf(
+            'N' to listOf(
                 mutableListOf(-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0),
                 mutableListOf(-4.0, -2.0, 0.0, 0.0, 0.0, 0.0, -2.0, -4.0),
                 mutableListOf(-3.0, 0.0, 1.0, 1.5, 1.5, 1.0, 0.0, -3.0),
@@ -43,7 +34,7 @@ object Weights {
                 mutableListOf(-4.0, -2.0, 0.0, 0.5, 0.5, 0.0, -2.0, -4.0),
                 mutableListOf(-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0)
             ),
-            "B" to listOf(
+            'B' to listOf(
                 mutableListOf(-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0),
                 mutableListOf(-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0),
                 mutableListOf(-1.0, 0.0, 0.5, 1.0, 1.0, 0.5, 0.0, -1.0),
@@ -53,7 +44,7 @@ object Weights {
                 mutableListOf(-1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, -1.0),
                 mutableListOf(-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0)
             ),
-            "R" to listOf(
+            'R' to listOf(
                 mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
                 mutableListOf(0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5),
                 mutableListOf(-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5),
@@ -63,7 +54,7 @@ object Weights {
                 mutableListOf(-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5),
                 mutableListOf(0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0)
             ),
-            "Q" to listOf(
+            'Q' to listOf(
                 mutableListOf(-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0),
                 mutableListOf(-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0),
                 mutableListOf(-1.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -1.0),
@@ -73,7 +64,7 @@ object Weights {
                 mutableListOf(-1.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, -1.0),
                 mutableListOf(-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0)
             ),
-            "K" to listOf(
+            'K' to listOf(
                 mutableListOf(-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0),
                 mutableListOf(-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0),
                 mutableListOf(-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0),

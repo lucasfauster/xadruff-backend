@@ -1,12 +1,8 @@
-package com.uff.br.xadruffbackend
+package com.uff.br.xadruffbackend.service
 
+import com.uff.br.xadruffbackend.GameRepository
+import com.uff.br.xadruffbackend.ai.AIService
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
-import com.uff.br.xadruffbackend.exception.InvalidMovementException
-import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
-import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.hasCheckForOpponent
-import com.uff.br.xadruffbackend.extension.ChessSliceIndex
-import com.uff.br.xadruffbackend.extension.changeTurn
-import com.uff.br.xadruffbackend.extension.deepCopy
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.extension.toJsonString
@@ -14,7 +10,6 @@ import com.uff.br.xadruffbackend.extension.toMap
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.ChessResponse
 import com.uff.br.xadruffbackend.model.GameEntity
-import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.piece.Bishop
@@ -24,12 +19,15 @@ import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.model.piece.Rook
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.stereotype.Service
 
 @Service
 class ChessService(
-    private val gameRepository: GameRepository,
+    @Autowired private val gameRepository: GameRepository,
+    @Autowired private val movementService: MovementService,
+    @Autowired private val aiService: AIService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -38,30 +36,24 @@ class ChessService(
         val game = createInitialBoard()
         logger.info("Initialized new game entity with id = {}", game.boardId)
 
+        var aiMove = ""
         if (startBy == StartsBy.AI) {
-            playAITurn(game)
+            aiMove = playAITurn(game)
+        } else {
+            val playerLegalMovements = movementService.calculateLegalMovements(game.getBoard())
+            logger.info(
+                "Calculated player possible movements = {} for boardId = {}", playerLegalMovements, game.boardId
+            )
+            game.legalMovements = playerLegalMovements.toJsonString()
+            gameRepository.save(game)
         }
 
-        val playerLegalMovements = calculateLegalMovements(game.getBoard())
-        game.legalMovements = playerLegalMovements.toJsonString()
-        logger.info(
-            "Calculated player possible movements, boardId = {}, legalMovements = {}",
-            game.boardId, game.legalMovements
-        )
-
-        gameRepository.save(game)
         return ChessResponse(
             boardId = game.boardId,
-            legalMovements = playerLegalMovements.movements.toMap(),
+            legalMovements = game.getLegalMovements().movements.toMap(),
             board = game.getBoard().toBoardResponse(),
-            aiMovement = "a1b1"
+            iaMovement = aiMove
         )
-    }
-
-    private fun verifyIsAllowedMove(legalMovements: LegalMovements, move: String) {
-        if (legalMovements.movements.none { it == move }) {
-            throw InvalidMovementException("The move '$move' is an invalid movement.")
-        }
     }
 
     fun getGameById(boardId: String): GameEntity =
@@ -71,53 +63,36 @@ class ChessService(
             throw GameNotFoundException("A game with board-id $boardId was not found.", exc)
         }
 
+    private fun saveGameState(game: GameEntity, board: Board, move: String) {
+        game.board = board.toJsonString()
+        game.legalMovements = movementService.calculateLegalMovements(board).toJsonString()
+        game.allMovements += " $move"
+        gameRepository.save(game)
+    }
+
+    fun playAITurn(game: GameEntity): String {
+        logger.info("Starting AI turn for game with id = {}", game.boardId)
+        val board = game.getBoard()
+        val aiMove = aiService.play(AIService.DEPTH, board)
+        movementService.applyMove(board, aiMove)
+        saveGameState(game, board, aiMove)
+        return aiMove
+    }
+
     fun movePiece(boardId: String, move: String): ChessResponse {
         val game = getGameById(boardId)
-
-        verifyIsAllowedMove(game.getLegalMovements(), move)
-
+        movementService.verifyIsAllowedMove(game.getLegalMovements(), move)
         val board = game.getBoard()
-        applyMove(board, move)
-        game.allMovements += " $move"
-        game.board = board.toJsonString()
-        playAITurn(game)
+
+        movementService.applyMove(board, move)
+        saveGameState(game, board, move)
+        val aiMove = playAITurn(game)
 
         return ChessResponse(
             boardId = game.boardId,
             legalMovements = game.getLegalMovements().movements.toMap(),
             board = game.getBoard().toBoardResponse(),
-            aiMovement = "a1b1"
-        )
-    }
-
-    fun applyMove(board: Board, move: String) {
-        val piece = board.position(move.slice(ChessSliceIndex.FIRST_POSITION)).piece
-        board.position(move.slice(ChessSliceIndex.SECOND_POSITION)).piece = piece
-        board.position(move.slice(ChessSliceIndex.FIRST_POSITION)).piece = null
-        board.changeTurn()
-    }
-
-    @Suppress("UnusedPrivateMember")
-    fun playAITurn(game: GameEntity) { // TODO chamar módulo de movimentação da IA
-        // val legalMovements = calculateLegalMovements(game.boardPositions, color)
-        // iaService.movePieces(game.boardPositions, blackLegalMovements)
-        // game.allMovements = add movimento da IA
-        // game.whiteDrawMoves = add movimento se n for peão
-    }
-
-    fun calculateLegalMovements(board: Board): LegalMovements {
-        logger.debug("Calculating legal movements")
-        val legalMovements = board.calculatePseudoLegalMoves()
-        logger.debug("Calculated pseudo legal movements: {}", legalMovements)
-
-        return LegalMovements(
-            legalMovements.movements.filter {
-                val fakeBoard = board.deepCopy()
-                applyMove(fakeBoard, it)
-                val hasCheck = fakeBoard.hasCheckForOpponent()
-                logger.debug("Applied move {} hasCheck ? {}", it, hasCheck)
-                !hasCheck
-            } as MutableList<String>
+            iaMovement = aiMove
         )
     }
 
