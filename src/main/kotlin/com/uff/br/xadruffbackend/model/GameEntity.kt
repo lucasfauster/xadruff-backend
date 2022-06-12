@@ -1,6 +1,7 @@
 package com.uff.br.xadruffbackend.model
 
 import com.uff.br.xadruffbackend.helper.buildGson
+import com.uff.br.xadruffbackend.model.enum.Level
 import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -13,6 +14,7 @@ data class GameEntity(
     var board: String,
     var legalMovements: String? = null,
     var allMovements: String = "",
+    val level: Level = Level.BEGINNER,
     var winner: String? = null,
     var whiteDrawMoves: Int = 0,
     var blackDrawMoves: Int = 0,

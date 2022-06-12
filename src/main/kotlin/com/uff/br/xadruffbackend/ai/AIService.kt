@@ -4,6 +4,7 @@ import com.uff.br.xadruffbackend.ai.model.Weights
 import com.uff.br.xadruffbackend.extension.deepCopy
 import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.model.Board
+import com.uff.br.xadruffbackend.model.enum.Level
 import com.uff.br.xadruffbackend.service.MovementService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,16 +16,16 @@ class AIService(@Autowired private val movementService: MovementService) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     companion object {
-        const val DEPTH = 2
         const val FIRST_DEPTH = 0
         const val INITIAL_MAX_BEST_NUMBER = -10000.0
         const val INITIAL_MIN_BEST_NUMBER = 10000.0
     }
 
-    fun play(depth: Int, board: Board): String {
+    fun play(level: Level, board: Board): String {
         val bestMoveValue = mutableListOf(-Double.MAX_VALUE, -Double.MAX_VALUE)
         val finalMove = mutableListOf("", "")
         val legalMovements = movementService.calculateLegalMovements(board)
+        val depth = level.ordinal + 1
 
         for (move in legalMovements.movements) {
             logger.debug("Applying move {} in depth {}", move, depth)
