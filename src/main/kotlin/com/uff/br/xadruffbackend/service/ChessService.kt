@@ -11,6 +11,7 @@ import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.ChessResponse
 import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.enum.Level
 import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.piece.Bishop
 import com.uff.br.xadruffbackend.model.piece.King
@@ -32,9 +33,9 @@ class ChessService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    fun createNewGame(startBy: StartsBy): ChessResponse {
-        val game = createInitialBoard()
-        logger.info("Initialized new game entity with id = {}", game.boardId)
+    fun createNewGame(startBy: StartsBy, level: Level): ChessResponse {
+        val game = createInitialBoard(level)
+        logger.info("Initialized new game entity with id = {} and level = {}", game.boardId, level)
 
         var aiMove = ""
         if (startBy == StartsBy.AI) {
@@ -73,7 +74,7 @@ class ChessService(
     fun playAITurn(game: GameEntity): String {
         logger.info("Starting AI turn for game with id = {}", game.boardId)
         val board = game.getBoard()
-        val aiMove = aiService.play(AIService.DEPTH, board)
+        val aiMove = aiService.play(game.level, board)
         movementService.applyMove(board, aiMove)
         saveGameState(game, board, aiMove)
         return aiMove
@@ -96,13 +97,13 @@ class ChessService(
         )
     }
 
-    fun createInitialBoard(): GameEntity {
+    fun createInitialBoard(level: Level): GameEntity {
         logger.debug("Creating new board")
         val positions = createInitialPositions()
         val board = Board(positions = positions)
 
         logger.debug("Saving game in database")
-        val gameEntity = GameEntity(board = board.toJsonString())
+        val gameEntity = GameEntity(board = board.toJsonString(), level = level)
         gameRepository.save(gameEntity)
 
         return gameEntity
