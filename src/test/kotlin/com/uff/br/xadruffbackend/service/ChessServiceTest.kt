@@ -11,6 +11,7 @@ import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.enum.Level
 import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
@@ -44,7 +45,7 @@ internal class ChessServiceTest {
     @Test
     fun `should create an initial board`() {
 
-        val gameEntity = chessService.createInitialBoard()
+        val gameEntity = chessService.createInitialBoard(Level.BEGINNER)
 
         assertBoard(
             boardPositions = gameEntity.getBoard().positions,
@@ -59,7 +60,7 @@ internal class ChessServiceTest {
 
     @Test
     fun `should create a new game with player playing first`() {
-        val chessResponse = chessService.createNewGame(StartsBy.PLAYER)
+        val chessResponse = chessService.createNewGame(StartsBy.PLAYER, Level.BEGINNER)
         assertNotNull(chessResponse.legalMovements)
         assertNotNull(chessResponse.boardId)
         assertEquals("", chessResponse.iaMovement)
@@ -71,7 +72,7 @@ internal class ChessServiceTest {
 
     @Test
     fun `should create a new game with AI playing first`() {
-        val chessResponse = chessService.createNewGame(StartsBy.AI)
+        val chessResponse = chessService.createNewGame(StartsBy.AI, Level.BEGINNER)
         assertNotNull(chessResponse.legalMovements)
         assertNotNull(chessResponse.boardId)
         assertNotEquals("", chessResponse.iaMovement)
