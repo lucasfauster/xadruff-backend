@@ -6,7 +6,7 @@ import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Knight
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class BoardMovementsCalculatorExtensionsKnightTest {
@@ -15,7 +15,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         val board = buildInitialBoard()
         val expectedMovements = listOf("b1a3", "b1c3")
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("b1"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -23,7 +23,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         val board = buildInitialBoard()
         val expectedMovements = listOf("g1f3", "g1h3")
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("g1"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -32,7 +32,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         val expectedMovements = listOf("b8a6", "b8c6")
         board.turnColor = Color.BLACK
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("b8"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -41,7 +41,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         val expectedMovements = listOf("g8f6", "g8h6")
         board.turnColor = Color.BLACK
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("g8"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -50,7 +50,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         val expectedMovements = listOf("e5d7", "e5f7", "e5d3", "e5f3", "e5c6", "e5c4", "e5g6", "e5g4")
         board.position("e5").piece = Knight(Color.BLACK)
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -59,7 +59,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         val expectedMovements = listOf("e5d7", "e5f7", "e5d3", "e5f3", "e5c6", "e5c4", "e5g6", "e5g4")
         board.position("e5").piece = Knight(Color.WHITE)
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -76,7 +76,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         board.position("g4").piece = Knight(Color.WHITE)
         board.position("g6").piece = Knight(Color.WHITE)
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -93,6 +93,6 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         board.position("g4").piece = Knight(Color.BLACK)
         board.position("g6").piece = Knight(Color.BLACK)
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 }

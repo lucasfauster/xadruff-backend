@@ -1,6 +1,7 @@
 package com.uff.br.xadruffbackend.ai
 
 import com.uff.br.xadruffbackend.ai.model.Weights
+import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.deepCopy
 import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.model.Board
@@ -30,6 +31,7 @@ class AIService(@Autowired private val movementService: MovementService) {
             logger.debug("Applying move {} in depth {}", move, depth)
             val fakeBoard = board.deepCopy()
             movementService.applyMove(fakeBoard, move)
+            fakeBoard.changeTurn()
             val moveValue = max(depth - 1, fakeBoard, -Double.MAX_VALUE, Double.MAX_VALUE)
 
             for (i in 0..1) {
@@ -58,6 +60,7 @@ class AIService(@Autowired private val movementService: MovementService) {
             logger.debug("Applying move {} in depth {} for maximize", move, depth)
             val fakeBoard = board.deepCopy()
             movementService.applyMove(fakeBoard, move)
+            fakeBoard.changeTurn()
             bestMoveValue =
                 bestMoveValue.coerceAtLeast(min(depth - 1, fakeBoard, maxMoveValueLimit, minMoveValueLimit))
 
@@ -82,6 +85,7 @@ class AIService(@Autowired private val movementService: MovementService) {
             logger.debug("Applying move {} in depth {} for minimize", move, depth)
             val fakeBoard = board.deepCopy()
             movementService.applyMove(fakeBoard, move)
+            fakeBoard.changeTurn()
             worseMoveValue =
                 worseMoveValue.coerceAtMost(max(depth - 1, fakeBoard, maxMoveValueLimit, minMoveValueLimit))
 

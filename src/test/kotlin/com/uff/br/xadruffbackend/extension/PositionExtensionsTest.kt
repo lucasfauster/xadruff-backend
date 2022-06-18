@@ -6,7 +6,7 @@ import com.uff.br.xadruffbackend.model.piece.Ghost
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
@@ -29,7 +29,7 @@ internal class PositionExtensionsTest {
             for (column in (0..7)) {
                 val position = Position(row, column)
                 val stringPosition = position.toChessPosition()
-                Assertions.assertEquals(chessPositions[row][column], stringPosition)
+                assertEquals(chessPositions[row][column], stringPosition)
             }
         }
     }

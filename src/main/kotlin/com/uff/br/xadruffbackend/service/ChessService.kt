@@ -3,12 +3,14 @@ package com.uff.br.xadruffbackend.service
 import com.uff.br.xadruffbackend.GameRepository
 import com.uff.br.xadruffbackend.ai.AIService
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
+import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
+import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toBoardResponse
+import com.uff.br.xadruffbackend.extension.toChessPosition
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toMap
 import com.uff.br.xadruffbackend.model.Board
-import com.uff.br.xadruffbackend.model.ChessResponse
 import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.enum.StartsBy
@@ -18,6 +20,7 @@ import com.uff.br.xadruffbackend.model.piece.Knight
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.model.piece.Rook
+import com.uff.br.xadruffbackend.model.response.ChessResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
@@ -27,76 +30,111 @@ import org.springframework.stereotype.Service
 class ChessService(
     @Autowired private val gameRepository: GameRepository,
     @Autowired private val movementService: MovementService,
-    @Autowired private val aiService: AIService
+    @Autowired private val aiService: AIService,
+    @Autowired private val endgameService: EndgameService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun createNewGame(startBy: StartsBy): ChessResponse {
-        val game = createInitialBoard()
-        logger.info("Initialized new game entity with id = {}", game.boardId)
+        val game = createInitialGame()
+        logger.info("Initialized new game entity with id = ${game.boardId}")
 
-        var aiMove = ""
-        if (startBy == StartsBy.AI) {
-            aiMove = playAITurn(game)
-        } else {
-            val playerLegalMovements = movementService.calculateLegalMovements(game.getBoard())
-            logger.info(
-                "Calculated player possible movements = {} for boardId = {}", playerLegalMovements, game.boardId
-            )
-            game.legalMovements = playerLegalMovements.toJsonString()
-            gameRepository.save(game)
+        var aiMove: String? = null
+
+        when (startBy) {
+            StartsBy.AI -> {
+                aiMove = playAITurn(game)
+            }
+            StartsBy.PLAYER -> {
+                val playerLegalMovements = movementService.calculateLegalMovements(game.getBoard())
+                logger.info(
+                    "Calculated player possible movements = $playerLegalMovements " +
+                        "for boardId = ${game.boardId}"
+                )
+                game.legalMovements = playerLegalMovements.toJsonString()
+            }
         }
 
-        return ChessResponse(
-            boardId = game.boardId,
-            legalMovements = game.getLegalMovements().movements.toMap(),
-            board = game.getBoard().toBoardResponse(),
-            iaMovement = aiMove
-        )
+        gameRepository.save(game)
+        return buildChessResponse(game, aiMove)
     }
 
-    fun getGameById(boardId: String): GameEntity =
+    private fun getGameById(boardId: String): GameEntity =
         try {
             gameRepository.getById(boardId)
         } catch (exc: JpaObjectRetrievalFailureException) {
             throw GameNotFoundException("A game with board-id $boardId was not found.", exc)
         }
 
-    private fun saveGameState(game: GameEntity, board: Board, move: String) {
+    private fun updateGameState(game: GameEntity, board: Board, move: String) {
         game.board = board.toJsonString()
         game.legalMovements = movementService.calculateLegalMovements(board).toJsonString()
         game.allMovements += " $move"
-        gameRepository.save(game)
     }
 
     fun playAITurn(game: GameEntity): String {
-        logger.info("Starting AI turn for game with id = {}", game.boardId)
+        logger.info("Starting AI turn for game with id = ${game.boardId}")
         val board = game.getBoard()
         val aiMove = aiService.play(AIService.DEPTH, board)
-        movementService.applyMove(board, aiMove)
-        saveGameState(game, board, aiMove)
+        logger.info("AI Movement = $aiMove")
+        handleMove(aiMove, game)
         return aiMove
     }
 
     fun movePiece(boardId: String, move: String): ChessResponse {
         val game = getGameById(boardId)
         movementService.verifyIsAllowedMove(game.getLegalMovements(), move)
-        val board = game.getBoard()
 
-        movementService.applyMove(board, move)
-        saveGameState(game, board, move)
-        val aiMove = playAITurn(game)
+        handleMove(move, game)
+        val aiMove = if (game.winner.isNullOrBlank()) {
+            playAITurn(game)
+        } else {
+            null
+        }
 
-        return ChessResponse(
-            boardId = game.boardId,
-            legalMovements = game.getLegalMovements().movements.toMap(),
-            board = game.getBoard().toBoardResponse(),
-            iaMovement = aiMove
-        )
+        gameRepository.save(game)
+        return buildChessResponse(game, aiMove)
     }
 
-    fun createInitialBoard(): GameEntity {
+    private fun handleMove(
+        move: String,
+        game: GameEntity,
+    ) {
+        val board = game.getBoard()
+        movementService.applyMove(board, move)
+        movementService.handleDrawMoveRule(game, move)
+        board.changeTurn()
+        updateGameState(game, board, move)
+        endgameService.checkIfGameEnded(game)
+    }
+
+    private fun buildChessResponse(
+        game: GameEntity,
+        aiMove: String?,
+    ) = ChessResponse(
+        boardId = game.boardId,
+        legalMovements = game.getLegalMovements().movements.toMap(),
+        board = game.getBoard().toBoardResponse(),
+        aiMovement = aiMove,
+        kingInCheck = handleKingInCheck(game),
+        endgame = endgameService.buildEndgameResponse(game)
+    )
+
+    private fun handleKingInCheck(game: GameEntity): String? {
+        val board = game.getBoard()
+        var kingPosition: String? = null
+        if (game.getBoard().isKingInCheck()) {
+            board.positions.flatten().forEach {
+                if (it.piece is King && (it.piece as King).color == board.turnColor) {
+                    kingPosition = it.toChessPosition()
+                }
+            }
+        }
+        return kingPosition
+    }
+
+    fun createInitialGame(): GameEntity {
         logger.debug("Creating new board")
         val positions = createInitialPositions()
         val board = Board(positions = positions)
