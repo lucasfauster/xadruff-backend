@@ -13,8 +13,8 @@ import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.enum.Level
 import com.uff.br.xadruffbackend.model.enum.EndgameMessage
+import com.uff.br.xadruffbackend.model.enum.Level
 import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.piece.Bishop
 import com.uff.br.xadruffbackend.model.piece.King
