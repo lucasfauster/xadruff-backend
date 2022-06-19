@@ -68,7 +68,7 @@ object BoardCastleExtensions {
         }
 
         return legalMovements.movements.any { legalMovement ->
-            legalMovement.slice(ChessSliceIndex.SECOND_POSITION) == rookWay
+            legalMovement.futureStringPosition() == rookWay
         } || fakeBoard.hasPawnThreat(rookColumn)
     }
 

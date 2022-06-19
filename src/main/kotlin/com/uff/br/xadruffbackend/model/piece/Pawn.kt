@@ -5,11 +5,12 @@ import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.util.buildBlackPawnDirections
 import com.uff.br.xadruffbackend.util.buildWhitePawnDirections
 
-class Pawn(color: Color) : Piece('p', color) {
+class Pawn(color: Color) : Piece(VALUE, color) {
 
     companion object {
         const val INITIAL_WHITE_PAWN_POSITION_ROW = 6
         const val INITIAL_BLACK_PAWN_POSITION_ROW = 1
+        const val VALUE = 'p'
     }
 
     override val directions: List<Direction> = if (color == Color.BLACK) {

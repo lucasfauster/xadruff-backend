@@ -18,10 +18,11 @@ Esse projeto é responsável pela parte de Back-End do XadrUFF, ele foi desenvol
 
 ## Endpoints
 ### GET /chess/new-game?start-by={{AI/PLAYER}} 
-  - curl de exemplo: ` curl --location --request GET 'localhost:8080/chess/new-game?start-by=AI' `
+  - curl de exemplo: ` curl --location --request GET 'localhost:8080/chess/new-game?start-by=AI&level=INTERMEDIATE' `
     
- - Caso seja AI, o jogador será as peças pretas e será feito um movimento para a IA, caso seja PLAYER o jogador ser as peças brancas.
- - Retorna: um board-id que representa o jogo internamente, um board que é uma matriz de posições, uma lista de movimentos legais e qual o movimento da ia, se houver movimento
+  - Caso o campo start-by seja AI, o jogador será as peças pretas e será feito um movimento para a IA, caso seja PLAYER o jogador ser as peças brancas.
+  - O campo level pode ser BEGINNER ou IMTERMEDIATE
+  - Retorna: um board-id que representa o jogo internamente, um board que é uma matriz de posições, uma lista de movimentos legais e qual o movimento da ia, se houver movimento
 
 ### POST /chess/move?board-id={{board-id}}
  #### Body: "move": "x0y0"

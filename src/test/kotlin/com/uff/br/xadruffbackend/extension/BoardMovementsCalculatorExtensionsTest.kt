@@ -1,6 +1,6 @@
 package com.uff.br.xadruffbackend.extension
 
-import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.buildAction
+import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.buildCaptureAction
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
 import com.uff.br.xadruffbackend.model.Position
@@ -67,7 +67,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     fun `should return C in buildAction for white piece if has enemy`() {
         val position = Position(0, 0, Pawn(Color.BLACK))
         val piece = Pawn(Color.WHITE)
-        val action = buildAction(position, piece)
+        val action = buildCaptureAction(position, piece)
         assertEquals("C", action)
     }
 
@@ -75,7 +75,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     fun `should return empty string in buildAction for white piece if has ally`() {
         val position = Position(0, 0, Pawn(Color.WHITE))
         val piece = Pawn(Color.WHITE)
-        val action = buildAction(position, piece)
+        val action = buildCaptureAction(position, piece)
         assertEquals("", action)
     }
 
@@ -83,7 +83,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     fun `should return empty string in buildAction for white piece if is empty`() {
         val position = Position(0, 0, null)
         val piece = Pawn(Color.WHITE)
-        val action = buildAction(position, piece)
+        val action = buildCaptureAction(position, piece)
         assertEquals("", action)
     }
 
@@ -91,7 +91,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     fun `should return C in buildAction for black piece if has enemy`() {
         val position = Position(0, 0, Pawn(Color.WHITE))
         val piece = Pawn(Color.BLACK)
-        val action = buildAction(position, piece)
+        val action = buildCaptureAction(position, piece)
         assertEquals("C", action)
     }
 
@@ -99,7 +99,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     fun `should return empty string in buildAction for black piece if has ally`() {
         val position = Position(0, 0, Pawn(Color.BLACK))
         val piece = Pawn(Color.BLACK)
-        val action = buildAction(position, piece)
+        val action = buildCaptureAction(position, piece)
         assertEquals("", action)
     }
 
@@ -107,7 +107,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     fun `should return empty string in buildAction for black piece if is empty`() {
         val position = Position(0, 0, null)
         val piece = Pawn(Color.BLACK)
-        val action = buildAction(position, piece)
+        val action = buildCaptureAction(position, piece)
         assertEquals("", action)
     }
 }

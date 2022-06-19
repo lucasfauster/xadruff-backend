@@ -6,6 +6,8 @@ import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Bishop
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -14,14 +16,18 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
     @Test
     fun `should calculate movement from white left bishop with initial board`() {
         val board = buildInitialBoard()
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("c1"))
+        val legalMovements = runBlocking(Dispatchers.Default) {
+            board.calculateLegalMovementsInPosition(board.position("c1"))
+        }
         assertEquals(mutableListOf<String>(), legalMovements.movements)
     }
 
     @Test
     fun `should calculate movement from white right bishop with initial board`() {
         val board = buildInitialBoard()
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("f1"))
+        val legalMovements = runBlocking(Dispatchers.Default) {
+            board.calculateLegalMovementsInPosition(board.position("f1"))
+        }
         assertEquals(mutableListOf<String>(), legalMovements.movements)
     }
 
@@ -29,7 +35,9 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
     fun `should calculate movement from black left bishop with initial board`() {
         val board = buildInitialBoard()
         board.turnColor = Color.BLACK
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("c8"))
+        val legalMovements = runBlocking(Dispatchers.Default) {
+            board.calculateLegalMovementsInPosition(board.position("c8"))
+        }
         assertEquals(mutableListOf<String>(), legalMovements.movements)
     }
 
@@ -37,7 +45,9 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
     fun `should calculate movement from black right bishop with initial board`() {
         val board = buildInitialBoard()
         board.turnColor = Color.BLACK
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("f8"))
+        val legalMovements = runBlocking(Dispatchers.Default) {
+            board.calculateLegalMovementsInPosition(board.position("f8"))
+        }
         assertEquals(mutableListOf<String>(), legalMovements.movements)
     }
 
@@ -49,7 +59,9 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
             "e5g3", "e5h8", "e5b8", "e5b2", "e5h2", "e5a1"
         )
         board.position("e5").piece = Bishop(Color.BLACK)
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
+        val legalMovements = runBlocking(Dispatchers.Default) {
+            board.calculateLegalMovementsInPosition(board.position("e5"))
+        }
         assertEquals(expectedMovements, legalMovements.movements)
     }
 
@@ -61,7 +73,9 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
             "e5g3", "e5h8", "e5b8", "e5b2", "e5h2", "e5a1"
         )
         board.position("e5").piece = Bishop(Color.WHITE)
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
+        val legalMovements = runBlocking(Dispatchers.Default) {
+            board.calculateLegalMovementsInPosition(board.position("e5"))
+        }
         assertEquals(expectedMovements, legalMovements.movements)
     }
 
@@ -74,7 +88,9 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
         board.position("f4").piece = Bishop(Color.BLACK)
         board.position("d6").piece = Bishop(Color.BLACK)
         board.position("f6").piece = Bishop(Color.BLACK)
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
+        val legalMovements = runBlocking(Dispatchers.Default) {
+            board.calculateLegalMovementsInPosition(board.position("e5"))
+        }
         assertEquals(expectedMovements, legalMovements.movements)
     }
 
@@ -87,7 +103,9 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
         board.position("f4").piece = Bishop(Color.WHITE)
         board.position("d6").piece = Bishop(Color.WHITE)
         board.position("f6").piece = Bishop(Color.WHITE)
-        val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
+        val legalMovements = runBlocking(Dispatchers.Default) {
+            board.calculateLegalMovementsInPosition(board.position("e5"))
+        }
         assertEquals(expectedMovements, legalMovements.movements)
     }
 }

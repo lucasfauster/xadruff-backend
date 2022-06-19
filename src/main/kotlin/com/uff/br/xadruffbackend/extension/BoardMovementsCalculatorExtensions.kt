@@ -1,6 +1,7 @@
 package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.handleCastleMovements
+import com.uff.br.xadruffbackend.extension.BoardPromotionExtensions.handlePromotionInRange
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.Position
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory
 import kotlin.math.absoluteValue
 
 object BoardMovementsCalculatorExtensions {
+
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun Board.calculatePseudoLegalMoves(withCastle: Boolean = true): LegalMovements {
@@ -31,7 +33,10 @@ object BoardMovementsCalculatorExtensions {
         }
     }
 
-    fun Board.calculateLegalMovementsInPosition(position: Position, withCastle: Boolean = true): LegalMovements {
+    suspend fun Board.calculateLegalMovementsInPosition(
+        position: Position,
+        withCastle: Boolean = true
+    ): LegalMovements {
         logger.debug(
             "Calculating legal moves for piece ${position.piece} at " +
                 "row ${position.row} - column ${position.column}"
@@ -71,8 +76,8 @@ object BoardMovementsCalculatorExtensions {
         }
     }
 
-    fun Board.isKingCapture(movement: String): Boolean {
-        val capturedPiece = position(movement.slice(ChessSliceIndex.SECOND_POSITION)).piece
+    private fun Board.isKingCapture(movement: String): Boolean {
+        val capturedPiece = position(movement.futureStringPosition()).piece
         logger.debug("Captured piece ${capturedPiece?.value}")
         return capturedPiece is King
     }
@@ -83,7 +88,7 @@ object BoardMovementsCalculatorExtensions {
                 ?.isEmpty() ?: false
         }
 
-    private fun Board.getLegalPositionsInRange(
+    private suspend fun Board.getLegalPositionsInRange(
         range: Int,
         availableDirections: List<Direction>,
         position: Position
@@ -95,6 +100,8 @@ object BoardMovementsCalculatorExtensions {
                 }.also {
                     logger.debug("Position {} calculated for direction {} in range {}", it, direction, range)
                 }
+        }.let {
+            handlePromotionInRange(it, position)
         }
         return legalMovementList.toLegalMovements()
     }
@@ -111,7 +118,7 @@ object BoardMovementsCalculatorExtensions {
             createMovement(
                 originPosition = this,
                 futurePosition = futurePosition,
-                action = buildAction(futurePosition, piece),
+                action = buildCaptureAction(futurePosition, piece),
             )
         } else null
     }
@@ -122,7 +129,7 @@ object BoardMovementsCalculatorExtensions {
         return positions.getOrNull(futureRow)?.getOrNull(futureColumn)
     }
 
-    fun buildAction(position: Position, originPiece: Piece?): String {
+    fun buildCaptureAction(position: Position, originPiece: Piece?): String {
         return if (position.hasEnemyPiece(originPiece)) {
             "C"
         } else {
