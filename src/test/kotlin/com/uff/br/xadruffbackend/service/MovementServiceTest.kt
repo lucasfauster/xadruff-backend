@@ -1,6 +1,9 @@
 package com.uff.br.xadruffbackend.service
 
+import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.position
+import com.uff.br.xadruffbackend.extension.toJsonString
+import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Bishop
 import com.uff.br.xadruffbackend.model.piece.King
@@ -9,7 +12,8 @@ import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import com.uff.br.xadruffbackend.utils.buildInitialLegalMovements
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class MovementServiceTest {
@@ -23,7 +27,7 @@ class MovementServiceTest {
 
         val correctLegalMoves = buildInitialLegalMovements()
 
-        Assertions.assertEquals(correctLegalMoves, legalMoves.movements)
+        assertEquals(correctLegalMoves, legalMoves.movements)
     }
 
     @Test
@@ -53,7 +57,7 @@ class MovementServiceTest {
         board.position("d5").piece = Pawn(Color.BLACK)
         board.position("f5").piece = Pawn(Color.BLACK)
         val legalMovements = movementService.calculateLegalMovements(board)
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -64,7 +68,7 @@ class MovementServiceTest {
         board.position("e4").piece = Pawn(Color.BLACK)
         board.position("e6").piece = Pawn(Color.BLACK)
         val legalMovements = movementService.calculateLegalMovements(board)
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -80,7 +84,7 @@ class MovementServiceTest {
         board.position("f5").piece = Pawn(Color.WHITE)
         board.turnColor = Color.BLACK
         val legalMovements = movementService.calculateLegalMovements(board)
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -92,7 +96,7 @@ class MovementServiceTest {
         board.position("e6").piece = Pawn(Color.WHITE)
         board.turnColor = Color.BLACK
         val legalMovements = movementService.calculateLegalMovements(board)
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -103,7 +107,7 @@ class MovementServiceTest {
         board.position("e5").piece = Pawn(Color.WHITE)
         board.position("c3").piece = Bishop(Color.BLACK)
         val legalMovements = movementService.calculateLegalMovements(board)
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -114,8 +118,8 @@ class MovementServiceTest {
         board.position("a1").piece = pawn
 
         movementService.applyMove(board, "a1a2")
-        Assertions.assertNull(board.position("a1").piece)
-        Assertions.assertEquals(pawn, board.position("a2").piece)
+        assertNull(board.position("a1").piece)
+        assertEquals(pawn, board.position("a2").piece)
     }
 
     @Test
@@ -126,7 +130,58 @@ class MovementServiceTest {
         board.position("a1").piece = pawn
 
         movementService.applyMove(board, "a1a2C")
-        Assertions.assertNull(board.position("a1").piece)
-        Assertions.assertEquals(pawn, board.position("a2").piece)
+        assertNull(board.position("a1").piece)
+        assertEquals(pawn, board.position("a2").piece)
+    }
+
+    @Test
+    fun `should add one to draw moves for WHITE player in handleDrawMoveRule`() {
+        val board = buildEmptyBoard()
+        board.position("b3").piece = Knight(Color.WHITE)
+        val game = GameEntity(board = board.toJsonString())
+        movementService.handleDrawMoveRule(game, "b1b3")
+        assertEquals(1, game.whiteDrawMoves)
+        assertEquals(0, game.blackDrawMoves)
+    }
+
+    @Test
+    fun `should add one to draw moves for BLACK player in handleDrawMoveRule`() {
+        val board = buildEmptyBoard()
+        board.position("b3").piece = Knight(Color.BLACK)
+        board.changeTurn()
+        val game = GameEntity(board = board.toJsonString())
+        movementService.handleDrawMoveRule(game, "b1b3")
+        assertEquals(0, game.whiteDrawMoves)
+        assertEquals(1, game.blackDrawMoves)
+    }
+
+    @Test
+    fun `should not add one to draw moves because it will be a pawn move`() {
+        val board = buildEmptyBoard()
+        board.position("b1").piece = Pawn(Color.BLACK)
+        val game = GameEntity(board = board.toJsonString())
+        movementService.handleDrawMoveRule(game, "b1b3")
+        assertEquals(0, game.whiteDrawMoves)
+        assertEquals(0, game.blackDrawMoves)
+    }
+
+    @Test
+    fun `should not add one to draw moves because it will be a capture move`() {
+        val board = buildEmptyBoard()
+        board.position("b3").piece = Knight(Color.BLACK)
+        val game = GameEntity(board = board.toJsonString())
+        movementService.handleDrawMoveRule(game, "b1b3C")
+        assertEquals(0, game.whiteDrawMoves)
+        assertEquals(0, game.blackDrawMoves)
+    }
+
+    @Test
+    fun `should not add one to draw moves because was a capture move with a pawn`() {
+        val board = buildEmptyBoard()
+        board.position("b3").piece = Pawn(Color.BLACK)
+        val game = GameEntity(board = board.toJsonString())
+        movementService.handleDrawMoveRule(game, "b1b3C")
+        assertEquals(0, game.whiteDrawMoves)
+        assertEquals(0, game.blackDrawMoves)
     }
 }

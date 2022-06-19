@@ -2,7 +2,7 @@ package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class BoardExtensionsTest {
@@ -25,7 +25,7 @@ class BoardExtensionsTest {
             for (column in (0..7)) {
                 val boardPosition = board.positions[row][column]
                 val boardPositionByChessPosition = board.position(chessPositions[row][column])
-                Assertions.assertEquals(boardPositionByChessPosition, boardPosition)
+                assertEquals(boardPositionByChessPosition, boardPosition)
             }
         }
     }
@@ -40,7 +40,7 @@ class BoardExtensionsTest {
     private fun assertBoard(boardPositions: List<List<Position>>, expectedBoardPositions: List<List<Position>>) {
         for (row in 0..7) {
             for (column in 0..7) {
-                Assertions.assertEquals(
+                assertEquals(
                     boardPositions[row][column].piece?.value,
                     expectedBoardPositions[row][column].piece?.value
                 )

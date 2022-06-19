@@ -6,7 +6,7 @@ import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Bishop
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class BoardMovementsCalculatorExtensionsBishopTest {
@@ -15,14 +15,14 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
     fun `should calculate movement from white left bishop with initial board`() {
         val board = buildInitialBoard()
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("c1"))
-        Assertions.assertEquals(mutableListOf<String>(), legalMovements.movements)
+        assertEquals(mutableListOf<String>(), legalMovements.movements)
     }
 
     @Test
     fun `should calculate movement from white right bishop with initial board`() {
         val board = buildInitialBoard()
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("f1"))
-        Assertions.assertEquals(mutableListOf<String>(), legalMovements.movements)
+        assertEquals(mutableListOf<String>(), legalMovements.movements)
     }
 
     @Test
@@ -30,7 +30,7 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
         val board = buildInitialBoard()
         board.turnColor = Color.BLACK
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("c8"))
-        Assertions.assertEquals(mutableListOf<String>(), legalMovements.movements)
+        assertEquals(mutableListOf<String>(), legalMovements.movements)
     }
 
     @Test
@@ -38,7 +38,7 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
         val board = buildInitialBoard()
         board.turnColor = Color.BLACK
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("f8"))
-        Assertions.assertEquals(mutableListOf<String>(), legalMovements.movements)
+        assertEquals(mutableListOf<String>(), legalMovements.movements)
     }
 
     @Test
@@ -50,7 +50,7 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
         )
         board.position("e5").piece = Bishop(Color.BLACK)
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -62,7 +62,7 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
         )
         board.position("e5").piece = Bishop(Color.WHITE)
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -75,7 +75,7 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
         board.position("d6").piece = Bishop(Color.BLACK)
         board.position("f6").piece = Bishop(Color.BLACK)
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 
     @Test
@@ -88,6 +88,6 @@ internal class BoardMovementsCalculatorExtensionsBishopTest {
         board.position("d6").piece = Bishop(Color.WHITE)
         board.position("f6").piece = Bishop(Color.WHITE)
         val legalMovements = board.calculateLegalMovementsInPosition(board.position("e5"))
-        Assertions.assertEquals(expectedMovements, legalMovements.movements)
+        assertEquals(expectedMovements, legalMovements.movements)
     }
 }

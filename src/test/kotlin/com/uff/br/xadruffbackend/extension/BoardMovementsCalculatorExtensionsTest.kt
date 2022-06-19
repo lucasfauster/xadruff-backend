@@ -2,7 +2,7 @@ package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.buildAction
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
-import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.hasCheckForOpponent
+import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
 import com.uff.br.xadruffbackend.model.Position
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.King
@@ -34,8 +34,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
         val board = buildEmptyBoard()
         board.position("e5").piece = King(Color.WHITE)
         board.position("f6").piece = Pawn(Color.BLACK)
-        board.turnColor = Color.BLACK
-        assert(board.hasCheckForOpponent())
+        assert(board.isKingInCheck())
     }
 
     @Test
@@ -43,7 +42,8 @@ internal class BoardMovementsCalculatorExtensionsTest {
         val board = buildEmptyBoard()
         board.position("e5").piece = King(Color.BLACK)
         board.position("f4").piece = Pawn(Color.WHITE)
-        assert(board.hasCheckForOpponent())
+        board.changeTurn()
+        assert(board.isKingInCheck())
     }
 
     @Test
@@ -52,7 +52,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
         board.position("e5").piece = King(Color.WHITE)
         board.position("e6").piece = Pawn(Color.BLACK)
         board.turnColor = Color.BLACK
-        assertFalse(board.hasCheckForOpponent())
+        assertFalse(board.isKingInCheck())
     }
 
     @Test
@@ -60,7 +60,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
         val board = buildEmptyBoard()
         board.position("e5").piece = King(Color.BLACK)
         board.position("e4").piece = Pawn(Color.WHITE)
-        assertFalse(board.hasCheckForOpponent())
+        assertFalse(board.isKingInCheck())
     }
 
     @Test

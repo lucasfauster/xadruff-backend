@@ -2,8 +2,8 @@ package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.helper.buildGson
 import com.uff.br.xadruffbackend.model.Board
-import com.uff.br.xadruffbackend.model.BoardResponse
 import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.response.BoardResponse
 
 fun Board.toBoardResponse(): BoardResponse {
     return BoardResponse(
@@ -30,4 +30,14 @@ fun Board.changeTurn() {
 fun Board.deepCopy(): Board {
     val gson = buildGson()
     return gson.fromJson(gson.toJson(this), this::class.java)
+}
+
+fun Board.filterOnlyCaptureDirections() {
+    positions.parallelStream().forEach {
+        it.parallelStream().forEach { position ->
+            position.piece?.directions?.forEach { direction ->
+                direction.hasMovement = false
+            }
+        }
+    }
 }

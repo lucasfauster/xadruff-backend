@@ -60,15 +60,18 @@ object BoardMovementsCalculatorExtensions {
             }
     }
 
-    fun Board.hasCheckForOpponent(): Boolean {
+    fun Board.isKingInCheck(): Boolean {
+        changeTurn()
+        filterOnlyCaptureDirections()
         val legalMovements = this.calculatePseudoLegalMoves(withCastle = false)
+        changeTurn()
         logger.debug("Legal movements for check checking: $legalMovements")
         return legalMovements.movements.any {
-            isOpponentKingCapture(it)
+            isKingCapture(it)
         }
     }
 
-    private fun Board.isOpponentKingCapture(movement: String): Boolean {
+    fun Board.isKingCapture(movement: String): Boolean {
         val capturedPiece = position(movement.slice(ChessSliceIndex.SECOND_POSITION)).piece
         logger.debug("Captured piece ${capturedPiece?.value}")
         return capturedPiece is King

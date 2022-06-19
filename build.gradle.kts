@@ -19,7 +19,6 @@ application {
 apply("gradle/jacoco.gradle")
 
 detekt {
-    ignoreFailures = true
     config = files("config/detekt/detekt.yml")
 }
 

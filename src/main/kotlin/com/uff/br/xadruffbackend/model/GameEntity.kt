@@ -9,13 +9,15 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "Game")
-data class GameEntity(
+@Suppress("LongParameterList")
+class GameEntity(
     @Id val boardId: String = UUID.randomUUID().toString().uppercase(),
     var board: String,
     var legalMovements: String? = null,
     var allMovements: String = "",
     val level: Level = Level.BEGINNER,
     var winner: String? = null,
+    var endgameMessage: String? = null,
     var whiteDrawMoves: Int = 0,
     var blackDrawMoves: Int = 0,
 ) {
