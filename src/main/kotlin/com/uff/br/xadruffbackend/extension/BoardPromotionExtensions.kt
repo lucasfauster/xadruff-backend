@@ -11,8 +11,11 @@ import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.model.piece.Rook
 import com.uff.br.xadruffbackend.util.parallelMap
+import org.slf4j.LoggerFactory
 
 object BoardPromotionExtensions {
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
     const val PROMOTION_CHAR = 'P'
 
@@ -29,6 +32,7 @@ object BoardPromotionExtensions {
     ): List<String> {
         return legalMovementList.parallelMap {
             if (position.piece!! is Pawn && isPawnLastMovement(it.futureStringPosition())) {
+                logger.info("Adding promotion movements to pawn in position $position")
                 createPromotionMovements(position, it.futureStringPosition())
             } else {
                 listOf(it)
