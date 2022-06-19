@@ -7,7 +7,6 @@ import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -19,7 +18,7 @@ internal class BoardMovementsCalculatorExtensionsPawnTest {
     fun `should generate possible movements of white pawn in initial position`() {
         val board = buildInitialBoard()
 
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.positions[6][4])
         }
 
@@ -33,7 +32,7 @@ internal class BoardMovementsCalculatorExtensionsPawnTest {
         val board = buildInitialBoard()
 
         board.turnColor = Color.BLACK
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.positions[1][4])
         }
 
@@ -50,12 +49,12 @@ internal class BoardMovementsCalculatorExtensionsPawnTest {
         board.positions[6][4].piece = whitePawn
         board.positions[5][4].piece = blackPawn
 
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.positions[6][4])
         }
         board.turnColor = Color.BLACK
         legalMovements.addAll(
-            runBlocking(Dispatchers.Default) {
+            runBlocking {
                 board.calculateLegalMovementsInPosition(board.positions[5][4])
             }
         )
@@ -70,7 +69,7 @@ internal class BoardMovementsCalculatorExtensionsPawnTest {
         board.positions[5][4].piece = whitePawn
         board.positions[4][3].piece = blackPawn
 
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.positions[5][4])
         }
 
@@ -87,7 +86,7 @@ internal class BoardMovementsCalculatorExtensionsPawnTest {
         board.position("b7").piece = whitePawn
         board.position("a8").piece = blackPawn
 
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("b7"))
         }
 

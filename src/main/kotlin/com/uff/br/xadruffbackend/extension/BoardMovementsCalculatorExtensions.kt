@@ -10,7 +10,6 @@ import com.uff.br.xadruffbackend.model.piece.King
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Piece
 import com.uff.br.xadruffbackend.util.parallelMap
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import kotlin.math.absoluteValue
@@ -20,7 +19,7 @@ object BoardMovementsCalculatorExtensions {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun Board.calculatePseudoLegalMoves(withCastle: Boolean = true): LegalMovements {
-        return runBlocking(Dispatchers.Default) {
+        return runBlocking {
             positions.parallelMap { row ->
                 row.filter {
                     it.piece?.color == turnColor

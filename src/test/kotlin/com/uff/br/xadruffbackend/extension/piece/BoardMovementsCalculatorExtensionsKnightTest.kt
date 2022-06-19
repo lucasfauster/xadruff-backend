@@ -6,7 +6,6 @@ import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Knight
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -16,7 +15,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
     fun `should calculate movement from white left knight with initial board`() {
         val board = buildInitialBoard()
         val expectedMovements = listOf("b1a3", "b1c3")
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("b1"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
@@ -26,7 +25,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
     fun `should calculate movement from white right knight with initial board`() {
         val board = buildInitialBoard()
         val expectedMovements = listOf("g1f3", "g1h3")
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("g1"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
@@ -37,7 +36,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         val board = buildInitialBoard()
         val expectedMovements = listOf("b8a6", "b8c6")
         board.turnColor = Color.BLACK
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("b8"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
@@ -48,7 +47,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         val board = buildInitialBoard()
         val expectedMovements = listOf("g8f6", "g8h6")
         board.turnColor = Color.BLACK
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("g8"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
@@ -59,7 +58,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         val board = buildEmptyBoard()
         val expectedMovements = listOf("e5d7", "e5f7", "e5d3", "e5f3", "e5c6", "e5c4", "e5g6", "e5g4")
         board.position("e5").piece = Knight(Color.BLACK)
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("e5"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
@@ -70,7 +69,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         val board = buildEmptyBoard()
         val expectedMovements = listOf("e5d7", "e5f7", "e5d3", "e5f3", "e5c6", "e5c4", "e5g6", "e5g4")
         board.position("e5").piece = Knight(Color.WHITE)
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("e5"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
@@ -89,7 +88,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         board.position("f3").piece = Knight(Color.WHITE)
         board.position("g4").piece = Knight(Color.WHITE)
         board.position("g6").piece = Knight(Color.WHITE)
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("e5"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
@@ -108,7 +107,7 @@ internal class BoardMovementsCalculatorExtensionsKnightTest {
         board.position("f3").piece = Knight(Color.BLACK)
         board.position("g4").piece = Knight(Color.BLACK)
         board.position("g6").piece = Knight(Color.BLACK)
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("e5"))
         }
         assertEquals(expectedMovements, legalMovements.movements)

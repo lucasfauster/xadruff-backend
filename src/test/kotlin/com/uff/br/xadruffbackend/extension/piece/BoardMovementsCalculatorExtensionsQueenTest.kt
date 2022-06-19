@@ -6,7 +6,6 @@ import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -16,7 +15,7 @@ internal class BoardMovementsCalculatorExtensionsQueenTest {
     @Test
     fun `should calculate movement from white queen with initial board`() {
         val board = buildInitialBoard()
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("d1"))
         }
         assertEquals(mutableListOf<String>(), legalMovements.movements)
@@ -26,7 +25,7 @@ internal class BoardMovementsCalculatorExtensionsQueenTest {
     fun `should calculate movement from black queen with initial board`() {
         val board = buildInitialBoard()
         board.turnColor = Color.BLACK
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("e8"))
         }
         assertEquals(mutableListOf<String>(), legalMovements.movements)
@@ -41,7 +40,7 @@ internal class BoardMovementsCalculatorExtensionsQueenTest {
             "e5e8", "e5e2", "e5b5", "e5h5", "e5a1", "e5e1", "e5a5"
         )
         board.position("e5").piece = Queen(Color.BLACK)
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("e5"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
@@ -56,7 +55,7 @@ internal class BoardMovementsCalculatorExtensionsQueenTest {
             "e5e8", "e5e2", "e5b5", "e5h5", "e5a1", "e5e1", "e5a5"
         )
         board.position("e5").piece = Queen(Color.WHITE)
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("e5"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
@@ -75,7 +74,7 @@ internal class BoardMovementsCalculatorExtensionsQueenTest {
         board.position("e6").piece = Queen(Color.BLACK)
         board.position("f5").piece = Queen(Color.BLACK)
         board.position("e4").piece = Queen(Color.BLACK)
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("e5"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
@@ -94,7 +93,7 @@ internal class BoardMovementsCalculatorExtensionsQueenTest {
         board.position("e6").piece = Queen(Color.WHITE)
         board.position("f5").piece = Queen(Color.WHITE)
         board.position("e4").piece = Queen(Color.WHITE)
-        val legalMovements = runBlocking(Dispatchers.Default) {
+        val legalMovements = runBlocking {
             board.calculateLegalMovementsInPosition(board.position("e5"))
         }
         assertEquals(expectedMovements, legalMovements.movements)
