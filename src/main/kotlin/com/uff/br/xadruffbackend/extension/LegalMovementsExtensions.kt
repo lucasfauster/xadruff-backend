@@ -38,23 +38,17 @@ fun MutableList<String>.toMap(): Map<String, List<String>> {
 
     fun getFuturePositionFromMove(index: String, legalMoves: List<String>): List<String> =
         legalMoves.filter {
-            it.slice(ChessSliceIndex.FIRST_POSITION) == index
+            it.originalStringPosition() == index
         }.map {
-            it.slice(ChessSliceIndex.SECOND_POSITION)
+            it.futureStringPosition()
         }
 
     val movesMap: MutableMap<String, List<String>> = mutableMapOf()
     for (move in this) {
-        val index = move.slice(ChessSliceIndex.FIRST_POSITION)
+        val index = move.originalStringPosition()
         if (!movesMap.containsKey(index)) {
             movesMap[index] = getFuturePositionFromMove(index, this)
         }
     }
     return movesMap
-}
-
-@Suppress("MagicNumber")
-object ChessSliceIndex {
-    val FIRST_POSITION = 0..1
-    val SECOND_POSITION = 2..3
 }

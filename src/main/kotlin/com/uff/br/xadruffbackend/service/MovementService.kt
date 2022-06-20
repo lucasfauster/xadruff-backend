@@ -3,14 +3,23 @@ package com.uff.br.xadruffbackend.service
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
-import com.uff.br.xadruffbackend.extension.ChessSliceIndex
+import com.uff.br.xadruffbackend.extension.BoardPromotionExtensions.PROMOTION_CHAR
+import com.uff.br.xadruffbackend.extension.actions
 import com.uff.br.xadruffbackend.extension.deepCopy
+import com.uff.br.xadruffbackend.extension.futureStringPosition
+import com.uff.br.xadruffbackend.extension.originalStringPosition
 import com.uff.br.xadruffbackend.extension.position
+import com.uff.br.xadruffbackend.extension.promotionPiece
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.enum.Color
+import com.uff.br.xadruffbackend.model.piece.Bishop
+import com.uff.br.xadruffbackend.model.piece.Knight
 import com.uff.br.xadruffbackend.model.piece.Pawn
+import com.uff.br.xadruffbackend.model.piece.Piece
+import com.uff.br.xadruffbackend.model.piece.Queen
+import com.uff.br.xadruffbackend.model.piece.Rook
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.util.stream.Collectors
@@ -21,7 +30,7 @@ class MovementService {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun handleDrawMoveRule(game: GameEntity, move: String) {
-        val piece = game.getBoard().position(move.slice(ChessSliceIndex.FIRST_POSITION)).piece
+        val piece = game.getBoard().position(move.originalStringPosition()).piece
         if (piece !is Pawn && move.last() != 'C') {
             logger.info(
                 "Game = ${game.boardId}, " +
@@ -69,8 +78,24 @@ class MovementService {
     }
 
     fun applyMove(board: Board, move: String) {
-        val piece = board.position(move.slice(ChessSliceIndex.FIRST_POSITION)).piece
-        board.position(move.slice(ChessSliceIndex.SECOND_POSITION)).piece = piece
-        board.position(move.slice(ChessSliceIndex.FIRST_POSITION)).piece = null
+        val piece = getPiece(board.position(move.originalStringPosition()).piece!!, move)
+        board.position(move.futureStringPosition()).piece = piece
+        board.position(move.originalStringPosition()).piece = null
+    }
+
+    fun getPiece(piece: Piece, move: String): Piece {
+        val pieceChar = if (move.actions().contains(PROMOTION_CHAR)) {
+            move.promotionPiece()
+        } else {
+            piece.value
+        }
+
+        return when (pieceChar.uppercaseChar()) {
+            Queen.VALUE.uppercaseChar() -> Queen(piece.color)
+            Rook.VALUE.uppercaseChar() -> Rook(piece.color)
+            Knight.VALUE.uppercaseChar() -> Knight(piece.color)
+            Bishop.VALUE.uppercaseChar() -> Bishop(piece.color)
+            else -> piece
+        }
     }
 }
