@@ -104,6 +104,7 @@ class ChessService(
     ) {
         val board = game.getBoard()
         movementService.applyMove(board, move)
+        movementService.handleRookMovement(board, move)
         movementService.handleDrawMoveRule(game, move)
         board.changeTurn()
         updateGameState(game, board, move)

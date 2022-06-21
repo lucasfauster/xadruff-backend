@@ -15,6 +15,7 @@ import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Bishop
+import com.uff.br.xadruffbackend.model.piece.King
 import com.uff.br.xadruffbackend.model.piece.Knight
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Piece
@@ -41,6 +42,28 @@ class MovementService {
             game.whiteDrawMoves = 0
             game.blackDrawMoves = 0
         }
+    }
+
+    fun handleRookMovement(board: Board, move: String) {
+        val piece = board.position(move.originalStringPosition()).piece
+        if (piece is King && isRookMovement(move)) {
+            val futurePosition = move.futureStringPosition()
+            val row = futurePosition.last()
+            val column = futurePosition.first()
+
+            if (column == 'c') {
+                val movement = "a$row" + "d$row"
+                applyMove(board, movement)
+            } else {
+                val movement = "h$row" + "f$row"
+                applyMove(board, movement)
+            }
+        }
+    }
+
+    private fun isRookMovement(move: String): Boolean {
+        return move.originalStringPosition() in listOf("e1", "e8") &&
+            move.futureStringPosition() in listOf("c1", "c8", "g1", "g8")
     }
 
     private fun addOneToMoveRule(game: GameEntity) {
