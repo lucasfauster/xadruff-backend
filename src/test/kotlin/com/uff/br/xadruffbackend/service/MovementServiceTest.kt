@@ -280,7 +280,7 @@ class MovementServiceTest {
         board.position("f1").piece = null
         board.position("g1").piece = null
 
-        movementService.handleRookMovement(board, "e1g1")
+        movementService.handleCastleMovement(board, "e1g1")
         assertEquals(Rook.VALUE.uppercaseChar(), board.position("f1").piece!!.value)
     }
 
@@ -291,7 +291,7 @@ class MovementServiceTest {
         board.position("c1").piece = null
         board.position("d1").piece = null
 
-        movementService.handleRookMovement(board, "e1c1")
+        movementService.handleCastleMovement(board, "e1c1")
         assertEquals(Rook.VALUE.uppercaseChar(), board.position("d1").piece!!.value)
     }
 
@@ -302,7 +302,7 @@ class MovementServiceTest {
         board.position("g8").piece = null
         board.turnColor = Color.BLACK
 
-        movementService.handleRookMovement(board, "e8g8")
+        movementService.handleCastleMovement(board, "e8g8")
         assertEquals(Rook.VALUE, board.position("f8").piece!!.value)
     }
 
@@ -314,7 +314,7 @@ class MovementServiceTest {
         board.position("d8").piece = null
         board.turnColor = Color.BLACK
 
-        movementService.handleRookMovement(board, "e8c8")
+        movementService.handleCastleMovement(board, "e8c8")
         assertEquals(Rook.VALUE, board.position("d8").piece!!.value)
     }
 }

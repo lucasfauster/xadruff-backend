@@ -346,6 +346,19 @@ internal class ChessServiceTest {
         assertNull(response.endgame)
     }
 
+    @Test
+    fun `should apply move for rook when applied small rook movement for white king`() {
+        val board = buildInitialBoard()
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+        val legalMovements = LegalMovements(mutableListOf("e1g1"))
+        val game = GameEntity(board = board.toJsonString(), legalMovements = legalMovements.toJsonString())
+
+        chessService.handleMove("e1g1", game)
+        assertEquals(Rook.VALUE.uppercaseChar(), game.getBoard().position("f1").piece?.value)
+        assertEquals(King.VALUE.uppercaseChar(), game.getBoard().position("g1").piece?.value)
+    }
+
     private fun assertBoard(boardPositions: List<List<Position>>, expectedBoardPositions: List<List<Position>>) {
         for (row in 0..7) {
             for (column in 0..7) {

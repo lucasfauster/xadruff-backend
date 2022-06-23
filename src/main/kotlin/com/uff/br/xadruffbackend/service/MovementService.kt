@@ -44,26 +44,26 @@ class MovementService {
         }
     }
 
-    fun handleRookMovement(board: Board, move: String) {
+    fun handleCastleMovement(board: Board, move: String) {
         val piece = board.position(move.originalStringPosition()).piece
-        if (piece is King && isRookMovement(move)) {
+        logger.debug("Piece in handle castle movement is = $piece")
+        if (piece is King && isCastleMovement(move)) {
             val futurePosition = move.futureStringPosition()
             val row = futurePosition.last()
             val column = futurePosition.first()
 
+            logger.debug("Calculating castle movement for row = $row, column = $column")
+            var rookMovement = "h$row" + "f$row"
             if (column == 'c') {
-                val movement = "a$row" + "d$row"
-                applyMove(board, movement)
-            } else {
-                val movement = "h$row" + "f$row"
-                applyMove(board, movement)
+                rookMovement = "a$row" + "d$row"
             }
+
+            applyMove(board, rookMovement)
         }
     }
 
-    private fun isRookMovement(move: String): Boolean {
-        return move.originalStringPosition() in listOf("e1", "e8") &&
-            move.futureStringPosition() in listOf("c1", "c8", "g1", "g8")
+    private fun isCastleMovement(move: String): Boolean {
+        return move in listOf("e1c1", "e1g1", "e8c8", "e8g8")
     }
 
     private fun addOneToMoveRule(game: GameEntity) {
@@ -101,6 +101,8 @@ class MovementService {
     }
 
     fun applyMove(board: Board, move: String) {
+        handleCastleMovement(board, move)
+
         val piece = getPiece(board.position(move.originalStringPosition()).piece!!, move)
         board.position(move.futureStringPosition()).piece = piece
         board.position(move.originalStringPosition()).piece = null
