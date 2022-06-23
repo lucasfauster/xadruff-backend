@@ -15,6 +15,7 @@ import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.model.LegalMovements
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.piece.Bishop
+import com.uff.br.xadruffbackend.model.piece.King
 import com.uff.br.xadruffbackend.model.piece.Knight
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Piece
@@ -41,6 +42,28 @@ class MovementService {
             game.whiteDrawMoves = 0
             game.blackDrawMoves = 0
         }
+    }
+
+    fun handleCastleMovement(board: Board, move: String) {
+        val piece = board.position(move.originalStringPosition()).piece
+        logger.debug("Piece in handle castle movement is = $piece")
+        if (piece is King && isCastleMovement(move)) {
+            val futurePosition = move.futureStringPosition()
+            val row = futurePosition.last()
+            val column = futurePosition.first()
+
+            logger.debug("Calculating castle movement for row = $row, column = $column")
+            var rookMovement = "h$row" + "f$row"
+            if (column == 'c') {
+                rookMovement = "a$row" + "d$row"
+            }
+
+            applyMove(board, rookMovement)
+        }
+    }
+
+    private fun isCastleMovement(move: String): Boolean {
+        return move in listOf("e1c1", "e1g1", "e8c8", "e8g8")
     }
 
     private fun addOneToMoveRule(game: GameEntity) {
@@ -78,6 +101,8 @@ class MovementService {
     }
 
     fun applyMove(board: Board, move: String) {
+        handleCastleMovement(board, move)
+
         val piece = getPiece(board.position(move.originalStringPosition()).piece!!, move)
         board.position(move.futureStringPosition()).piece = piece
         board.position(move.originalStringPosition()).piece = null

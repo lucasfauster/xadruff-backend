@@ -98,13 +98,14 @@ class ChessService(
         return buildChessResponse(game, aiMove)
     }
 
-    private fun handleMove(
+    fun handleMove(
         move: String,
         game: GameEntity,
     ) {
         val board = game.getBoard()
         movementService.applyMove(board, move)
         movementService.handleDrawMoveRule(game, move)
+
         board.changeTurn()
         updateGameState(game, board, move)
         endgameService.checkIfGameEnded(game)

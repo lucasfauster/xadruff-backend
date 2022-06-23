@@ -273,4 +273,48 @@ class MovementServiceTest {
         assertNull(board.position("a2").piece)
         assertEquals(Queen.VALUE, board.position("a1").piece!!.value)
     }
+
+    @Test
+    fun `should apply move for rook when applied small rook movement for white king`() {
+        val board = buildInitialBoard()
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+
+        movementService.handleCastleMovement(board, "e1g1")
+        assertEquals(Rook.VALUE.uppercaseChar(), board.position("f1").piece!!.value)
+    }
+
+    @Test
+    fun `should apply move for rook when applied big rook movement for white king`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+
+        movementService.handleCastleMovement(board, "e1c1")
+        assertEquals(Rook.VALUE.uppercaseChar(), board.position("d1").piece!!.value)
+    }
+
+    @Test
+    fun `should apply move for rook when applied small rook movement for black king`() {
+        val board = buildInitialBoard()
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+        board.turnColor = Color.BLACK
+
+        movementService.handleCastleMovement(board, "e8g8")
+        assertEquals(Rook.VALUE, board.position("f8").piece!!.value)
+    }
+
+    @Test
+    fun `should apply move for rook when applied big rook movement for black king`() {
+        val board = buildInitialBoard()
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.turnColor = Color.BLACK
+
+        movementService.handleCastleMovement(board, "e8c8")
+        assertEquals(Rook.VALUE, board.position("d8").piece!!.value)
+    }
 }
