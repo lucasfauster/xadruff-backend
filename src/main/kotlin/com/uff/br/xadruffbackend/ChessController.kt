@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/chess")
-@CrossOrigin
 class ChessController(private val chessService: ChessService) {
 
     @GetMapping("/new-game")
+    @CrossOrigin
     fun createNewGame(
         @RequestParam(name = "start-by") startBy: StartsBy,
         @RequestParam(name = "level") level: Level
@@ -26,6 +26,7 @@ class ChessController(private val chessService: ChessService) {
         chessService.createNewGame(startBy, level)
 
     @PostMapping("/move")
+    @CrossOrigin
     fun movePiece(
         @RequestParam(name = "board-id")
         boardId: String,
