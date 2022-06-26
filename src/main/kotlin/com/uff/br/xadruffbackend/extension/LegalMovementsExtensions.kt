@@ -40,7 +40,7 @@ fun MutableList<String>.toMap(): Map<String, List<String>> {
         legalMoves.filter {
             it.originalStringPosition() == index
         }.map {
-            it.futureStringPosition()
+            it.futureStringPositionAndAction()
         }
 
     val movesMap: MutableMap<String, List<String>> = mutableMapOf()
