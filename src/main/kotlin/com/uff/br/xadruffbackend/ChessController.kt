@@ -5,6 +5,7 @@ import com.uff.br.xadruffbackend.model.enum.Level
 import com.uff.br.xadruffbackend.model.enum.StartsBy
 import com.uff.br.xadruffbackend.model.response.ChessResponse
 import com.uff.br.xadruffbackend.service.ChessService
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/chess")
+@CrossOrigin
 class ChessController(private val chessService: ChessService) {
 
     @GetMapping("/new-game")
