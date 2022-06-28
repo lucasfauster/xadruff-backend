@@ -43,12 +43,12 @@ class AIService(@Autowired private val movementService: MovementService) {
             val fakeBoard = board.deepCopy()
             movementService.applyMove(fakeBoard, move)
             fakeBoard.changeTurn()
+
             val moveValue = min(depth - 1, fakeBoard, -Int.MAX_VALUE, Int.MAX_VALUE)
 
             if (moveValue > bestMoveValue) {
                 bestMoveValue = moveValue
                 finalMove = move
-                break
             }
         }
 
@@ -69,8 +69,9 @@ class AIService(@Autowired private val movementService: MovementService) {
             val fakeBoard = board.deepCopy()
             movementService.applyMove(fakeBoard, move)
             fakeBoard.changeTurn()
+
             bestMoveValue =
-                bestMoveValue.coerceAtLeast(min(depth - 1, fakeBoard, maxMoveValueLimit, minMoveValueLimit))
+                min(depth - 1, fakeBoard, maxMoveValueLimit, minMoveValueLimit)
 
             logger.debug("Best value for move {} in depth {} is {}", move, depth, bestMoveValue)
             val maxMoveValue = maxMoveValueLimit.coerceAtLeast(bestMoveValue)

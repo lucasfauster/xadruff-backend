@@ -18,16 +18,17 @@ fun Board.toJsonString(): String {
 }
 
 fun Board.toFile() {
+    val path = System.getProperty("user.dir")
     this.positions.forEach { row ->
         row.forEach {
             when (it.piece) {
-                null -> File("/home/lfauster/Trabalho/xadruff-backend/ia_fight.txt").appendText("_ ")
-                else -> File("/home/lfauster/Trabalho/xadruff-backend/ia_fight.txt").appendText("${it.piece?.value} ")
+                null -> File("ia_fight.txt").appendText("_ ")
+                else -> File("ia_fight.txt").appendText("${it.piece?.value} ")
             }
         }
-        File("/home/lfauster/Trabalho/xadruff-backend/ia_fight.txt").appendText("\n")
+        File("ia_fight.txt").appendText("\n")
     }
-    File("/home/lfauster/Trabalho/xadruff-backend/ia_fight.txt").appendText("\n")
+    File("ia_fight.txt").appendText("\n")
 }
 
 fun Board.position(square: String) =
