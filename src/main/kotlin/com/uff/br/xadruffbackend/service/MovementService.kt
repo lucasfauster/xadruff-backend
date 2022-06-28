@@ -102,10 +102,17 @@ class MovementService {
 
     fun applyMove(board: Board, move: String) {
         handleCastleMovement(board, move)
-
         val piece = getPiece(board.position(move.originalStringPosition()).piece!!, move)
+        updateCastlePiecesState(piece)
         board.position(move.futureStringPosition()).piece = piece
         board.position(move.originalStringPosition()).piece = null
+    }
+
+    private fun updateCastlePiecesState(piece: Piece) {
+        when (piece) {
+            is Rook -> piece.hasMoved = true
+            is King -> piece.hasMoved = true
+        }
     }
 
     fun getPiece(piece: Piece, move: String): Piece {
