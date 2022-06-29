@@ -56,11 +56,11 @@ private fun List<List<Position>>.position(row: Char, column: Char) =
 
 fun Int.toChessRow() = (RowColumnConstants.ROW_CONSTANT - this).toString()
 
-private fun Int.toChessColumn() = RowColumnConstants.COLUMN_INT_CONSTANT + this
+fun Int.toChessColumn() = RowColumnConstants.COLUMN_INT_CONSTANT + this
 
-private fun Char.toPositionRow() = RowColumnConstants.ROW_CONSTANT - digitToInt()
+fun Char.toPositionRow() = RowColumnConstants.ROW_CONSTANT - digitToInt()
 
-private fun Char.toPositionColumn() = code - RowColumnConstants.COLUMN_CODE_CONSTANT
+fun Char.toPositionColumn() = code - RowColumnConstants.COLUMN_CODE_CONSTANT
 
 fun position(square: String, piece: Piece? = null, action: String = "") = Position(
     row = square.last().toPositionRow(),
