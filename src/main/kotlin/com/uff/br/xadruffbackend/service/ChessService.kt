@@ -1,5 +1,6 @@
 package com.uff.br.xadruffbackend.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.uff.br.xadruffbackend.GameRepository
 import com.uff.br.xadruffbackend.ai.AIService
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
@@ -58,7 +59,9 @@ class ChessService(
         }
 
         gameRepository.save(game)
-        return buildChessResponse(game, aiMove)
+        return buildChessResponse(game, aiMove).also {
+            logger.info("Game = ${game.boardId}, create game response = ${ObjectMapper().writeValueAsString(it)}")
+        }
     }
 
     private fun getGameById(boardId: String): GameEntity =
@@ -84,6 +87,7 @@ class ChessService(
     }
 
     fun movePiece(boardId: String, move: String): ChessResponse {
+        logger.info("Game = $boardId, received move = $move")
         val game = getGameById(boardId)
         movementService.verifyIsAllowedMove(game.getLegalMovements(), move)
 
@@ -95,7 +99,9 @@ class ChessService(
         }
 
         gameRepository.save(game)
-        return buildChessResponse(game, aiMove)
+        return buildChessResponse(game, aiMove).also {
+            logger.info("Game = $boardId, move response = ${ObjectMapper().writeValueAsString(it)}")
+        }
     }
 
     fun handleMove(

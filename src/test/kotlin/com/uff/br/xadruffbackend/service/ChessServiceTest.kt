@@ -351,10 +351,10 @@ internal class ChessServiceTest {
         val board = buildInitialBoard()
         board.position("f1").piece = null
         board.position("g1").piece = null
-        val legalMovements = LegalMovements(mutableListOf("e1g1"))
+        val legalMovements = LegalMovements(mutableListOf("e1g1Oh1f1"))
         val game = GameEntity(board = board.toJsonString(), legalMovements = legalMovements.toJsonString())
 
-        chessService.handleMove("e1g1", game)
+        chessService.handleMove("e1g1Oh1f1", game)
         assertEquals(Rook.VALUE.uppercaseChar(), game.getBoard().position("f1").piece?.value)
         assertEquals(King.VALUE.uppercaseChar(), game.getBoard().position("g1").piece?.value)
     }

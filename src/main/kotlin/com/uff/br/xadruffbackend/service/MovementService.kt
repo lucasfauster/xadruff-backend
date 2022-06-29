@@ -63,7 +63,9 @@ class MovementService {
     }
 
     private fun isCastleMovement(move: String): Boolean {
-        return move in listOf("e1c1", "e1g1", "e8c8", "e8g8")
+        return move.any {
+            it == 'O'
+        }
     }
 
     private fun addOneToMoveRule(game: GameEntity) {
