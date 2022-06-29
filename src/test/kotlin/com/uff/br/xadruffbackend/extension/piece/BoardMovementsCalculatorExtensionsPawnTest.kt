@@ -1,10 +1,10 @@
 package com.uff.br.xadruffbackend.extension.piece
 
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Pawn
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculateLegalMovementsInPosition
 import com.uff.br.xadruffbackend.extension.addAll
 import com.uff.br.xadruffbackend.extension.position
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import kotlinx.coroutines.runBlocking

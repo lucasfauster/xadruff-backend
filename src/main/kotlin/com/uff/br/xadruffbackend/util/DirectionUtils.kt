@@ -1,22 +1,22 @@
 package com.uff.br.xadruffbackend.util
 
-import com.uff.br.xadruffbackend.model.direction.Direction
-import com.uff.br.xadruffbackend.model.direction.DownLeftDiagonal
-import com.uff.br.xadruffbackend.model.direction.DownLeftL
-import com.uff.br.xadruffbackend.model.direction.DownRightDiagonal
-import com.uff.br.xadruffbackend.model.direction.DownRightL
-import com.uff.br.xadruffbackend.model.direction.DownStraight
-import com.uff.br.xadruffbackend.model.direction.LeftDownL
-import com.uff.br.xadruffbackend.model.direction.LeftStraight
-import com.uff.br.xadruffbackend.model.direction.LeftUpL
-import com.uff.br.xadruffbackend.model.direction.RightDownL
-import com.uff.br.xadruffbackend.model.direction.RightStraight
-import com.uff.br.xadruffbackend.model.direction.RightUpL
-import com.uff.br.xadruffbackend.model.direction.UpLeftDiagonal
-import com.uff.br.xadruffbackend.model.direction.UpLeftL
-import com.uff.br.xadruffbackend.model.direction.UpRightDiagonal
-import com.uff.br.xadruffbackend.model.direction.UpRightL
-import com.uff.br.xadruffbackend.model.direction.UpStraight
+import com.uff.br.xadruffbackend.dto.direction.Direction
+import com.uff.br.xadruffbackend.dto.direction.DownLeftDiagonal
+import com.uff.br.xadruffbackend.dto.direction.DownLeftL
+import com.uff.br.xadruffbackend.dto.direction.DownRightDiagonal
+import com.uff.br.xadruffbackend.dto.direction.DownRightL
+import com.uff.br.xadruffbackend.dto.direction.DownStraight
+import com.uff.br.xadruffbackend.dto.direction.LeftDownL
+import com.uff.br.xadruffbackend.dto.direction.LeftStraight
+import com.uff.br.xadruffbackend.dto.direction.LeftUpL
+import com.uff.br.xadruffbackend.dto.direction.RightDownL
+import com.uff.br.xadruffbackend.dto.direction.RightStraight
+import com.uff.br.xadruffbackend.dto.direction.RightUpL
+import com.uff.br.xadruffbackend.dto.direction.UpLeftDiagonal
+import com.uff.br.xadruffbackend.dto.direction.UpLeftL
+import com.uff.br.xadruffbackend.dto.direction.UpRightDiagonal
+import com.uff.br.xadruffbackend.dto.direction.UpRightL
+import com.uff.br.xadruffbackend.dto.direction.UpStraight
 
 fun buildDiagonalDirections() = listOf(
     UpRightDiagonal(),

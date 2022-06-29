@@ -1,11 +1,11 @@
 package com.uff.br.xadruffbackend.extension
 
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Rook
 import com.uff.br.xadruffbackend.extension.BoardPromotionExtensions.createPromotionMovements
 import com.uff.br.xadruffbackend.extension.BoardPromotionExtensions.handlePromotionInRange
 import com.uff.br.xadruffbackend.extension.BoardPromotionExtensions.isPawnLastMovement
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Rook
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals

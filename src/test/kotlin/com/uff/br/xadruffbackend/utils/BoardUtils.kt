@@ -1,15 +1,16 @@
 package com.uff.br.xadruffbackend.utils
 
+import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.Position
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Bishop
+import com.uff.br.xadruffbackend.dto.piece.King
+import com.uff.br.xadruffbackend.dto.piece.Knight
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Queen
+import com.uff.br.xadruffbackend.dto.piece.Rook
 import com.uff.br.xadruffbackend.extension.position
-import com.uff.br.xadruffbackend.model.Board
-import com.uff.br.xadruffbackend.model.Position
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.Bishop
-import com.uff.br.xadruffbackend.model.piece.King
-import com.uff.br.xadruffbackend.model.piece.Knight
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Queen
-import com.uff.br.xadruffbackend.model.piece.Rook
+import org.junit.jupiter.api.Assertions
 
 fun buildInitialLegalMovements(): MutableList<String> {
 
@@ -18,6 +19,17 @@ fun buildInitialLegalMovements(): MutableList<String> {
         "e2e3", "e2e4", "f2f3", "f2f4", "g2g3", "g2g4", "h2h3", "h2h4",
         "b1a3", "b1c3", "g1f3", "g1h3"
     )
+}
+
+fun assertBoard(boardPositions: List<List<Position>>, expectedBoardPositions: List<List<Position>>) {
+    for (row in 0..7) {
+        for (column in 0..7) {
+            Assertions.assertEquals(
+                boardPositions[row][column].piece?.value,
+                expectedBoardPositions[row][column].piece?.value
+            )
+        }
+    }
 }
 
 @Suppress("LongMethod")

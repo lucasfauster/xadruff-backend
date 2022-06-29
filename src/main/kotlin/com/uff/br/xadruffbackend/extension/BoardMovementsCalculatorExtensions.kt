@@ -1,14 +1,14 @@
 package com.uff.br.xadruffbackend.extension
 
+import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.LegalMovements
+import com.uff.br.xadruffbackend.dto.Position
+import com.uff.br.xadruffbackend.dto.direction.Direction
+import com.uff.br.xadruffbackend.dto.piece.King
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Piece
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.handleCastleMovements
 import com.uff.br.xadruffbackend.extension.BoardPromotionExtensions.handlePromotionInRange
-import com.uff.br.xadruffbackend.model.Board
-import com.uff.br.xadruffbackend.model.LegalMovements
-import com.uff.br.xadruffbackend.model.Position
-import com.uff.br.xadruffbackend.model.direction.Direction
-import com.uff.br.xadruffbackend.model.piece.King
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Piece
 import com.uff.br.xadruffbackend.util.parallelMap
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory

@@ -1,6 +1,7 @@
 package com.uff.br.xadruffbackend.model.response
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.uff.br.xadruffbackend.dto.response.ChessResponse
 
 class GameResponse(
     @JsonProperty(value = "chess_response")
