@@ -133,7 +133,7 @@ internal class BoardMovementsCalculatorExtensionsTest {
     }
 
     @Test
-    fun `should not return white king position when in check`() {
+    fun `should not return white king position when not in check`() {
         val board = buildEmptyBoard()
         board.position("d5").piece = Queen(Color.BLACK)
         board.position("e7").piece = King(Color.WHITE)
