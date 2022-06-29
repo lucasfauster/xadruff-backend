@@ -2,6 +2,7 @@ package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.getCastleMovement
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.getFutureCastleKingPosition
+import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.getFutureCastleRookPosition
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.handleCastleMovements
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.hasPawnThreat
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.hasThreatInTheWay
@@ -157,13 +158,21 @@ class BoardCastleExtensionsTest {
     }
 
     @Test
+    fun `should get future castle rook position`() {
+        assertEquals("d1", getFutureCastleRookPosition("a1"))
+        assertEquals("f1", getFutureCastleRookPosition("h1"))
+        assertEquals("d8", getFutureCastleRookPosition("a8"))
+        assertEquals("f8", getFutureCastleRookPosition("h8"))
+    }
+
+    @Test
     fun `should get castle movements for white king with empty board`() {
         val board = buildEmptyBoard()
         board.position("a1").piece = Rook(Color.WHITE)
         board.position("h1").piece = Rook(Color.WHITE)
         board.position("e1").piece = King(Color.WHITE)
-        assertEquals("e1c1", board.getCastleMovement("e1", "a1"))
-        assertEquals("e1g1", board.getCastleMovement("e1", "h1"))
+        assertEquals("e1c1Oa1d1", board.getCastleMovement("e1", "a1"))
+        assertEquals("e1g1Oh1f1", board.getCastleMovement("e1", "h1"))
     }
 
     @Test
@@ -172,8 +181,8 @@ class BoardCastleExtensionsTest {
         board.position("a8").piece = Rook(Color.WHITE)
         board.position("h8").piece = Rook(Color.WHITE)
         board.position("e8").piece = King(Color.WHITE)
-        assertEquals("e8c8", board.getCastleMovement("e8", "a8"))
-        assertEquals("e8g8", board.getCastleMovement("e8", "h8"))
+        assertEquals("e8c8Oa8d8", board.getCastleMovement("e8", "a8"))
+        assertEquals("e8g8Oh8f8", board.getCastleMovement("e8", "h8"))
     }
 
     @Test
@@ -225,7 +234,7 @@ class BoardCastleExtensionsTest {
         board.position("g1").piece = null
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
-        assertEquals(listOf("e1c1", "e1g1"), legalMovements.movements)
+        assertEquals(listOf("e1c1Oa1d1", "e1g1Oh1f1"), legalMovements.movements)
     }
 
     @Test
@@ -239,7 +248,7 @@ class BoardCastleExtensionsTest {
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
-        assertEquals(listOf("e8c8", "e8g8"), legalMovements.movements)
+        assertEquals(listOf("e8c8Oa8d8", "e8g8Oh8f8"), legalMovements.movements)
     }
 
     @Test
@@ -356,7 +365,7 @@ class BoardCastleExtensionsTest {
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
-        assertEquals(listOf("e8g8"), legalMovements.movements)
+        assertEquals(listOf("e8g8Oh8f8"), legalMovements.movements)
     }
 
     @Test
@@ -375,7 +384,7 @@ class BoardCastleExtensionsTest {
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
-        assertEquals(listOf("e8c8"), legalMovements.movements)
+        assertEquals(listOf("e8c8Oa8d8"), legalMovements.movements)
     }
 
     @Test
@@ -393,7 +402,7 @@ class BoardCastleExtensionsTest {
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
-        assertEquals(listOf("e1g1"), legalMovements.movements)
+        assertEquals(listOf("e1g1Oh1f1"), legalMovements.movements)
     }
 
     @Test
@@ -411,7 +420,7 @@ class BoardCastleExtensionsTest {
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
-        assertEquals(listOf("e1c1"), legalMovements.movements)
+        assertEquals(listOf("e1c1Oa1d1"), legalMovements.movements)
     }
 
     @Test
@@ -449,7 +458,7 @@ class BoardCastleExtensionsTest {
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
-        assertEquals(listOf("e1g1"), legalMovements.movements)
+        assertEquals(listOf("e1g1Oh1f1"), legalMovements.movements)
     }
 
     @Test
@@ -465,7 +474,7 @@ class BoardCastleExtensionsTest {
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
-        assertEquals(listOf("e1c1"), legalMovements.movements)
+        assertEquals(listOf("e1c1Oa1d1"), legalMovements.movements)
     }
 
     @Test
@@ -480,7 +489,7 @@ class BoardCastleExtensionsTest {
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
-        assertEquals(listOf("e1g1"), legalMovements.movements)
+        assertEquals(listOf("e1g1Oh1f1"), legalMovements.movements)
     }
 
     @Test
@@ -495,7 +504,7 @@ class BoardCastleExtensionsTest {
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
-        assertEquals(listOf("e1c1"), legalMovements.movements)
+        assertEquals(listOf("e1c1Oa1d1"), legalMovements.movements)
     }
 
     @Test
@@ -525,7 +534,7 @@ class BoardCastleExtensionsTest {
 
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e1"), legalMovements)
-        assertEquals(listOf("e1c1", "e1g1"), legalMovements.movements)
+        assertEquals(listOf("e1c1Oa1d1", "e1g1Oh1f1"), legalMovements.movements)
     }
 
     @Test
@@ -561,7 +570,7 @@ class BoardCastleExtensionsTest {
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
-        assertEquals(listOf("e8g8"), legalMovements.movements)
+        assertEquals(listOf("e8g8Oh8f8"), legalMovements.movements)
     }
 
     @Test
@@ -578,7 +587,7 @@ class BoardCastleExtensionsTest {
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
-        assertEquals(listOf("e8c8"), legalMovements.movements)
+        assertEquals(listOf("e8c8Oa8d8"), legalMovements.movements)
     }
 
     @Test
@@ -594,7 +603,7 @@ class BoardCastleExtensionsTest {
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
-        assertEquals(listOf("e8g8"), legalMovements.movements)
+        assertEquals(listOf("e8g8Oh8f8"), legalMovements.movements)
     }
 
     @Test
@@ -610,7 +619,7 @@ class BoardCastleExtensionsTest {
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
-        assertEquals(listOf("e8c8"), legalMovements.movements)
+        assertEquals(listOf("e8c8Oa8d8"), legalMovements.movements)
     }
 
     @Test
@@ -642,6 +651,6 @@ class BoardCastleExtensionsTest {
         board.turnColor = Color.BLACK
         val legalMovements = LegalMovements()
         board.handleCastleMovements(position = board.position("e8"), legalMovements)
-        assertEquals(listOf("e8c8", "e8g8"), legalMovements.movements)
+        assertEquals(listOf("e8c8Oa8d8", "e8g8Oh8f8"), legalMovements.movements)
     }
 }

@@ -130,7 +130,7 @@ object BoardMovementsCalculatorExtensions {
 
     fun buildCaptureAction(position: Position, originPiece: Piece?): String {
         return if (position.hasEnemyPiece(originPiece)) {
-            "C"
+            "C" + position.getGhostCaptureIfExists()
         } else {
             ""
         }

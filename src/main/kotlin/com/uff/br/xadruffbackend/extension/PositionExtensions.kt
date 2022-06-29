@@ -69,6 +69,16 @@ fun position(square: String, piece: Piece? = null, action: String = "") = Positi
     action = action
 )
 
+fun Position.getGhostCaptureIfExists() =
+    if (piece is Ghost) {
+        when (piece!!.color) {
+            Color.WHITE -> "E" + Position(row - 1, column).toChessPosition()
+            Color.BLACK -> "E" + Position(row + 1, column).toChessPosition()
+        }
+    } else {
+        ""
+    }
+
 object RowColumnConstants {
     const val ROW_CONSTANT = 8
     const val COLUMN_INT_CONSTANT = 'a'

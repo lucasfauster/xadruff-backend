@@ -36,11 +36,18 @@ object BoardCastleExtensions {
         val piece = position(rookSquare).piece
         return if (piece is Rook && isPossibleToCastle(piece, kingSquare, rookSquare)
         ) {
-            "$kingSquare${getFutureCastleKingPosition(rookSquare)}"
+            "$kingSquare${getFutureCastleKingPosition(rookSquare)}" +
+                "O$rookSquare${getFutureCastleRookPosition(rookSquare)}"
         } else {
             null
         }
     }
+
+    fun getFutureCastleRookPosition(rookSquare: String): String =
+        when (rookSquare.first()) {
+            'a' -> "d${rookSquare.last()}"
+            else -> "f${rookSquare.last()}"
+        }
 
     fun getFutureCastleKingPosition(rookSquare: String): String =
         when (rookSquare.first()) {
