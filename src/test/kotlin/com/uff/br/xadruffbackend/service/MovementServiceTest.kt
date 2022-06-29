@@ -317,35 +317,4 @@ class MovementServiceTest {
         movementService.handleCastleMovement(board, "e8c8Oa8d8")
         assertEquals(Rook.VALUE, board.position("d8").piece!!.value)
     }
-
-    @Test
-    fun `should transform legal movement that causes check in white king`() {
-        val board = buildEmptyBoard()
-        board.position("d5").piece = Queen(Color.BLACK)
-        board.position("e7").piece = King(Color.WHITE)
-        board.turnColor = Color.BLACK
-        var legalMovements = mutableListOf("d5e5")
-        legalMovements = movementService.handleChekingMovement(board, legalMovements)
-        assertEquals(mutableListOf("d5e5Ke7"), legalMovements)
-    }
-
-    @Test
-    fun `should transform legal movement that causes check in black king`() {
-        val board = buildEmptyBoard()
-        board.position("d5").piece = Queen(Color.WHITE)
-        board.position("e7").piece = King(Color.BLACK)
-        var legalMovements = mutableListOf("d5e5")
-        legalMovements = movementService.handleChekingMovement(board, legalMovements)
-        assertEquals(mutableListOf("d5e5Ke7"), legalMovements)
-    }
-
-    @Test
-    fun `should not transform legal movements list when it has no movement that causes check`() {
-        val board = buildEmptyBoard()
-        board.position("d5").piece = Queen(Color.WHITE)
-        board.position("e7").piece = King(Color.BLACK)
-        val legalMovements = mutableListOf("d5d4")
-        movementService.handleChekingMovement(board, legalMovements)
-        assertEquals(mutableListOf("d5d4"), legalMovements)
-    }
 }

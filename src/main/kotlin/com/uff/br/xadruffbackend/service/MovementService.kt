@@ -2,7 +2,6 @@ package com.uff.br.xadruffbackend.service
 
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
-import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.getKingInCheckStringPosition
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
 import com.uff.br.xadruffbackend.extension.BoardPromotionExtensions.PROMOTION_CHAR
 import com.uff.br.xadruffbackend.extension.actions
@@ -82,12 +81,11 @@ class MovementService {
 
     fun calculateLegalMovements(board: Board): LegalMovements {
         logger.debug("Calculating legal movements")
-        var legalMovements = board.calculatePseudoLegalMoves().movements
-        legalMovements = handleChekingMovement(board, legalMovements)
+        val legalMovements = board.calculatePseudoLegalMoves()
         logger.debug("Calculated pseudo legal movements: $legalMovements")
 
         return LegalMovements(
-            legalMovements.parallelStream().filter {
+            legalMovements.movements.parallelStream().filter {
                 val fakeBoard = board.deepCopy()
                 applyMove(fakeBoard, it)
                 val hasCheck = fakeBoard.isKingInCheck()
@@ -96,22 +94,6 @@ class MovementService {
                 logger.debug("Calculated legal movements: $it")
             }
         )
-    }
-
-    fun handleChekingMovement(board: Board, legalMovements: MutableList<String>): MutableList<String> {
-        val newLegalMovements = mutableListOf<String>()
-        legalMovements.forEach {
-            val fakeBoard = board.deepCopy()
-            applyMove(fakeBoard, it)
-            val kingPosition = fakeBoard.getKingInCheckStringPosition()
-            if (kingPosition.isNotEmpty()) {
-                newLegalMovements.add("${it}K$kingPosition")
-            } else {
-                newLegalMovements.add(it)
-            }
-        }
-
-        return newLegalMovements
     }
 
     fun verifyIsAllowedMove(legalMovements: LegalMovements, move: String) {
