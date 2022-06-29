@@ -18,7 +18,6 @@ fun Board.toJsonString(): String {
 }
 
 fun Board.toFile() {
-    val path = System.getProperty("user.dir")
     this.positions.forEach { row ->
         row.forEach {
             when (it.piece) {
