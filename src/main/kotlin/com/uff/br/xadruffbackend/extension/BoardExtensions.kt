@@ -4,7 +4,6 @@ import com.uff.br.xadruffbackend.helper.buildGson
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.enum.Color
 import com.uff.br.xadruffbackend.model.response.BoardResponse
-import java.io.File
 
 fun Board.toBoardResponse(): BoardResponse {
     return BoardResponse(
@@ -15,19 +14,6 @@ fun Board.toBoardResponse(): BoardResponse {
 fun Board.toJsonString(): String {
     val gson = buildGson()
     return gson.toJson(this)
-}
-
-fun Board.toFile() {
-    this.positions.forEach { row ->
-        row.forEach {
-            when (it.piece) {
-                null -> File("ia_fight.txt").appendText("_ ")
-                else -> File("ia_fight.txt").appendText("${it.piece?.value} ")
-            }
-        }
-        File("ia_fight.txt").appendText("\n")
-    }
-    File("ia_fight.txt").appendText("\n")
 }
 
 fun Board.position(square: String) =
