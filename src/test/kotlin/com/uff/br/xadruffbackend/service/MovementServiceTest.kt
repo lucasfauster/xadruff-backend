@@ -20,7 +20,8 @@ import org.junit.jupiter.api.Test
 
 class MovementServiceTest {
 
-    private val movementService = MovementService()
+    private val enPassantService: EnPassantService = EnPassantService()
+    private val movementService: MovementService = MovementService(enPassantService)
 
     @Test
     fun `should generate initial legal movements from initial board`() {

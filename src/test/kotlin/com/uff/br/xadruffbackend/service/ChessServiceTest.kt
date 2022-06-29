@@ -40,7 +40,8 @@ internal class ChessServiceTest {
 
     private val initialBoard: Board = buildInitialBoard()
     private val gameRepository = mockk<GameRepository>()
-    private val movementService = MovementService()
+    private val enPassantService: EnPassantService = EnPassantService()
+    private val movementService: MovementService = MovementService(enPassantService)
     private val aiService = AIService(movementService)
     private val endgameService = EndgameService()
     private val chessService: ChessService = ChessService(gameRepository, movementService, aiService, endgameService)

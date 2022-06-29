@@ -22,11 +22,12 @@ import com.uff.br.xadruffbackend.model.piece.Piece
 import com.uff.br.xadruffbackend.model.piece.Queen
 import com.uff.br.xadruffbackend.model.piece.Rook
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.stream.Collectors
 
 @Component
-class MovementService {
+class MovementService(@Autowired private val enPassantService: EnPassantService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -104,6 +105,7 @@ class MovementService {
         handleCastleMovement(board, move)
 
         val piece = getPiece(board.position(move.originalStringPosition()).piece!!, move)
+        enPassantService.handleEnPassant(board, move, piece)
         board.position(move.futureStringPosition()).piece = piece
         board.position(move.originalStringPosition()).piece = null
     }

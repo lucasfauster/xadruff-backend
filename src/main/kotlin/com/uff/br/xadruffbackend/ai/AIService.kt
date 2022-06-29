@@ -6,6 +6,7 @@ import com.uff.br.xadruffbackend.extension.deepCopy
 import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.enum.Level
+import com.uff.br.xadruffbackend.model.piece.Ghost
 import com.uff.br.xadruffbackend.service.MovementService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -106,7 +107,10 @@ class AIService(@Autowired private val movementService: MovementService) {
         @Suppress("MagicNumber")
         for (row in 0..7) {
             for (column in 0..7) {
-                val piece = board.positions[row][column].piece
+                var piece = board.positions[row][column].piece
+                if (piece is Ghost) {
+                    piece = null
+                }
                 val positionWeight =
                     when (piece?.color) {
                         board.turnColor ->
