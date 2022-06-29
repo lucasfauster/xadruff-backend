@@ -1,10 +1,7 @@
 package com.uff.br.xadruffbackend.ai
 
-import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.position
-import com.uff.br.xadruffbackend.extension.toFile
 import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.enum.Level
 import com.uff.br.xadruffbackend.model.piece.Bishop
 import com.uff.br.xadruffbackend.model.piece.Pawn
 import com.uff.br.xadruffbackend.model.piece.Queen

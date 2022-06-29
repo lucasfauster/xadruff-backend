@@ -58,7 +58,7 @@ class AIService(@Autowired private val movementService: MovementService) {
 
     fun max(depth: Int, board: Board, maxMoveValueLimit: Int, minMoveValueLimit: Int): Int {
         if (depth == FIRST_DEPTH) {
-            return -evaluate(board)
+            return evaluate(board)
         }
         var bestMoveValue = INITIAL_MAX_BEST_NUMBER
         val legalMovements = movementService.calculateLegalMovements(board).movements
@@ -85,7 +85,7 @@ class AIService(@Autowired private val movementService: MovementService) {
 
     fun min(depth: Int, board: Board, maxMoveValueLimit: Int, minMoveValueLimit: Int): Int {
         if (depth == FIRST_DEPTH) {
-            return -evaluate(board)
+            return evaluate(board)
         }
         var worseMoveValue = INITIAL_MIN_BEST_NUMBER
         val legalMovements = movementService.calculateLegalMovements(board).movements
