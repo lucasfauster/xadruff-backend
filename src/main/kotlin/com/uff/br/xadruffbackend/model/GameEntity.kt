@@ -1,7 +1,9 @@
 package com.uff.br.xadruffbackend.model
 
+import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.LegalMovements
+import com.uff.br.xadruffbackend.dto.enum.Level
 import com.uff.br.xadruffbackend.helper.buildGson
-import com.uff.br.xadruffbackend.model.enum.Level
 import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.Id

@@ -1,10 +1,10 @@
 package com.uff.br.xadruffbackend.extension
 
-import com.uff.br.xadruffbackend.model.Position
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.Ghost
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Queen
+import com.uff.br.xadruffbackend.dto.Position
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Ghost
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Queen
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse

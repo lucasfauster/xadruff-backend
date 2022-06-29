@@ -34,6 +34,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.6.1-native-mt")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.1-native-mt")
+    implementation("org.springframework.boot:spring-boot-starter-validation:2.6.7")
     implementation("org.springframework.boot:spring-boot-starter-web:2.6.7")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.6.7")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")

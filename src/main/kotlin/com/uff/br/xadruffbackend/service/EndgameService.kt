@@ -1,9 +1,9 @@
 package com.uff.br.xadruffbackend.service
 
+import com.uff.br.xadruffbackend.dto.enum.EndgameMessage
+import com.uff.br.xadruffbackend.dto.response.EndgameResponse
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
 import com.uff.br.xadruffbackend.model.GameEntity
-import com.uff.br.xadruffbackend.model.enum.EndgameMessage
-import com.uff.br.xadruffbackend.model.response.EndgameResponse
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 

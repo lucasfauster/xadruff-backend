@@ -9,8 +9,8 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
-import com.uff.br.xadruffbackend.model.direction.Direction
-import com.uff.br.xadruffbackend.model.piece.Piece
+import com.uff.br.xadruffbackend.dto.direction.Direction
+import com.uff.br.xadruffbackend.dto.piece.Piece
 import java.lang.reflect.Type
 
 fun buildGson(): Gson = GsonBuilder().registerTypeAdapter(Piece::class.java, InterfaceAdapter<Piece>())
