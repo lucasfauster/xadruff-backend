@@ -75,6 +75,15 @@ object BoardMovementsCalculatorExtensions {
         }
     }
 
+    fun Board.getKingInCheckStringPosition(): String {
+        filterOnlyCaptureDirections()
+        val legalMovements = this.calculatePseudoLegalMoves(withCastle = false)
+        val kingPosition = legalMovements.movements.firstOrNull {
+            isKingCapture(it)
+        }
+        return kingPosition?.futureStringPosition() ?: ""
+    }
+
     private fun Board.isKingCapture(movement: String): Boolean {
         val capturedPiece = position(movement.futureStringPosition()).piece
         logger.debug("Captured piece ${capturedPiece?.value}")
