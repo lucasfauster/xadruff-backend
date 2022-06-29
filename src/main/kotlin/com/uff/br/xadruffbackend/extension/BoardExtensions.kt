@@ -1,9 +1,9 @@
 package com.uff.br.xadruffbackend.extension
 
+import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.response.BoardResponse
 import com.uff.br.xadruffbackend.helper.buildGson
-import com.uff.br.xadruffbackend.model.Board
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.response.BoardResponse
 import java.io.File
 
 fun Board.toBoardResponse(): BoardResponse {

@@ -1,6 +1,9 @@
 package com.uff.br.xadruffbackend.ai
 
 import com.uff.br.xadruffbackend.ai.model.Weights
+import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.enum.Level
+import com.uff.br.xadruffbackend.dto.piece.Piece
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.deepCopy
 import com.uff.br.xadruffbackend.extension.futureStringPosition
@@ -12,9 +15,6 @@ import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.extension.toPositionColumn
 import com.uff.br.xadruffbackend.extension.toPositionRow
-import com.uff.br.xadruffbackend.model.Board
-import com.uff.br.xadruffbackend.model.enum.Level
-import com.uff.br.xadruffbackend.model.piece.Piece
 import com.uff.br.xadruffbackend.service.MovementService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

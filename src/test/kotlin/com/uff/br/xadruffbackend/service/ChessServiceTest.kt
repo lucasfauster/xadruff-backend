@@ -1,26 +1,26 @@
 package com.uff.br.xadruffbackend.service
 
-import com.uff.br.xadruffbackend.GameRepository
 import com.uff.br.xadruffbackend.ai.AIService
+import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.LegalMovements
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.enum.EndgameMessage
+import com.uff.br.xadruffbackend.dto.enum.Level
+import com.uff.br.xadruffbackend.dto.enum.StartsBy
+import com.uff.br.xadruffbackend.dto.piece.Bishop
+import com.uff.br.xadruffbackend.dto.piece.King
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Queen
+import com.uff.br.xadruffbackend.dto.piece.Rook
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toStringPositions
-import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.GameEntity
-import com.uff.br.xadruffbackend.model.LegalMovements
-import com.uff.br.xadruffbackend.model.Position
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.enum.EndgameMessage
-import com.uff.br.xadruffbackend.model.enum.Level
-import com.uff.br.xadruffbackend.model.enum.StartsBy
-import com.uff.br.xadruffbackend.model.piece.Bishop
-import com.uff.br.xadruffbackend.model.piece.King
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Queen
-import com.uff.br.xadruffbackend.model.piece.Rook
+import com.uff.br.xadruffbackend.repository.GameRepository
+import com.uff.br.xadruffbackend.utils.assertBoard
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import com.uff.br.xadruffbackend.utils.buildInitialLegalMovements
@@ -357,17 +357,6 @@ internal class ChessServiceTest {
         chessService.handleMove("e1g1Oh1f1", game)
         assertEquals(Rook.VALUE.uppercaseChar(), game.getBoard().position("f1").piece?.value)
         assertEquals(King.VALUE.uppercaseChar(), game.getBoard().position("g1").piece?.value)
-    }
-
-    private fun assertBoard(boardPositions: List<List<Position>>, expectedBoardPositions: List<List<Position>>) {
-        for (row in 0..7) {
-            for (column in 0..7) {
-                assertEquals(
-                    boardPositions[row][column].piece?.value,
-                    expectedBoardPositions[row][column].piece?.value
-                )
-            }
-        }
     }
 
     private fun assertBoardResponse(

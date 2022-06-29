@@ -1,5 +1,15 @@
 package com.uff.br.xadruffbackend.service
 
+import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.LegalMovements
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Bishop
+import com.uff.br.xadruffbackend.dto.piece.King
+import com.uff.br.xadruffbackend.dto.piece.Knight
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Piece
+import com.uff.br.xadruffbackend.dto.piece.Queen
+import com.uff.br.xadruffbackend.dto.piece.Rook
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
@@ -10,17 +20,7 @@ import com.uff.br.xadruffbackend.extension.futureStringPosition
 import com.uff.br.xadruffbackend.extension.originalStringPosition
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.promotionPiece
-import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.GameEntity
-import com.uff.br.xadruffbackend.model.LegalMovements
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.Bishop
-import com.uff.br.xadruffbackend.model.piece.King
-import com.uff.br.xadruffbackend.model.piece.Knight
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Piece
-import com.uff.br.xadruffbackend.model.piece.Queen
-import com.uff.br.xadruffbackend.model.piece.Rook
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.util.stream.Collectors
@@ -104,7 +104,7 @@ class MovementService {
 
     fun applyMove(board: Board, move: String) {
         handleCastleMovement(board, move)
-        val piece = getPiece(board.position(move.originalStringPosition()).piece!!, move)
+        val piece = getPromotionPiece(board.position(move.originalStringPosition()).piece!!, move)
         updateCastlePiecesState(piece)
         board.position(move.futureStringPosition()).piece = piece
         board.position(move.originalStringPosition()).piece = null
@@ -117,7 +117,7 @@ class MovementService {
         }
     }
 
-    fun getPiece(piece: Piece, move: String): Piece {
+    fun getPromotionPiece(piece: Piece, move: String): Piece {
         val pieceChar = if (move.actions().contains(PROMOTION_CHAR)) {
             move.promotionPiece()
         } else {

@@ -1,6 +1,6 @@
 package com.uff.br.xadruffbackend.extension
 
-import com.uff.br.xadruffbackend.model.Board
+import com.uff.br.xadruffbackend.dto.Board
 
 fun String.isCaptureMove(): Boolean {
     return this.contains('C')

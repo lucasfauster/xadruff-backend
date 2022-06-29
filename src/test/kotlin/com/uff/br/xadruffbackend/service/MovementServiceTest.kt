@@ -1,16 +1,16 @@
 package com.uff.br.xadruffbackend.service
 
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Bishop
+import com.uff.br.xadruffbackend.dto.piece.King
+import com.uff.br.xadruffbackend.dto.piece.Knight
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Queen
+import com.uff.br.xadruffbackend.dto.piece.Rook
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.model.GameEntity
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.Bishop
-import com.uff.br.xadruffbackend.model.piece.King
-import com.uff.br.xadruffbackend.model.piece.Knight
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Queen
-import com.uff.br.xadruffbackend.model.piece.Rook
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import com.uff.br.xadruffbackend.utils.buildInitialLegalMovements
@@ -191,64 +191,64 @@ class MovementServiceTest {
     fun `should get queen piece in a promotion movement`() {
         val blackPawn = Pawn(Color.BLACK)
         val whitePawn = Pawn(Color.WHITE)
-        assertEquals(Queen(Color.BLACK).value, movementService.getPiece(blackPawn, "a7a8Pq").value)
-        assertEquals(Queen(Color.WHITE).value, movementService.getPiece(whitePawn, "a7a8PQ").value)
+        assertEquals(Queen(Color.BLACK).value, movementService.getPromotionPiece(blackPawn, "a7a8Pq").value)
+        assertEquals(Queen(Color.WHITE).value, movementService.getPromotionPiece(whitePawn, "a7a8PQ").value)
     }
 
     @Test
     fun `should get knight piece in a promotion movement`() {
         val blackPawn = Pawn(Color.BLACK)
         val whitePawn = Pawn(Color.WHITE)
-        assertEquals(Knight(Color.BLACK).value, movementService.getPiece(blackPawn, "a7a8Pn").value)
-        assertEquals(Knight(Color.WHITE).value, movementService.getPiece(whitePawn, "a7a8PN").value)
+        assertEquals(Knight(Color.BLACK).value, movementService.getPromotionPiece(blackPawn, "a7a8Pn").value)
+        assertEquals(Knight(Color.WHITE).value, movementService.getPromotionPiece(whitePawn, "a7a8PN").value)
     }
 
     @Test
     fun `should get bishop piece in a promotion movement`() {
         val blackPawn = Pawn(Color.BLACK)
         val whitePawn = Pawn(Color.WHITE)
-        assertEquals(Bishop(Color.BLACK).value, movementService.getPiece(blackPawn, "a7a8Pb").value)
-        assertEquals(Bishop(Color.WHITE).value, movementService.getPiece(whitePawn, "a7a8PB").value)
+        assertEquals(Bishop(Color.BLACK).value, movementService.getPromotionPiece(blackPawn, "a7a8Pb").value)
+        assertEquals(Bishop(Color.WHITE).value, movementService.getPromotionPiece(whitePawn, "a7a8PB").value)
     }
 
     @Test
     fun `should get rook piece in a promotion movement`() {
         val blackPawn = Pawn(Color.BLACK)
         val whitePawn = Pawn(Color.WHITE)
-        assertEquals(Rook(Color.BLACK).value, movementService.getPiece(blackPawn, "a7a8Pr").value)
-        assertEquals(Rook(Color.WHITE).value, movementService.getPiece(whitePawn, "a7a8PR").value)
+        assertEquals(Rook(Color.BLACK).value, movementService.getPromotionPiece(blackPawn, "a7a8Pr").value)
+        assertEquals(Rook(Color.WHITE).value, movementService.getPromotionPiece(whitePawn, "a7a8PR").value)
     }
 
     @Test
     fun `should get queen piece in a promotion movement with capture`() {
         val blackPawn = Pawn(Color.BLACK)
         val whitePawn = Pawn(Color.WHITE)
-        assertEquals(Queen(Color.BLACK).value, movementService.getPiece(blackPawn, "a7a8CPq").value)
-        assertEquals(Queen(Color.WHITE).value, movementService.getPiece(whitePawn, "a7a8CPQ").value)
+        assertEquals(Queen(Color.BLACK).value, movementService.getPromotionPiece(blackPawn, "a7a8CPq").value)
+        assertEquals(Queen(Color.WHITE).value, movementService.getPromotionPiece(whitePawn, "a7a8CPQ").value)
     }
 
     @Test
     fun `should get knight piece in a promotion movement with capture`() {
         val blackPawn = Pawn(Color.BLACK)
         val whitePawn = Pawn(Color.WHITE)
-        assertEquals(Knight(Color.BLACK).value, movementService.getPiece(blackPawn, "a7a8CPn").value)
-        assertEquals(Knight(Color.WHITE).value, movementService.getPiece(whitePawn, "a7a8CPN").value)
+        assertEquals(Knight(Color.BLACK).value, movementService.getPromotionPiece(blackPawn, "a7a8CPn").value)
+        assertEquals(Knight(Color.WHITE).value, movementService.getPromotionPiece(whitePawn, "a7a8CPN").value)
     }
 
     @Test
     fun `should get bishop piece in a promotion movement with capture`() {
         val blackPawn = Pawn(Color.BLACK)
         val whitePawn = Pawn(Color.WHITE)
-        assertEquals(Bishop(Color.BLACK).value, movementService.getPiece(blackPawn, "a7a8CPb").value)
-        assertEquals(Bishop(Color.WHITE).value, movementService.getPiece(whitePawn, "a7a8CPB").value)
+        assertEquals(Bishop(Color.BLACK).value, movementService.getPromotionPiece(blackPawn, "a7a8CPb").value)
+        assertEquals(Bishop(Color.WHITE).value, movementService.getPromotionPiece(whitePawn, "a7a8CPB").value)
     }
 
     @Test
     fun `should get rook piece in a promotion movement with capture`() {
         val blackPawn = Pawn(Color.BLACK)
         val whitePawn = Pawn(Color.WHITE)
-        assertEquals(Rook(Color.BLACK).value, movementService.getPiece(blackPawn, "a7a8CPr").value)
-        assertEquals(Rook(Color.WHITE).value, movementService.getPiece(whitePawn, "a7a8CPR").value)
+        assertEquals(Rook(Color.BLACK).value, movementService.getPromotionPiece(blackPawn, "a7a8CPr").value)
+        assertEquals(Rook(Color.WHITE).value, movementService.getPromotionPiece(whitePawn, "a7a8CPR").value)
     }
 
     @Test

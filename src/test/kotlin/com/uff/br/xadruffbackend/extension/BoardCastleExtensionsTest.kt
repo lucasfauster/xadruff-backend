@@ -1,5 +1,11 @@
 package com.uff.br.xadruffbackend.extension
 
+import com.uff.br.xadruffbackend.dto.LegalMovements
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.King
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Queen
+import com.uff.br.xadruffbackend.dto.piece.Rook
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.getCastleMovement
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.getFutureCastleKingPosition
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.getFutureCastleRookPosition
@@ -8,12 +14,6 @@ import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.hasPawnThreat
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.hasThreatInTheWay
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.isEmptyBetween
 import com.uff.br.xadruffbackend.extension.BoardCastleExtensions.isPossibleToCastle
-import com.uff.br.xadruffbackend.model.LegalMovements
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.King
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Queen
-import com.uff.br.xadruffbackend.model.piece.Rook
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals

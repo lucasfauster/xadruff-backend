@@ -1,28 +1,30 @@
 package com.uff.br.xadruffbackend.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.uff.br.xadruffbackend.GameRepository
 import com.uff.br.xadruffbackend.ai.AIService
+import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.enum.Level
+import com.uff.br.xadruffbackend.dto.enum.StartsBy
+import com.uff.br.xadruffbackend.dto.piece.Bishop
+import com.uff.br.xadruffbackend.dto.piece.King
+import com.uff.br.xadruffbackend.dto.piece.Knight
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Queen
+import com.uff.br.xadruffbackend.dto.piece.Rook
+import com.uff.br.xadruffbackend.dto.request.BoardRequest
+import com.uff.br.xadruffbackend.dto.response.ChessResponse
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.position
+import com.uff.br.xadruffbackend.extension.toBoard
 import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.extension.toChessPosition
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toMap
-import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.GameEntity
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.enum.Level
-import com.uff.br.xadruffbackend.model.enum.StartsBy
-import com.uff.br.xadruffbackend.model.piece.Bishop
-import com.uff.br.xadruffbackend.model.piece.King
-import com.uff.br.xadruffbackend.model.piece.Knight
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Queen
-import com.uff.br.xadruffbackend.model.piece.Rook
-import com.uff.br.xadruffbackend.model.response.ChessResponse
+import com.uff.br.xadruffbackend.repository.GameRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
@@ -38,8 +40,8 @@ class ChessService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    fun createNewGame(startBy: StartsBy, level: Level): ChessResponse {
-        val game = createInitialGame(level)
+    fun createNewGame(startBy: StartsBy, level: Level, boardRequest: BoardRequest? = null): ChessResponse {
+        val game = createInitialGame(level, boardRequest)
         logger.info("Initialized new game entity with id = {} and level = {}", game.boardId, level)
 
         var aiMove: String? = null
@@ -132,7 +134,7 @@ class ChessService(
     private fun handleKingInCheck(game: GameEntity): String? {
         val board = game.getBoard()
         var kingPosition: String? = null
-        if (game.getBoard().isKingInCheck()) {
+        if (board.isKingInCheck()) {
             board.positions.flatten().forEach {
                 if (it.piece is King && (it.piece as King).color == board.turnColor) {
                     kingPosition = it.toChessPosition()
@@ -142,10 +144,9 @@ class ChessService(
         return kingPosition
     }
 
-    fun createInitialGame(level: Level): GameEntity {
+    fun createInitialGame(level: Level, boardRequest: BoardRequest? = null): GameEntity {
         logger.debug("Creating new board")
-        val positions = createInitialPositions()
-        val board = Board(positions = positions)
+        val board = boardRequest?.toBoard() ?: Board(positions = createInitialPositions())
 
         logger.debug("Saving game in database")
         val gameEntity = GameEntity(board = board.toJsonString(), level = level)
