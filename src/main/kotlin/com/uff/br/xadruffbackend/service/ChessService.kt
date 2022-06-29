@@ -4,11 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.uff.br.xadruffbackend.GameRepository
 import com.uff.br.xadruffbackend.ai.AIService
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
-import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toBoardResponse
-import com.uff.br.xadruffbackend.extension.toChessPosition
 import com.uff.br.xadruffbackend.extension.toJsonString
 import com.uff.br.xadruffbackend.extension.toMap
 import com.uff.br.xadruffbackend.model.Board
@@ -125,22 +123,8 @@ class ChessService(
         legalMovements = game.getLegalMovements().movements.toMap(),
         board = game.getBoard().toBoardResponse(),
         aiMovement = aiMove,
-        kingInCheck = handleKingInCheck(game),
         endgame = endgameService.buildEndgameResponse(game)
     )
-
-    private fun handleKingInCheck(game: GameEntity): String? {
-        val board = game.getBoard()
-        var kingPosition: String? = null
-        if (game.getBoard().isKingInCheck()) {
-            board.positions.flatten().forEach {
-                if (it.piece is King && (it.piece as King).color == board.turnColor) {
-                    kingPosition = it.toChessPosition()
-                }
-            }
-        }
-        return kingPosition
-    }
 
     fun createInitialGame(level: Level): GameEntity {
         logger.debug("Creating new board")
