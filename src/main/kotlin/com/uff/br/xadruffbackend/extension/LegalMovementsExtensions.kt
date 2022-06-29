@@ -1,8 +1,8 @@
 package com.uff.br.xadruffbackend.extension
 
+import com.uff.br.xadruffbackend.dto.LegalMovements
+import com.uff.br.xadruffbackend.dto.Position
 import com.uff.br.xadruffbackend.helper.buildGson
-import com.uff.br.xadruffbackend.model.LegalMovements
-import com.uff.br.xadruffbackend.model.Position
 
 fun LegalMovements.addNewMove(originPosition: Position, futurePosition: Position, action: String = "") {
     movements.add(
@@ -40,7 +40,7 @@ fun MutableList<String>.toMap(): Map<String, List<String>> {
         legalMoves.filter {
             it.originalStringPosition() == index
         }.map {
-            it.futureStringPosition()
+            it.futureStringPositionAndAction()
         }
 
     val movesMap: MutableMap<String, List<String>> = mutableMapOf()

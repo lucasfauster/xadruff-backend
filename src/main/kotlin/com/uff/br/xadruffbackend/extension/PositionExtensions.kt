@@ -1,10 +1,10 @@
 package com.uff.br.xadruffbackend.extension
 
-import com.uff.br.xadruffbackend.model.Position
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.Ghost
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Piece
+import com.uff.br.xadruffbackend.dto.Position
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Ghost
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Piece
 
 fun Position.hasAllyPiece(color: Color) =
     piece?.color == color && piece !is Ghost
@@ -56,11 +56,11 @@ private fun List<List<Position>>.position(row: Char, column: Char) =
 
 fun Int.toChessRow() = (RowColumnConstants.ROW_CONSTANT - this).toString()
 
-private fun Int.toChessColumn() = RowColumnConstants.COLUMN_INT_CONSTANT + this
+fun Int.toChessColumn() = RowColumnConstants.COLUMN_INT_CONSTANT + this
 
-private fun Char.toPositionRow() = RowColumnConstants.ROW_CONSTANT - digitToInt()
+fun Char.toPositionRow() = RowColumnConstants.ROW_CONSTANT - digitToInt()
 
-private fun Char.toPositionColumn() = code - RowColumnConstants.COLUMN_CODE_CONSTANT
+fun Char.toPositionColumn() = code - RowColumnConstants.COLUMN_CODE_CONSTANT
 
 fun position(square: String, piece: Piece? = null, action: String = "") = Position(
     row = square.last().toPositionRow(),
@@ -68,6 +68,16 @@ fun position(square: String, piece: Piece? = null, action: String = "") = Positi
     piece = piece,
     action = action
 )
+
+fun Position.getGhostCaptureIfExists() =
+    if (piece is Ghost) {
+        when (piece!!.color) {
+            Color.WHITE -> "E" + Position(row - 1, column).toChessPosition()
+            Color.BLACK -> "E" + Position(row + 1, column).toChessPosition()
+        }
+    } else {
+        ""
+    }
 
 object RowColumnConstants {
     const val ROW_CONSTANT = 8

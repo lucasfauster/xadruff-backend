@@ -1,13 +1,13 @@
 package com.uff.br.xadruffbackend.service
 
+import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Ghost
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Piece
 import com.uff.br.xadruffbackend.extension.futureStringPosition
 import com.uff.br.xadruffbackend.extension.originalStringPosition
 import com.uff.br.xadruffbackend.extension.position
-import com.uff.br.xadruffbackend.model.Board
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.Ghost
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Piece
 import org.springframework.stereotype.Service
 import kotlin.math.abs
 

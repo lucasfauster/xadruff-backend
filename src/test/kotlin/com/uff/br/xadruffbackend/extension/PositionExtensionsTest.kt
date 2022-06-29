@@ -1,10 +1,10 @@
 package com.uff.br.xadruffbackend.extension
 
-import com.uff.br.xadruffbackend.model.Position
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.Ghost
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Queen
+import com.uff.br.xadruffbackend.dto.Position
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Ghost
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Queen
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -165,5 +165,35 @@ internal class PositionExtensionsTest {
         board.position("f3").piece = piece
         val isEmpty = board.position("f3").isEmpty()
         assert(isEmpty)
+    }
+
+    @Test
+    fun `should return white ghost capture with pawn position`() {
+        val board = buildInitialBoard()
+        val piece = Ghost(Color.WHITE)
+        board.position("f3").piece = piece
+        assertEquals("Ef4", board.position("f3").getGhostCaptureIfExists())
+    }
+
+    @Test
+    fun `should return pawn ghost capture with pawn position`() {
+        val board = buildInitialBoard()
+        val piece = Ghost(Color.BLACK)
+        board.position("a6").piece = piece
+        assertEquals("Ea5", board.position("a6").getGhostCaptureIfExists())
+    }
+
+    @Test
+    fun `should return empty when position has another piece`() {
+        val board = buildInitialBoard()
+        val piece = Pawn(Color.BLACK)
+        board.position("a6").piece = piece
+        assertEquals("", board.position("a6").getGhostCaptureIfExists())
+    }
+
+    @Test
+    fun `should return empty when position piece is null`() {
+        val board = buildInitialBoard()
+        assertEquals("", board.position("a6").getGhostCaptureIfExists())
     }
 }

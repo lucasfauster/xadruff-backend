@@ -1,7 +1,18 @@
 package com.uff.br.xadruffbackend.service
 
+import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.LegalMovements
+import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Bishop
+import com.uff.br.xadruffbackend.dto.piece.King
+import com.uff.br.xadruffbackend.dto.piece.Knight
+import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Piece
+import com.uff.br.xadruffbackend.dto.piece.Queen
+import com.uff.br.xadruffbackend.dto.piece.Rook
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
+import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.getKingInCheckStringPosition
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
 import com.uff.br.xadruffbackend.extension.BoardPromotionExtensions.PROMOTION_CHAR
 import com.uff.br.xadruffbackend.extension.actions
@@ -10,17 +21,7 @@ import com.uff.br.xadruffbackend.extension.futureStringPosition
 import com.uff.br.xadruffbackend.extension.originalStringPosition
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.promotionPiece
-import com.uff.br.xadruffbackend.model.Board
 import com.uff.br.xadruffbackend.model.GameEntity
-import com.uff.br.xadruffbackend.model.LegalMovements
-import com.uff.br.xadruffbackend.model.enum.Color
-import com.uff.br.xadruffbackend.model.piece.Bishop
-import com.uff.br.xadruffbackend.model.piece.King
-import com.uff.br.xadruffbackend.model.piece.Knight
-import com.uff.br.xadruffbackend.model.piece.Pawn
-import com.uff.br.xadruffbackend.model.piece.Piece
-import com.uff.br.xadruffbackend.model.piece.Queen
-import com.uff.br.xadruffbackend.model.piece.Rook
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -64,7 +65,9 @@ class MovementService(@Autowired private val enPassantService: EnPassantService)
     }
 
     private fun isCastleMovement(move: String): Boolean {
-        return move in listOf("e1c1", "e1g1", "e8c8", "e8g8")
+        return move.any {
+            it == 'O'
+        }
     }
 
     private fun addOneToMoveRule(game: GameEntity) {
@@ -80,11 +83,12 @@ class MovementService(@Autowired private val enPassantService: EnPassantService)
 
     fun calculateLegalMovements(board: Board): LegalMovements {
         logger.debug("Calculating legal movements")
-        val legalMovements = board.calculatePseudoLegalMoves()
+        var legalMovements = board.calculatePseudoLegalMoves().movements
+        legalMovements = handleChekingMovement(board, legalMovements)
         logger.debug("Calculated pseudo legal movements: $legalMovements")
 
         return LegalMovements(
-            legalMovements.movements.parallelStream().filter {
+            legalMovements.parallelStream().filter {
                 val fakeBoard = board.deepCopy()
                 applyMove(fakeBoard, it)
                 val hasCheck = fakeBoard.isKingInCheck()
@@ -93,6 +97,22 @@ class MovementService(@Autowired private val enPassantService: EnPassantService)
                 logger.debug("Calculated legal movements: $it")
             }
         )
+    }
+
+    fun handleChekingMovement(board: Board, legalMovements: MutableList<String>): MutableList<String> {
+        val newLegalMovements = mutableListOf<String>()
+        legalMovements.forEach {
+            val fakeBoard = board.deepCopy()
+            applyMove(fakeBoard, it)
+            val kingPosition = fakeBoard.getKingInCheckStringPosition()
+            if (kingPosition.isNotEmpty()) {
+                newLegalMovements.add("${it}K$kingPosition")
+            } else {
+                newLegalMovements.add(it)
+            }
+        }
+
+        return newLegalMovements
     }
 
     fun verifyIsAllowedMove(legalMovements: LegalMovements, move: String) {
@@ -104,13 +124,21 @@ class MovementService(@Autowired private val enPassantService: EnPassantService)
     fun applyMove(board: Board, move: String) {
         handleCastleMovement(board, move)
 
-        val piece = getPiece(board.position(move.originalStringPosition()).piece!!, move)
+        val piece = getPromotionPiece(board.position(move.originalStringPosition()).piece!!, move)
         enPassantService.handleEnPassant(board, move, piece)
+        updateCastlePiecesState(piece)
         board.position(move.futureStringPosition()).piece = piece
         board.position(move.originalStringPosition()).piece = null
     }
 
-    fun getPiece(piece: Piece, move: String): Piece {
+    private fun updateCastlePiecesState(piece: Piece) {
+        when (piece) {
+            is Rook -> piece.hasMoved = true
+            is King -> piece.hasMoved = true
+        }
+    }
+
+    fun getPromotionPiece(piece: Piece, move: String): Piece {
         val pieceChar = if (move.actions().contains(PROMOTION_CHAR)) {
             move.promotionPiece()
         } else {
