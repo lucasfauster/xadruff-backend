@@ -18,8 +18,5 @@ data class ChessResponse(
     @JsonProperty("ai_movement")
     val aiMovement: String?,
 
-    @JsonProperty("king_in_check")
-    val kingInCheck: String?,
-
     val endgame: EndgameResponse?
 )

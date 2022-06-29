@@ -4,8 +4,10 @@ import com.uff.br.xadruffbackend.dto.Position
 import com.uff.br.xadruffbackend.dto.enum.Color
 import com.uff.br.xadruffbackend.dto.piece.King
 import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.Queen
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.buildCaptureAction
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
+import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.getKingInCheckStringPosition
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isKingInCheck
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
@@ -109,5 +111,34 @@ internal class BoardMovementsCalculatorExtensionsTest {
         val piece = Pawn(Color.BLACK)
         val action = buildCaptureAction(position, piece)
         assertEquals("", action)
+    }
+
+    @Test
+    fun `should return black king position when in check`() {
+        val board = buildEmptyBoard()
+        board.position("e5").piece = Queen(Color.WHITE)
+        board.position("e7").piece = King(Color.BLACK)
+        val kingPosition = board.getKingInCheckStringPosition()
+        assertEquals("e7", kingPosition)
+    }
+
+    @Test
+    fun `should return white king position when in check`() {
+        val board = buildEmptyBoard()
+        board.position("e5").piece = Queen(Color.BLACK)
+        board.position("e7").piece = King(Color.WHITE)
+        board.turnColor = Color.BLACK
+        val kingPosition = board.getKingInCheckStringPosition()
+        assertEquals("e7", kingPosition)
+    }
+
+    @Test
+    fun `should not return white king position when not in check`() {
+        val board = buildEmptyBoard()
+        board.position("d5").piece = Queen(Color.BLACK)
+        board.position("e7").piece = King(Color.WHITE)
+        board.turnColor = Color.BLACK
+        val kingPosition = board.getKingInCheckStringPosition()
+        assertEquals("", kingPosition)
     }
 }
