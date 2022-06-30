@@ -27,10 +27,16 @@ class GameEntity(
     var allMovements: String = "",
 
     val level: Level = Level.BEGINNER,
+
     var winner: String? = null,
+
     var endgameMessage: String? = null,
+
     var whiteDrawMoves: Int = 0,
+
     var blackDrawMoves: Int = 0,
+
+    val aiColor: String = ""
 ) {
 
     fun getBoard(): Board = buildGson().fromJson(board, Board::class.java)

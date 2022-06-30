@@ -39,7 +39,7 @@ class ChessService(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun createNewGame(startBy: StartsBy, level: Level, boardRequest: BoardRequest? = null): ChessResponse {
-        val game = createInitialGame(level, boardRequest)
+        val game = createInitialGame(level, boardRequest, startBy)
         logger.info("Initialized new game entity with id = {} and level = {}", game.boardId, level)
 
         var aiMove: String? = null
@@ -128,12 +128,17 @@ class ChessService(
         endgame = endgameService.buildEndgameResponse(game)
     )
 
-    fun createInitialGame(level: Level, boardRequest: BoardRequest? = null): GameEntity {
+    fun createInitialGame(level: Level, boardRequest: BoardRequest? = null, startsBy: StartsBy): GameEntity {
         logger.debug("Creating new board")
         val board = boardRequest?.toBoard() ?: Board(positions = createInitialPositions())
 
+        val aiColor = when (startsBy) {
+            StartsBy.AI -> boardRequest?.turnColor?.name ?: Color.WHITE.name
+            StartsBy.PLAYER -> boardRequest?.turnColor?.not()?.name ?: Color.BLACK.name
+        }
+
         logger.debug("Saving game in database")
-        val gameEntity = GameEntity(board = board.toJsonString(), level = level)
+        val gameEntity = GameEntity(board = board.toJsonString(), level = level, aiColor = aiColor)
         gameRepository.save(gameEntity)
 
         return gameEntity
