@@ -137,10 +137,10 @@ class AIService(@Autowired private val movementService: MovementService) {
 
     fun evaluateMove(board: Board, move: String): Int {
         var piece = board.position(move.originalStringPosition()).piece
-        if(piece is Ghost){
+        if (piece is Ghost) {
             piece = Pawn(piece.color)
         }
-        
+
         if (move.isPromotionMove()) {
             return Int.MAX_VALUE
         }
@@ -165,9 +165,9 @@ class AIService(@Autowired private val movementService: MovementService) {
 
     private fun getPiecePosWeight(board: Board, piece: Piece?, row: Int, column: Int): Int {
         return when (piece?.color) {
-            board.turnColor -> 
+            board.turnColor ->
                 Weights.piecePositionWeights.getValue(piece.value.uppercaseChar())[row][column]
-            !board.turnColor -> 
+            !board.turnColor ->
                 Weights.piecePositionWeights.getValue(piece.value.uppercaseChar()).reversed()[row][column]
             else -> 0
         }

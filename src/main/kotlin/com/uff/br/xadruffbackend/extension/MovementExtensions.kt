@@ -14,5 +14,4 @@ fun String.isPromotionMove(): Boolean {
 fun String.isEnPassantMove(board: Board): Boolean {
     return this.contains('C') &&
         board.position(this.futureStringPosition()).piece is Ghost
-
 }
