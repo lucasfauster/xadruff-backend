@@ -3,6 +3,7 @@ package com.uff.br.xadruffbackend.ai
 import com.uff.br.xadruffbackend.ai.model.Weights
 import com.uff.br.xadruffbackend.dto.Board
 import com.uff.br.xadruffbackend.dto.enum.Level
+import com.uff.br.xadruffbackend.dto.piece.Ghost
 import com.uff.br.xadruffbackend.dto.piece.Piece
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.deepCopy
@@ -115,8 +116,12 @@ class AIService(@Autowired private val movementService: MovementService) {
         @Suppress("MagicNumber")
         for (row in 0..7) {
             for (column in 0..7) {
-                val piece = board.positions[row][column].piece
+                var piece = board.positions[row][column].piece
+                if (piece is Ghost) {
+                    piece = null
+                }
                 val positionWeight = getPiecePosWeight(board, piece, row, column)
+
                 val pieceWeightValue = Weights.pieceWeights.getValue(piece?.value?.uppercaseChar()) + positionWeight
 
                 weight =

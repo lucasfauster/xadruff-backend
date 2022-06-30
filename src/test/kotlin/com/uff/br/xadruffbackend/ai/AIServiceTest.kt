@@ -6,6 +6,7 @@ import com.uff.br.xadruffbackend.dto.piece.Pawn
 import com.uff.br.xadruffbackend.dto.piece.Queen
 import com.uff.br.xadruffbackend.dto.piece.Rook
 import com.uff.br.xadruffbackend.extension.position
+import com.uff.br.xadruffbackend.service.EnPassantService
 import com.uff.br.xadruffbackend.service.MovementService
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard
 import com.uff.br.xadruffbackend.utils.buildInitialBoard
@@ -14,7 +15,8 @@ import org.junit.jupiter.api.Test
 
 class AIServiceTest {
 
-    private val movementService: MovementService = MovementService()
+    private val enPassantService: EnPassantService = EnPassantService()
+    private val movementService: MovementService = MovementService(enPassantService)
     private val aiService = AIService(movementService)
 
     @Test
