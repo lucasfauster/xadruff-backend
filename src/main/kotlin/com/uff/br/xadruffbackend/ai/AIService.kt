@@ -3,12 +3,14 @@ package com.uff.br.xadruffbackend.ai
 import com.uff.br.xadruffbackend.ai.model.Weights
 import com.uff.br.xadruffbackend.dto.Board
 import com.uff.br.xadruffbackend.dto.enum.Level
+import com.uff.br.xadruffbackend.dto.piece.Ghost
+import com.uff.br.xadruffbackend.dto.piece.Pawn
 import com.uff.br.xadruffbackend.dto.piece.Piece
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.deepCopy
 import com.uff.br.xadruffbackend.extension.futureStringPosition
 import com.uff.br.xadruffbackend.extension.isCaptureMove
-import com.uff.br.xadruffbackend.extension.isEnpassantMove
+import com.uff.br.xadruffbackend.extension.isEnPassantMove
 import com.uff.br.xadruffbackend.extension.isPromotionMove
 import com.uff.br.xadruffbackend.extension.originalStringPosition
 import com.uff.br.xadruffbackend.extension.position
@@ -70,9 +72,7 @@ class AIService(@Autowired private val movementService: MovementService) {
             movementService.applyMove(fakeBoard, move)
             fakeBoard.changeTurn()
 
-            bestMoveValue =
-                min(depth - 1, fakeBoard, maxMoveValueLimit, minMoveValueLimit)
-
+            bestMoveValue = min(depth - 1, fakeBoard, maxMoveValueLimit, minMoveValueLimit)
             logger.debug("Best value for move {} in depth {} is {}", move, depth, bestMoveValue)
             val maxMoveValue = maxMoveValueLimit.coerceAtLeast(bestMoveValue)
             if (minMoveValueLimit <= maxMoveValue) {
@@ -115,8 +115,12 @@ class AIService(@Autowired private val movementService: MovementService) {
         @Suppress("MagicNumber")
         for (row in 0..7) {
             for (column in 0..7) {
-                val piece = board.positions[row][column].piece
+                var piece = board.positions[row][column].piece
+                if (piece is Ghost) {
+                    piece = Pawn(piece.color)
+                }
                 val positionWeight = getPiecePosWeight(board, piece, row, column)
+
                 val pieceWeightValue = Weights.pieceWeights.getValue(piece?.value?.uppercaseChar()) + positionWeight
 
                 weight =
@@ -132,7 +136,11 @@ class AIService(@Autowired private val movementService: MovementService) {
     }
 
     fun evaluateMove(board: Board, move: String): Int {
-        val piece = board.position(move.originalStringPosition()).piece
+        var piece = board.position(move.originalStringPosition()).piece
+        if (piece is Ghost) {
+            piece = Pawn(piece.color)
+        }
+
         if (move.isPromotionMove()) {
             return Int.MAX_VALUE
         }
@@ -166,7 +174,7 @@ class AIService(@Autowired private val movementService: MovementService) {
     }
 
     private fun evaluateCapture(board: Board, move: String): Int {
-        if (move.isEnpassantMove(board)) {
+        if (move.isEnPassantMove(board)) {
             return Weights.pieceWeights.getValue('P')
         }
         val pieceInOriginPositionValue = board.position(move.originalStringPosition()).piece?.value?.uppercaseChar()

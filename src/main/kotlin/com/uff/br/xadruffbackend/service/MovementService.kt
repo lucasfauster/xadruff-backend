@@ -23,11 +23,12 @@ import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.promotionPiece
 import com.uff.br.xadruffbackend.model.GameEntity
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.stream.Collectors
 
 @Component
-class MovementService {
+class MovementService(@Autowired private val enPassantService: EnPassantService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -122,7 +123,9 @@ class MovementService {
 
     fun applyMove(board: Board, move: String) {
         handleCastleMovement(board, move)
+
         val piece = getPromotionPiece(board.position(move.originalStringPosition()).piece!!, move)
+        enPassantService.handleEnPassant(board, move, piece)
         updateCastlePiecesState(piece)
         board.position(move.futureStringPosition()).piece = piece
         board.position(move.originalStringPosition()).piece = null
