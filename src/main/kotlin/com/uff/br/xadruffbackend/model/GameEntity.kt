@@ -17,13 +17,13 @@ class GameEntity(
     @Id
     val boardId: String = UUID.randomUUID().toString().uppercase(),
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     var board: String,
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     var legalMovements: String? = null,
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     var allMovements: String = "",
 
     val level: Level = Level.BEGINNER,
