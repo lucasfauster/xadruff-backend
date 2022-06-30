@@ -12,6 +12,7 @@ import com.uff.br.xadruffbackend.dto.piece.King
 import com.uff.br.xadruffbackend.dto.piece.Pawn
 import com.uff.br.xadruffbackend.dto.piece.Queen
 import com.uff.br.xadruffbackend.dto.piece.Rook
+import com.uff.br.xadruffbackend.dto.request.BoardRequest
 import com.uff.br.xadruffbackend.exception.GameNotFoundException
 import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.changeTurn
@@ -54,9 +55,9 @@ internal class ChessServiceTest {
     }
 
     @Test
-    fun `should create an initial board`() {
+    fun `should create an initial board and set ai color to BLACK`() {
 
-        val gameEntity = chessService.createInitialGame(Level.BEGINNER)
+        val gameEntity = chessService.createInitialGame(Level.BEGINNER, startsBy = StartsBy.PLAYER)
 
         assertBoard(
             boardPositions = gameEntity.getBoard().positions,
@@ -67,6 +68,70 @@ internal class ChessServiceTest {
         assertNull(gameEntity.winner)
         assertEquals(gameEntity.blackDrawMoves, 0)
         assertEquals(gameEntity.whiteDrawMoves, 0)
+        assertEquals(gameEntity.aiColor, Color.BLACK.name)
+    }
+
+    @Test
+    fun `should create an initial board and set ai color to WHITE`() {
+
+        val gameEntity = chessService.createInitialGame(Level.BEGINNER, startsBy = StartsBy.AI)
+
+        assertBoard(
+            boardPositions = gameEntity.getBoard().positions,
+            expectedBoardPositions = initialBoard.positions
+        )
+        assertTrue(gameEntity.allMovements.isEmpty())
+        assertNull(gameEntity.legalMovements)
+        assertNull(gameEntity.winner)
+        assertEquals(gameEntity.blackDrawMoves, 0)
+        assertEquals(gameEntity.whiteDrawMoves, 0)
+        assertEquals(gameEntity.aiColor, Color.WHITE.name)
+    }
+
+    @Test
+    fun `should create an initial board and set ai color to BLACK when has board request`() {
+        val boardRequest = BoardRequest(
+            positions = buildInitialBoard().positions.toStringPositions(),
+            turnColor = Color.WHITE
+        )
+        val gameEntity = chessService.createInitialGame(
+            Level.BEGINNER,
+            boardRequest = boardRequest, startsBy = StartsBy.PLAYER
+        )
+
+        assertBoard(
+            boardPositions = gameEntity.getBoard().positions,
+            expectedBoardPositions = initialBoard.positions
+        )
+        assertTrue(gameEntity.allMovements.isEmpty())
+        assertNull(gameEntity.legalMovements)
+        assertNull(gameEntity.winner)
+        assertEquals(gameEntity.blackDrawMoves, 0)
+        assertEquals(gameEntity.whiteDrawMoves, 0)
+        assertEquals(gameEntity.aiColor, Color.BLACK.name)
+    }
+
+    @Test
+    fun `should create an initial board and set ai color to WHITE when has board request`() {
+        val boardRequest = BoardRequest(
+            positions = buildInitialBoard().positions.toStringPositions(),
+            turnColor = Color.BLACK
+        )
+        val gameEntity = chessService.createInitialGame(
+            Level.BEGINNER,
+            boardRequest = boardRequest, startsBy = StartsBy.PLAYER
+        )
+
+        assertBoard(
+            boardPositions = gameEntity.getBoard().positions,
+            expectedBoardPositions = initialBoard.positions
+        )
+        assertTrue(gameEntity.allMovements.isEmpty())
+        assertNull(gameEntity.legalMovements)
+        assertNull(gameEntity.winner)
+        assertEquals(gameEntity.blackDrawMoves, 0)
+        assertEquals(gameEntity.whiteDrawMoves, 0)
+        assertEquals(gameEntity.aiColor, Color.WHITE.name)
     }
 
     @Test
