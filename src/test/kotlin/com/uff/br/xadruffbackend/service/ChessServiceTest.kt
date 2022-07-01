@@ -18,6 +18,7 @@ import com.uff.br.xadruffbackend.exception.InvalidMovementException
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.position
 import com.uff.br.xadruffbackend.extension.toJsonString
+import com.uff.br.xadruffbackend.extension.toLegalMovements
 import com.uff.br.xadruffbackend.extension.toStringPositions
 import com.uff.br.xadruffbackend.model.GameEntity
 import com.uff.br.xadruffbackend.repository.GameRepository
@@ -52,6 +53,44 @@ internal class ChessServiceTest {
         every {
             gameRepository.save(any<GameEntity>())
         } returns mockGameEntity()
+    }
+
+    @Test
+    fun `should make white surrender`() {
+        val gameEntity = GameEntity(
+            board = buildInitialBoard().toJsonString(),
+            legalMovements = buildInitialLegalMovements().toLegalMovements().toJsonString()
+        )
+
+        every {
+            gameRepository.getById(gameEntity.boardId)
+        } returns gameEntity
+
+        chessService.surrender(gameEntity.boardId)
+
+        assert(gameEntity.getLegalMovements().movements.isEmpty())
+        assertEquals(Color.BLACK.name, gameEntity.winner)
+        assertEquals(EndgameMessage.SURRENDER.message, gameEntity.endgameMessage)
+    }
+
+    @Test
+    fun `should make black surrender`() {
+        val board = buildInitialBoard()
+        board.changeTurn()
+        val gameEntity = GameEntity(
+            board = board.toJsonString(),
+            legalMovements = buildInitialLegalMovements().toLegalMovements().toJsonString()
+        )
+
+        every {
+            gameRepository.getById(gameEntity.boardId)
+        } returns gameEntity
+
+        chessService.surrender(gameEntity.boardId)
+
+        assert(gameEntity.getLegalMovements().movements.isEmpty())
+        assertEquals(Color.WHITE.name, gameEntity.winner)
+        assertEquals(EndgameMessage.SURRENDER.message, gameEntity.endgameMessage)
     }
 
     @Test
