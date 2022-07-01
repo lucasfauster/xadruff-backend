@@ -3,7 +3,9 @@ package com.uff.br.xadruffbackend.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.uff.br.xadruffbackend.ai.AIService
 import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.LegalMovements
 import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.enum.EndgameMessage
 import com.uff.br.xadruffbackend.dto.enum.Level
 import com.uff.br.xadruffbackend.dto.enum.StartsBy
 import com.uff.br.xadruffbackend.dto.piece.Bishop
@@ -61,6 +63,22 @@ class ChessService(
         gameRepository.save(game)
         return buildChessResponse(game, aiMove).also {
             logger.info("Game = ${game.boardId}, create game response = ${ObjectMapper().writeValueAsString(it)}")
+        }
+    }
+
+    fun surrender(boardId: String): ChessResponse {
+        val game = gameRepository.getById(boardId)
+        logger.info("Game = ${game.boardId}, received surrender request.")
+
+        val surrenderPlayerColor = game.getBoard().turnColor
+
+        game.legalMovements = LegalMovements(movements = mutableListOf()).toJsonString()
+        game.winner = (!surrenderPlayerColor).name
+        game.endgameMessage = EndgameMessage.SURRENDER.message
+
+        gameRepository.save(game)
+        return buildChessResponse(game, null).also {
+            logger.info("Game = $boardId, surrender response = ${ObjectMapper().writeValueAsString(it)}")
         }
     }
 
