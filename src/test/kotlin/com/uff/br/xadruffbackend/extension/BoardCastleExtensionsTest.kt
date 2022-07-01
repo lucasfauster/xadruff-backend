@@ -2,6 +2,7 @@ package com.uff.br.xadruffbackend.extension
 
 import com.uff.br.xadruffbackend.dto.LegalMovements
 import com.uff.br.xadruffbackend.dto.enum.Color
+import com.uff.br.xadruffbackend.dto.piece.Bishop
 import com.uff.br.xadruffbackend.dto.piece.King
 import com.uff.br.xadruffbackend.dto.piece.Pawn
 import com.uff.br.xadruffbackend.dto.piece.Queen
@@ -57,6 +58,50 @@ class BoardCastleExtensionsTest {
         board.position("f8").piece = null
         board.position("g8").piece = null
         assertTrue(board.isPossibleToCastle(board.position("h8").piece as Rook, "e8", "h8"))
+    }
+
+    @Test
+    fun `should not be possible to castle black king to right when king in check`() {
+        val board = buildInitialBoard()
+        board.turnColor = Color.BLACK
+        board.position("f8").piece = null
+        board.position("g8").piece = null
+        board.position("f7").piece = null
+        board.position("h5").piece = Bishop(Color.WHITE)
+        assertFalse(board.isPossibleToCastle(board.position("h8").piece as Rook, "e8", "h8"))
+    }
+
+    @Test
+    fun `should not be possible to castle black king to left when king in check`() {
+        val board = buildInitialBoard()
+        board.turnColor = Color.BLACK
+        board.position("b8").piece = null
+        board.position("c8").piece = null
+        board.position("d8").piece = null
+        board.position("d7").piece = null
+        board.position("b5").piece = Bishop(Color.WHITE)
+        assertFalse(board.isPossibleToCastle(board.position("a8").piece as Rook, "e8", "a8"))
+    }
+
+    @Test
+    fun `should not be possible to castle white king to right when king in check`() {
+        val board = buildInitialBoard()
+        board.position("f1").piece = null
+        board.position("g1").piece = null
+        board.position("f2").piece = null
+        board.position("h4").piece = Bishop(Color.BLACK)
+        assertFalse(board.isPossibleToCastle(board.position("h1").piece as Rook, "e1", "h1"))
+    }
+
+    @Test
+    fun `should not be possible to castle white king to left when king in check`() {
+        val board = buildInitialBoard()
+        board.position("b1").piece = null
+        board.position("c1").piece = null
+        board.position("d1").piece = null
+        board.position("d2").piece = null
+        board.position("b4").piece = Bishop(Color.BLACK)
+        assertFalse(board.isPossibleToCastle(board.position("a1").piece as Rook, "e1", "a1"))
     }
 
     @Test
@@ -639,7 +684,7 @@ class BoardCastleExtensionsTest {
     }
 
     @Test
-    fun `should calculate left castle movements for black king even if have pawn in front of the castle`() {
+    fun `should calculate left castle movements for black king even if has pawn in front of the castle`() {
         val board = buildInitialBoard()
         board.position("b8").piece = null
         board.position("c8").piece = null

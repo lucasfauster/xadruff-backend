@@ -117,7 +117,7 @@ class AIService(@Autowired private val movementService: MovementService) {
             for (column in 0..7) {
                 var piece = board.positions[row][column].piece
                 if (piece is Ghost) {
-                    piece = Pawn(piece.color)
+                    piece = null
                 }
                 val positionWeight = getPiecePosWeight(board, piece, row, column)
 

@@ -75,6 +75,15 @@ object BoardMovementsCalculatorExtensions {
         }
     }
 
+    fun Board.isEnemyKingInCheck(): Boolean {
+        filterOnlyCaptureDirections()
+        val legalMovements = this.calculatePseudoLegalMoves(withCastle = false)
+        logger.debug("Legal movements for check checking: $legalMovements")
+        return legalMovements.movements.any {
+            isKingCapture(it)
+        }
+    }
+
     fun Board.getKingInCheckStringPosition(): String {
         filterOnlyCaptureDirections()
         val legalMovements = this.calculatePseudoLegalMoves(withCastle = false)
