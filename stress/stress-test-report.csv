@@ -1,0 +1,40 @@
+"Cenario","Label","Threads","RPS","Intervalo","# Samples","Average","Min","Max","Std. Dev.","Error %","Throughput","Received KB/sec","Sent KB/sec","Avg. Bytes"
+"Começando com IA no Intermediate – 20 Users","Create game",20,1,300,200,8631,4047,11474,"978.00","0.000%","2.20080","1.71","0.57","797.0"
+"Começando com IA no Beginner – 20 Users","Create game",20,1,300,200,518,259,1231,"166.29","0.000%","22.25932","17.32","5.67","797.0"
+"Começando com Player – 20 Users","Create game",20,1,300,200,270,184,771,"142.43","0.000%","31.82180","24.11","8.36","776.0"
+,,,,,,,,,,,,,,
+"Movendo – Começando com IA INTERMEDIATE – 1 User ","Create game",1,1,300,20,1797,1497,4023,"540.34","0.000%",".13237","0.10","0.03","797.0"
+"Movendo – Começando com IA INTERMEDIATE – 1 User ","Make a move",1,1,300,20,2166,1971,2806,"179.44","0.000%",".13377","0.10","0.04","799.0"
+"Movendo – Começando com IA INTERMEDIATE – 1 User ","TOTAL",1,1,300,40,1981,1497,4023,"443.00","0.000%",".26037","0.20","0.07","798.0"
+,,,,,,,,,,,,,,
+"Movendo – Começando com IA BEGINNER – 1 User ","Create game",1,1,300,20,346,275,833,"141.26","0.000%",".79974","0.62","0.20","797.0"
+"Movendo – Começando com IA BEGINNER – 1 User ","Make a move",1,1,300,20,348,313,430,"35.61","0.000%",".81646","0.64","0.24","799.0"
+"Movendo – Começando com IA BEGINNER – 1 User ","TOTAL",1,1,300,40,347,275,833,"103.02","0.000%","1.56061","1.22","0.43","798.0"
+,,,,,,,,,,,,,,
+"Movendo – Começando com PLAYER – 1 User ","Create game",1,1,300,20,236,198,804,"130.38","0.000%",".43607","0.33","0.11","776.0"
+"Movendo – Começando com PLAYER – 1 User ","Make a move",1,1,300,20,1567,1473,1721,"68.71","0.000%",".42826","0.33","0.13","799.0"
+"Movendo – Começando com PLAYER – 1 User ","TOTAL",1,1,300,40,902,198,1721,"673.63","0.000%",".83672","0.64","0.23","787.5"
+,,,,,,,,,,,,,,
+"Movendo – Começando com IA INTERMEDIATE – 10 Users","Create game",10,1,300,200,5058,3471,8010,"1048.13","0.000%",".80499","0.63","0.21","797.0"
+"Movendo – Começando com IA INTERMEDIATE – 10 Users","Make a move",10,1,300,200,6844,3329,10039,"1198.00","0.000%",".80945","0.63","0.24","799.0"
+"Movendo – Começando com IA INTERMEDIATE – 10 Users","TOTAL",10,1,300,400,5951,3329,10039,"1436.81","0.000%","1.58680","1.24","0.44","798.0"
+,,,,,,,,,,,,,,
+"Movendo – Começando com IA BEGINNER – 10 Users","Create game",10,1,300,200,377,275,885,"111.89","0.000%","7.06939","5.50","1.80","797.0"
+"Movendo – Começando com IA BEGINNER – 10 Users","Make a move",10,1,300,200,433,314,844,"91.03","0.000%","7.14643","5.58","2.11","799.0"
+"Movendo – Começando com IA BEGINNER – 10 Users","TOTAL",10,1,300,400,405,275,885,"105.74","0.000%","13.73485","10.70","3.78","798.0"
+,,,,,,,,,,,,,,
+"Movendo – Começando com PLAYER – 10 Users","Create game",10,1,300,200,327,211,805,"133.60","0.000%","2.03492","1.54","0.53","776.0"
+"Movendo – Começando com PLAYER – 10 Users","Make a move",10,1,300,200,3979,2124,4994,"488.02","0.000%","2.00489","1.56","0.59","799.0"
+"Movendo – Começando com PLAYER – 10 Users","TOTAL",10,1,300,400,2153,211,4994,"1860.57","0.000%","3.97003","3.05","1.11","787.5"
+,,,,,,,,,,,,,,
+"Movendo – Começando com PLAYER – 20 Users","Create game",20,1,300,200,520,252,1142,"180.45","0.000%","2.13915","1.62","0.56","776.0"
+"Movendo – Começando com PLAYER – 20 Users","Make a move",20,1,300,200,8795,6814,10782,"836.30","0.000%","2.00120","1.56","0.59","799.0"
+"Movendo – Começando com PLAYER – 20 Users","TOTAL",20,1,300,400,4658,252,10782,"4181.35","0.000%","3.96255","3.05","1.11","787.5"
+,,,,,,,,,,,,,,
+"Movendo – Começando com IA INTERMEDIATE – 20 Users","Create game",20,1,300,200,11201,8201,15053,"1493.44","0.000%",".76659","0.60","0.20","797.0"
+"Movendo – Começando com IA INTERMEDIATE – 20 Users","Make a move",20,1,300,200,14540,5135,19736,"2014.32","0.000%",".78330","0.61","0.23","799.0"
+"Movendo – Começando com IA INTERMEDIATE – 20 Users","TOTAL",20,1,300,400,12871,5135,19736,"2435.69","0.000%","1.50188","1.17","0.42","798.0"
+,,,,,,,,,,,,,,
+"Movendo – Começando com IA BEGINNER – 20 Users","Create game",20,1,300,200,669,314,1660,"259.18","0.000%","9.23020","7.18","2.35","797.0"
+"Movendo – Começando com IA BEGINNER – 20 Users","Make a move",20,1,300,200,858,309,2062,"270.99","0.000%","9.45135","7.37","2.80","799.0"
+"Movendo – Começando com IA BEGINNER – 20 Users","TOTAL",20,1,300,400,764,309,2062,"281.53","0.000%","17.95574","13.99","4.94","798.0"
