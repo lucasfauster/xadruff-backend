@@ -8,6 +8,7 @@ import com.uff.br.xadruffbackend.dto.piece.King
 import com.uff.br.xadruffbackend.dto.piece.Pawn
 import com.uff.br.xadruffbackend.dto.piece.Rook
 import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.calculatePseudoLegalMoves
+import com.uff.br.xadruffbackend.extension.BoardMovementsCalculatorExtensions.isEnemyKingInCheck
 import kotlin.math.absoluteValue
 
 object BoardCastleExtensions {
@@ -76,7 +77,7 @@ object BoardCastleExtensions {
 
         return legalMovements.movements.any { legalMovement ->
             legalMovement.futureStringPosition() == rookWay
-        } || fakeBoard.hasPawnThreat(rookColumn)
+        } || fakeBoard.hasPawnThreat(rookColumn) || fakeBoard.isEnemyKingInCheck()
     }
 
     fun Board.hasPawnThreat(rookColumn: Char): Boolean {
