@@ -1,11 +1,11 @@
 package com.uff.br.xadruffbackend.ai
 
-import com.uff.br.xadruffbackend.ai.model.Weights
 import com.uff.br.xadruffbackend.dto.Board
 import com.uff.br.xadruffbackend.dto.enum.Level
 import com.uff.br.xadruffbackend.dto.piece.Ghost
-import com.uff.br.xadruffbackend.dto.piece.Pawn
+import com.uff.br.xadruffbackend.dto.piece.King
 import com.uff.br.xadruffbackend.dto.piece.Piece
+import com.uff.br.xadruffbackend.dto.piece.Queen
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.deepCopy
 import com.uff.br.xadruffbackend.extension.futureStringPosition
@@ -18,9 +18,11 @@ import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.extension.toPositionColumn
 import com.uff.br.xadruffbackend.extension.toPositionRow
 import com.uff.br.xadruffbackend.service.MovementService
+import comuffbrxadruffbackendaimodel.Weights
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import java.io.File
 
 @Component
 class AIService(@Autowired private val movementService: MovementService) {
@@ -37,6 +39,7 @@ class AIService(@Autowired private val movementService: MovementService) {
         var finalMove = ""
         val legalMovements = movementService.calculateLegalMovements(board).movements
         val depth = level.ordinal + 1
+        val moveValuesString = mutableListOf<String>()
 
         legalMovements.sortWith(compareByDescending { evaluateMove(board, it) })
         logger.debug("\nLegalMovements ordered: $legalMovements")
@@ -47,13 +50,15 @@ class AIService(@Autowired private val movementService: MovementService) {
             fakeBoard.changeTurn()
 
             val moveValue = min(depth - 1, fakeBoard, -Int.MAX_VALUE, Int.MAX_VALUE)
+            moveValuesString.add("$moveValue = $move")
 
             if (moveValue > bestMoveValue) {
                 bestMoveValue = moveValue
                 finalMove = move
             }
         }
-
+        File("ia_fight.txt").appendText("List of move values: $moveValuesString\n")
+        File("ia_fight.txt").appendText("Selected move by AI: $finalMove\n")
         logger.info("Selected move by AI: {}", finalMove)
         return finalMove
     }
@@ -119,8 +124,8 @@ class AIService(@Autowired private val movementService: MovementService) {
                 if (piece is Ghost) {
                     piece = null
                 }
-                val positionWeight = getPiecePosWeight(board, piece, row, column)
 
+                val positionWeight = getPiecePosWeight(board, piece, row, column)
                 val pieceWeightValue = Weights.pieceWeights.getValue(piece?.value?.uppercaseChar()) + positionWeight
 
                 weight =
@@ -138,7 +143,7 @@ class AIService(@Autowired private val movementService: MovementService) {
     fun evaluateMove(board: Board, move: String): Int {
         var piece = board.position(move.originalStringPosition()).piece
         if (piece is Ghost) {
-            piece = Pawn(piece.color)
+            piece = null
         }
 
         if (move.isPromotionMove()) {
@@ -168,7 +173,11 @@ class AIService(@Autowired private val movementService: MovementService) {
             board.turnColor ->
                 Weights.piecePositionWeights.getValue(piece.value.uppercaseChar())[row][column]
             !board.turnColor ->
-                Weights.piecePositionWeights.getValue(piece.value.uppercaseChar()).reversed()[row][column]
+                if (piece is Queen || piece is King) {
+                    Weights.piecePositionWeights.getValue(piece.value.uppercaseChar()).reversed()[row][column]
+                } else {
+                    Weights.piecePositionWeights.getValue(piece.value.uppercaseChar()).reversed()[row].reversed()[column]
+                }
             else -> 0
         }
     }
