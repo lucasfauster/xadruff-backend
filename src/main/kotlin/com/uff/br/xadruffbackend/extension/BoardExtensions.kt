@@ -4,7 +4,6 @@ import com.uff.br.xadruffbackend.dto.Board
 import com.uff.br.xadruffbackend.dto.enum.Color
 import com.uff.br.xadruffbackend.dto.response.BoardResponse
 import com.uff.br.xadruffbackend.helper.buildGson
-import java.io.File
 
 fun Board.toBoardResponse(): BoardResponse {
     return BoardResponse(
@@ -28,7 +27,7 @@ fun Board.changeTurn() {
     }
 }
 
-//fun Board.toFile() {
+// fun Board.toFile() {
 //    this.positions.forEach { row ->
 //        row.forEach {
 //            when (it.piece) {
@@ -39,7 +38,7 @@ fun Board.changeTurn() {
 //        File("ia_fight.txt").appendText("\n")
 //    }
 //    File("ia_fight.txt").appendText("\n")
-//}
+// }
 
 fun Board.deepCopy(): Board {
     val gson = buildGson()

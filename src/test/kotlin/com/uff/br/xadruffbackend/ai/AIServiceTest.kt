@@ -1,14 +1,11 @@
 package com.uff.br.xadruffbackend.ai
 
 import com.uff.br.xadruffbackend.dto.enum.Color
-import com.uff.br.xadruffbackend.dto.enum.Level
 import com.uff.br.xadruffbackend.dto.piece.Bishop
 import com.uff.br.xadruffbackend.dto.piece.Pawn
 import com.uff.br.xadruffbackend.dto.piece.Queen
 import com.uff.br.xadruffbackend.dto.piece.Rook
-import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.position
-import com.uff.br.xadruffbackend.extension.toFile
 import com.uff.br.xadruffbackend.service.EnPassantService
 import com.uff.br.xadruffbackend.service.MovementService
 import com.uff.br.xadruffbackend.utils.buildEmptyBoard

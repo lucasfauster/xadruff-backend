@@ -176,7 +176,10 @@ class AIService(@Autowired private val movementService: MovementService) {
                 if (piece is Queen || piece is King) {
                     Weights.piecePositionWeights.getValue(piece.value.uppercaseChar()).reversed()[row][column]
                 } else {
-                    Weights.piecePositionWeights.getValue(piece.value.uppercaseChar()).reversed()[row].reversed()[column]
+                    Weights.piecePositionWeights
+                        .getValue(piece.value.uppercaseChar())
+                        .reversed()[row]
+                        .reversed()[column]
                 }
             else -> 0
         }
