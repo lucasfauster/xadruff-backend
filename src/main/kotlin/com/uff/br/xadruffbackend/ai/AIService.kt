@@ -2,6 +2,7 @@ package com.uff.br.xadruffbackend.ai
 
 import com.uff.br.xadruffbackend.ai.model.Weights
 import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.enum.Color
 import com.uff.br.xadruffbackend.dto.enum.Level
 import com.uff.br.xadruffbackend.dto.piece.Ghost
 import com.uff.br.xadruffbackend.dto.piece.King
@@ -168,17 +169,10 @@ class AIService(@Autowired private val movementService: MovementService) {
 
     private fun getPiecePosWeight(board: Board, piece: Piece?, row: Int, column: Int): Int {
         return when (piece?.color) {
-            board.turnColor ->
+            Color.WHITE ->
                 Weights.piecePositionWeights.getValue(piece.value.uppercaseChar())[row][column]
-            !board.turnColor ->
-                if (piece is Queen || piece is King) {
-                    Weights.piecePositionWeights.getValue(piece.value.uppercaseChar()).reversed()[row][column]
-                } else {
-                    Weights.piecePositionWeights
-                        .getValue(piece.value.uppercaseChar())
-                        .reversed()[row]
-                        .reversed()[column]
-                }
+            Color.BLACK ->
+                Weights.piecePositionWeights.getValue(piece.value.uppercaseChar()).reversed()[row][column]
             else -> 0
         }
     }
