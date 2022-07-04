@@ -1,4 +1,4 @@
-package comuffbrxadruffbackendaimodel
+package com.uff.br.xadruffbackend.ai.model
 
 @Suppress("MagicNumber")
 object Weights {

@@ -1,5 +1,6 @@
 package com.uff.br.xadruffbackend.ai
 
+import com.uff.br.xadruffbackend.ai.model.Weights
 import com.uff.br.xadruffbackend.dto.Board
 import com.uff.br.xadruffbackend.dto.enum.Level
 import com.uff.br.xadruffbackend.dto.piece.Ghost
@@ -18,7 +19,6 @@ import com.uff.br.xadruffbackend.extension.toBoardResponse
 import com.uff.br.xadruffbackend.extension.toPositionColumn
 import com.uff.br.xadruffbackend.extension.toPositionRow
 import com.uff.br.xadruffbackend.service.MovementService
-import comuffbrxadruffbackendaimodel.Weights
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -57,8 +57,7 @@ class AIService(@Autowired private val movementService: MovementService) {
                 finalMove = move
             }
         }
-        File("ia_fight.txt").appendText("List of move values: $moveValuesString\n")
-        File("ia_fight.txt").appendText("Selected move by AI: $finalMove\n")
+
         logger.info("Selected move by AI: {}", finalMove)
         return finalMove
     }
