@@ -5,9 +5,7 @@ import com.uff.br.xadruffbackend.dto.Board
 import com.uff.br.xadruffbackend.dto.enum.Color
 import com.uff.br.xadruffbackend.dto.enum.Level
 import com.uff.br.xadruffbackend.dto.piece.Ghost
-import com.uff.br.xadruffbackend.dto.piece.King
 import com.uff.br.xadruffbackend.dto.piece.Piece
-import com.uff.br.xadruffbackend.dto.piece.Queen
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.deepCopy
 import com.uff.br.xadruffbackend.extension.futureStringPosition
@@ -23,7 +21,6 @@ import com.uff.br.xadruffbackend.service.MovementService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.io.File
 
 @Component
 class AIService(@Autowired private val movementService: MovementService) {
@@ -40,7 +37,6 @@ class AIService(@Autowired private val movementService: MovementService) {
         var finalMove = ""
         val legalMovements = movementService.calculateLegalMovements(board).movements
         val depth = level.ordinal + 1
-        val moveValuesString = mutableListOf<String>()
 
         legalMovements.sortWith(compareByDescending { evaluateMove(board, it) })
         logger.debug("\nLegalMovements ordered: $legalMovements")
@@ -124,7 +120,7 @@ class AIService(@Autowired private val movementService: MovementService) {
                     piece = null
                 }
 
-                val positionWeight = getPiecePosWeight(board, piece, row, column)
+                val positionWeight = getPiecePosWeight(piece, row, column)
                 val pieceWeightValue = Weights.pieceWeights.getValue(piece?.value?.uppercaseChar()) + positionWeight
 
                 weight =
@@ -149,8 +145,8 @@ class AIService(@Autowired private val movementService: MovementService) {
             return Int.MAX_VALUE
         }
 
-        val fromValue = getPiecePosWeight(board, piece, move.originalStringPosition())
-        val toValue = getPiecePosWeight(board, piece, move.futureStringPosition())
+        val fromValue = getPiecePosWeight(piece, move.originalStringPosition())
+        val toValue = getPiecePosWeight(piece, move.futureStringPosition())
         val positionChange = toValue - fromValue
 
         var captureValue = 0
@@ -161,13 +157,13 @@ class AIService(@Autowired private val movementService: MovementService) {
         return captureValue + positionChange
     }
 
-    private fun getPiecePosWeight(board: Board, piece: Piece?, position: String): Int {
+    private fun getPiecePosWeight(piece: Piece?, position: String): Int {
         val row = position.last().toPositionRow()
         val column = position.first().toPositionColumn()
-        return getPiecePosWeight(board, piece, row, column)
+        return getPiecePosWeight(piece, row, column)
     }
 
-    private fun getPiecePosWeight(board: Board, piece: Piece?, row: Int, column: Int): Int {
+    private fun getPiecePosWeight(piece: Piece?, row: Int, column: Int): Int {
         return when (piece?.color) {
             Color.WHITE ->
                 Weights.piecePositionWeights.getValue(piece.value.uppercaseChar())[row][column]
