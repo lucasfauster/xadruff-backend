@@ -50,7 +50,6 @@ class AIService(@Autowired private val movementService: MovementService) {
             fakeBoard.changeTurn()
 
             val moveValue = min(depth - 1, fakeBoard, -Int.MAX_VALUE, Int.MAX_VALUE)
-            moveValuesString.add("$moveValue = $move")
 
             if (moveValue > bestMoveValue) {
                 bestMoveValue = moveValue
