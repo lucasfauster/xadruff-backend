@@ -2,9 +2,9 @@ package com.uff.br.xadruffbackend.ai
 
 import com.uff.br.xadruffbackend.ai.model.Weights
 import com.uff.br.xadruffbackend.dto.Board
+import com.uff.br.xadruffbackend.dto.enum.Color
 import com.uff.br.xadruffbackend.dto.enum.Level
 import com.uff.br.xadruffbackend.dto.piece.Ghost
-import com.uff.br.xadruffbackend.dto.piece.Pawn
 import com.uff.br.xadruffbackend.dto.piece.Piece
 import com.uff.br.xadruffbackend.extension.changeTurn
 import com.uff.br.xadruffbackend.extension.deepCopy
@@ -119,8 +119,8 @@ class AIService(@Autowired private val movementService: MovementService) {
                 if (piece is Ghost) {
                     piece = null
                 }
-                val positionWeight = getPiecePosWeight(board, piece, row, column)
 
+                val positionWeight = getPiecePosWeight(piece, row, column)
                 val pieceWeightValue = Weights.pieceWeights.getValue(piece?.value?.uppercaseChar()) + positionWeight
 
                 weight =
@@ -138,15 +138,15 @@ class AIService(@Autowired private val movementService: MovementService) {
     fun evaluateMove(board: Board, move: String): Int {
         var piece = board.position(move.originalStringPosition()).piece
         if (piece is Ghost) {
-            piece = Pawn(piece.color)
+            piece = null
         }
 
         if (move.isPromotionMove()) {
             return Int.MAX_VALUE
         }
 
-        val fromValue = getPiecePosWeight(board, piece, move.originalStringPosition())
-        val toValue = getPiecePosWeight(board, piece, move.futureStringPosition())
+        val fromValue = getPiecePosWeight(piece, move.originalStringPosition())
+        val toValue = getPiecePosWeight(piece, move.futureStringPosition())
         val positionChange = toValue - fromValue
 
         var captureValue = 0
@@ -157,17 +157,17 @@ class AIService(@Autowired private val movementService: MovementService) {
         return captureValue + positionChange
     }
 
-    private fun getPiecePosWeight(board: Board, piece: Piece?, position: String): Int {
+    private fun getPiecePosWeight(piece: Piece?, position: String): Int {
         val row = position.last().toPositionRow()
         val column = position.first().toPositionColumn()
-        return getPiecePosWeight(board, piece, row, column)
+        return getPiecePosWeight(piece, row, column)
     }
 
-    private fun getPiecePosWeight(board: Board, piece: Piece?, row: Int, column: Int): Int {
+    private fun getPiecePosWeight(piece: Piece?, row: Int, column: Int): Int {
         return when (piece?.color) {
-            board.turnColor ->
+            Color.WHITE ->
                 Weights.piecePositionWeights.getValue(piece.value.uppercaseChar())[row][column]
-            !board.turnColor ->
+            Color.BLACK ->
                 Weights.piecePositionWeights.getValue(piece.value.uppercaseChar()).reversed()[row][column]
             else -> 0
         }

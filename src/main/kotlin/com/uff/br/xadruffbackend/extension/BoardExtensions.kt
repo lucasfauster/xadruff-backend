@@ -27,6 +27,19 @@ fun Board.changeTurn() {
     }
 }
 
+// fun Board.toFile() {
+//    this.positions.forEach { row ->
+//        row.forEach {
+//            when (it.piece) {
+//                null -> File("ia_fight.txt").appendText("_ ")
+//                else -> File("ia_fight.txt").appendText("${it.piece?.value} ")
+//            }
+//        }
+//        File("ia_fight.txt").appendText("\n")
+//    }
+//    File("ia_fight.txt").appendText("\n")
+// }
+
 fun Board.deepCopy(): Board {
     val gson = buildGson()
     return gson.fromJson(gson.toJson(this), this::class.java)

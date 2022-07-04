@@ -63,4 +63,15 @@ class AIServiceTest {
         val maxValue = aiService.min(1, board, -1000, 1000)
         assert(0 > maxValue)
     }
+
+//    @Test
+//    fun `AI vs AI`() {
+//        val board = buildInitialBoard()
+//        for (i in 0..100) {
+//            val move = aiService.play(Level.INTERMEDIATE, board)
+//            movementService.applyMove(board, move)
+//            board.changeTurn()
+//            board.toFile()
+//        }
+//    }
 }
