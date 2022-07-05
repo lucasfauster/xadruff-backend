@@ -44,7 +44,9 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("org.projectlombok:lombok:1.18.20")
 
+    testImplementation("io.zonky.test:embedded-database-spring-test:2.1.1")
     testImplementation(group = "io.mockk", name = "mockk", version = "1.9.3")
+    testImplementation("com.h2database:h2:2.1.212")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.6.7")
 }
 
