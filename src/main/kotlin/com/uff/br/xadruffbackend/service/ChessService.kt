@@ -67,7 +67,7 @@ class ChessService(
     }
 
     fun surrender(boardId: String): ChessResponse {
-        val game = gameRepository.getById(boardId)
+        val game = getGameById(boardId)
         logger.info("Game = ${game.boardId}, received surrender request.")
 
         val surrenderPlayerColor = game.getBoard().turnColor

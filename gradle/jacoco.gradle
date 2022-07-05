@@ -26,8 +26,6 @@ jacocoTestReport {
             'src/main/kotlin/com/uff/br/xadruffbackend/repository**',
             'src/main/kotlin/com/uff/br/xadruffbackend/XadruffBackendApplication*',
             'src/main/kotlin/com/uff/br/xadruffbackend/helper**',
-            'src/main/kotlin/com/uff/br/xadruffbackend/exception**',
-            'src/main/kotlin/com/uff/br/xadruffbackend/annotation**',
             'src/main/kotlin/com/uff/br/xadruffbackend/model**',
             'src/main/kotlin/com/uff/br/xadruffbackend/config**',
             'src/main/kotlin/com/uff/br/xadruffbackend/dto/request**',
