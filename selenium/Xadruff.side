@@ -1,0 +1,1476 @@
+{
+  "id": "3c5539b9-01e1-4ec2-96e4-e10fb9763440",
+  "version": "2.0",
+  "name": "Xadruff",
+  "url": "https://xadruff.herokuapp.com",
+  "tests": [{
+    "id": "e6379671-1a74-45a9-b6b5-abddc5e8f103",
+    "name": "Create game and move a piece",
+    "commands": [{
+      "id": "519956f9-f1f2-4630-a998-d3949459d5d6",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "83620b13-4856-4719-ac8e-f49b61f5af0a",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='row']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1b790319-6996-4b3a-aadb-9a163b6dd71d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Torre Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "815b1abc-de9e-439e-ad45-d3de868b588b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(1) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(1) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Peão Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div/div/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "14ba01a3-aeeb-4877-be56-22c7d5de8b85",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(1) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(1) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div/div/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "729f0d87-d487-462a-a45c-d1dd6cc60684",
+      "comment": "",
+      "command": "click",
+      "target": "css=#g2 > .w",
+      "targets": [
+        ["css=#g2 > .w", "css:finder"],
+        ["xpath=//div[@id='g2']/div", "xpath:idRelative"],
+        ["xpath=//div[78]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2b5c2b4e-39f5-4a53-a6d3-6f78241a41d2",
+      "comment": "",
+      "command": "click",
+      "target": "id=g4",
+      "targets": [
+        ["id=g4", "id"],
+        ["css=#g4", "css:finder"],
+        ["xpath=//div[@id='g4']", "xpath:attributes"],
+        ["xpath=//div[@id='board']/div[58]", "xpath:idRelative"],
+        ["xpath=//div[58]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "99c6d1f3-59b6-40b1-a8ea-9b0f32ba4cdf",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "1fe87c7d-9647-4c8e-8c38-691e3cbdd2f4",
+    "name": "Promotion",
+    "commands": [{
+      "id": "496d0ecf-3080-45f7-91e4-271be982ee45",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ee73248b-f748-4cd0-818c-2195dfe59414",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='row']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "41712cc6-5c65-4200-ae35-ee56373ee582",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Torre Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3faa2c1e-4e51-4b80-affe-2f02e0927a55",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(1) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(1) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Peão Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div/div/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bea89f3f-69d5-463e-bce7-a0a8fa8c055d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) > .submenu-button",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) > .submenu-button", "css:finder"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ba050367-b5d3-41ec-a1d0-aa32edbee3b1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-options:nth-child(3) > .submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-options:nth-child(3) > .submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Peão Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div[2]/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ad8fde41-5ce5-4a75-9a28-0756ff4a6d5a",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e5148426-1c75-431a-8b9a-98357690c1ed",
+      "comment": "",
+      "command": "click",
+      "target": "css=#c7 > .w",
+      "targets": [
+        ["css=#c7 > .w", "css:finder"],
+        ["xpath=//div[@id='c7']/div", "xpath:idRelative"],
+        ["xpath=//div[24]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7bca47f4-4ea6-48f9-849c-64c4821dfe63",
+      "comment": "",
+      "command": "click",
+      "target": "id=c8",
+      "targets": [
+        ["id=c8", "id"],
+        ["css=#c8", "css:finder"],
+        ["xpath=//div[@id='c8']", "xpath:attributes"],
+        ["xpath=//div[@id='board']/div[14]", "xpath:idRelative"],
+        ["xpath=//div[14]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fa5cef6c-8f86-43e4-acd1-9a40be8e376b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.piece-button:nth-child(1) > .piece-image",
+      "targets": [
+        ["css=.piece-button:nth-child(1) > .piece-image", "css:finder"],
+        ["xpath=//img[@alt='Rainha']", "xpath:img"],
+        ["xpath=//div[@id='grid']/div/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "84cec98f-91bb-48de-830f-573f9001e0b3",
+      "comment": "",
+      "command": "click",
+      "target": "css=#b7 > .w",
+      "targets": [
+        ["css=#b7 > .w", "css:finder"],
+        ["xpath=//div[@id='b7']/div", "xpath:idRelative"],
+        ["xpath=//div[23]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "002f2aff-3e8d-4af4-aa77-ce17d756586f",
+      "comment": "",
+      "command": "click",
+      "target": "id=b8",
+      "targets": [
+        ["id=b8", "id"],
+        ["css=#b8", "css:finder"],
+        ["xpath=//div[@id='b8']", "xpath:attributes"],
+        ["xpath=//div[@id='board']/div[13]", "xpath:idRelative"],
+        ["xpath=//div[13]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f49f8cb5-9edc-4565-85b4-c975d7d9f3c5",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3684f4a9-6ab7-4cdb-83a1-e789d3aed062",
+      "comment": "",
+      "command": "click",
+      "target": "css=.piece-button:nth-child(2) > .piece-image",
+      "targets": [
+        ["css=.piece-button:nth-child(2) > .piece-image", "css:finder"],
+        ["xpath=//img[@alt='Bispo']", "xpath:img"],
+        ["xpath=//div[@id='grid']/div[2]/img", "xpath:idRelative"],
+        ["xpath=//div[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c453d64e-72e0-41a2-9c7a-a4a048fe37d8",
+      "comment": "",
+      "command": "click",
+      "target": "css=#a7 > .w",
+      "targets": [
+        ["css=#a7 > .w", "css:finder"],
+        ["xpath=//div[@id='a7']/div", "xpath:idRelative"],
+        ["xpath=//div[22]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "59e2de2c-78ba-425e-ba21-574f6dbd4b60",
+      "comment": "",
+      "command": "click",
+      "target": "id=a8",
+      "targets": [
+        ["id=a8", "id"],
+        ["css=#a8", "css:finder"],
+        ["xpath=//div[@id='a8']", "xpath:attributes"],
+        ["xpath=//div[@id='board']/div[12]", "xpath:idRelative"],
+        ["xpath=//div[12]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "356c540b-b225-4606-8cda-043d347e76ca",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "08723dd3-8625-4c60-92b1-89f4f219b3d1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.piece-button:nth-child(3) > .piece-image",
+      "targets": [
+        ["css=.piece-button:nth-child(3) > .piece-image", "css:finder"],
+        ["xpath=//img[@alt='Torre']", "xpath:img"],
+        ["xpath=//div[@id='grid']/div[3]/img", "xpath:idRelative"],
+        ["xpath=//div[3]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8adb5b51-3d4a-48d5-85d1-f7f14d6bab50",
+      "comment": "",
+      "command": "click",
+      "target": "css=#f7 > .w",
+      "targets": [
+        ["css=#f7 > .w", "css:finder"],
+        ["xpath=//div[@id='f7']/div", "xpath:idRelative"],
+        ["xpath=//div[27]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "680651d5-8b2e-404d-9e95-a8cc68db0192",
+      "comment": "",
+      "command": "click",
+      "target": "css=#d7 > .w",
+      "targets": [
+        ["css=#d7 > .w", "css:finder"],
+        ["xpath=//div[@id='d7']/div", "xpath:idRelative"],
+        ["xpath=//div[25]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bb856208-4fc6-4fdd-a9dd-69399b7669f6",
+      "comment": "",
+      "command": "click",
+      "target": "id=d8",
+      "targets": [
+        ["id=d8", "id"],
+        ["css=#d8", "css:finder"],
+        ["xpath=//div[@id='d8']", "xpath:attributes"],
+        ["xpath=//div[@id='board']/div[15]", "xpath:idRelative"],
+        ["xpath=//div[15]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f87b544a-f1eb-4f50-bcc5-687cc8fa6783",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "864adba7-a983-489d-9bf2-94b6cae682e5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.piece-button:nth-child(4) > .piece-image",
+      "targets": [
+        ["css=.piece-button:nth-child(4) > .piece-image", "css:finder"],
+        ["xpath=//img[@alt='Cavalo']", "xpath:img"],
+        ["xpath=//div[@id='grid']/div[4]/img", "xpath:idRelative"],
+        ["xpath=//div[4]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2c352c15-9ad0-44e8-b095-67a33ff654a3",
+      "comment": "",
+      "command": "click",
+      "target": "css=#f7 > .w",
+      "targets": [
+        ["css=#f7 > .w", "css:finder"],
+        ["xpath=//div[@id='f7']/div", "xpath:idRelative"],
+        ["xpath=//div[27]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a3096dde-5559-4c51-bd7d-99a82d313fb7",
+      "comment": "",
+      "command": "click",
+      "target": "css=#d8 > .w",
+      "targets": [
+        ["css=#d8 > .w", "css:finder"],
+        ["xpath=//div[@id='d8']/div", "xpath:idRelative"],
+        ["xpath=//div[15]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ec74791a-cc30-4d55-99ab-ae484d62d206",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d28ff8bf-3e20-4e1f-a028-b88a9bf5efdb",
+      "comment": "",
+      "command": "click",
+      "target": "id=e6",
+      "targets": [
+        ["id=e6", "id"],
+        ["css=#e6", "css:finder"],
+        ["xpath=//div[@id='e6']", "xpath:attributes"],
+        ["xpath=//div[@id='board']/div[36]", "xpath:idRelative"],
+        ["xpath=//div[36]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2896474d-eb45-4ce7-9ed8-c2325b2a3e1e",
+      "comment": "",
+      "command": "click",
+      "target": "css=#c8 > .w",
+      "targets": [
+        ["css=#c8 > .w", "css:finder"],
+        ["xpath=//div[@id='c8']/div", "xpath:idRelative"],
+        ["xpath=//div[14]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "36189b0b-6072-4993-9584-25de2b1305de",
+      "comment": "",
+      "command": "click",
+      "target": "css=#c2 > .b",
+      "targets": [
+        ["css=#c2 > .b", "css:finder"],
+        ["xpath=//div[@id='c2']/div", "xpath:idRelative"],
+        ["xpath=//div[74]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "75afb391-2366-4740-b6e1-b72019492d01",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6759f2c7-d9c1-48b1-b8e8-0940a93f0933",
+      "comment": "",
+      "command": "click",
+      "target": "css=#b8 > .w",
+      "targets": [
+        ["css=#b8 > .w", "css:finder"],
+        ["xpath=//div[@id='b8']/div", "xpath:idRelative"],
+        ["xpath=//div[13]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "063f02df-7d72-47b4-9f74-19d69a0b114c",
+      "comment": "",
+      "command": "click",
+      "target": "css=#h2 > .b",
+      "targets": [
+        ["css=#h2 > .b", "css:finder"],
+        ["xpath=//div[@id='h2']/div", "xpath:idRelative"],
+        ["xpath=//div[79]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "00c0ef75-6b2a-4f25-a13c-97e041512df3",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "15cb1db5-448d-4852-a20c-1c9e77cba8ea",
+      "comment": "",
+      "command": "click",
+      "target": "css=#a8 > .w",
+      "targets": [
+        ["css=#a8 > .w", "css:finder"],
+        ["xpath=//div[@id='a8']/div", "xpath:idRelative"],
+        ["xpath=//div[12]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0b1919df-7bb6-4d05-8a84-f315d30ec331",
+      "comment": "",
+      "command": "click",
+      "target": "css=#a2 > .b",
+      "targets": [
+        ["css=#a2 > .b", "css:finder"],
+        ["xpath=//div[@id='a2']/div", "xpath:idRelative"],
+        ["xpath=//div[72]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "54fcb642-e938-4be7-a9ab-f5a06ce44c95",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "733c8d00-e258-4962-83e3-534d5c713dfa",
+      "comment": "",
+      "command": "click",
+      "target": "css=.board-button",
+      "targets": [
+        ["css=.board-button", "css:finder"],
+        ["xpath=//div[@id='feedback']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'DESISTIR')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "49638f68-baf7-4153-a4ea-515381c21c4e",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "a9fb4d0a-a666-4968-9230-44efdb487785",
+    "name": "En passant",
+    "commands": [{
+      "id": "03bfb789-c9b5-41c5-8cc0-4ec321adee07",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "61780c4e-f2b2-4587-84e4-4e7af9c3c914",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='row']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6e0183c5-2ce7-486e-a2a4-6e673c326b15",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(1) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(1) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Cavalo Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div/div/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ef293946-f8b8-46b6-8ae3-601e3498d27e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Branco']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "817da3c0-5bfb-49f8-9c7d-a47bc65604d1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) > .submenu-button",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) > .submenu-button", "css:finder"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0dfcb80b-a08a-4dfc-a9f9-3feb54aaff4d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-options:nth-child(2) > .submenu-option:nth-child(1) > .submenu-button",
+      "targets": [
+        ["css=.submenu-options:nth-child(2) > .submenu-option:nth-child(1) > .submenu-button", "css:finder"],
+        ["xpath=//div[@id='submenu']/div/div/div", "xpath:idRelative"],
+        ["xpath=//div/div/div/div/div/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3e7f19ed-392a-4b76-8e3f-f134184ad6c1",
+      "comment": "",
+      "command": "click",
+      "target": "css=#d4 > .b",
+      "targets": [
+        ["css=#d4 > .b", "css:finder"],
+        ["xpath=//div[@id='d4']/div", "xpath:idRelative"],
+        ["xpath=//div[46]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "db8ddbee-8128-467e-89bb-5aabcffa5cf2",
+      "comment": "",
+      "command": "click",
+      "target": "id=e3",
+      "targets": [
+        ["id=e3", "id"],
+        ["css=#e3", "css:finder"],
+        ["xpath=//div[@id='e3']", "xpath:attributes"],
+        ["xpath=//div[@id='board']/div[35]", "xpath:idRelative"],
+        ["xpath=//div[35]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7dc91467-bcdc-4087-a7a4-06945b02e5db",
+      "comment": "",
+      "command": "click",
+      "target": "css=.board-button",
+      "targets": [
+        ["css=.board-button", "css:finder"],
+        ["xpath=//div[@id='feedback']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR NOVAMENTE')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2580f12f-175c-45b3-aab2-8c0c66e3e159",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Torre Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cb1d2e97-461a-445c-b715-f32335fb8de0",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Branco']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7bc9e7fd-cd1c-4000-9731-06c0985bf4fe",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rainha Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ebf84840-5937-46fc-a35b-3337403422f5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-options:nth-child(2) > .submenu-option:nth-child(1) > .submenu-button",
+      "targets": [
+        ["css=.submenu-options:nth-child(2) > .submenu-option:nth-child(1) > .submenu-button", "css:finder"],
+        ["xpath=//div[@id='submenu']/div/div/div", "xpath:idRelative"],
+        ["xpath=//div/div/div/div/div/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7876e852-b74c-4ff8-9e78-5db0be05b21f",
+      "comment": "",
+      "command": "click",
+      "target": "css=#e2 > .w",
+      "targets": [
+        ["css=#e2 > .w", "css:finder"],
+        ["xpath=//div[@id='e2']/div", "xpath:idRelative"],
+        ["xpath=//div[76]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "482e3ff2-45b9-4d37-aac9-de4b65c742c0",
+      "comment": "",
+      "command": "click",
+      "target": "id=e4",
+      "targets": [
+        ["id=e4", "id"],
+        ["css=#e4", "css:finder"],
+        ["xpath=//div[@id='e4']", "xpath:attributes"],
+        ["xpath=//div[@id='board']/div[56]", "xpath:idRelative"],
+        ["xpath=//div[56]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f7b0e479-571f-46ff-b07d-5008e486c8d8",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "cd2cf5b0-d85d-43e3-a104-f694e4e942d8",
+    "name": "Castle",
+    "commands": [{
+      "id": "d299c50a-3f7b-414d-86a1-5d7584076bd7",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b5db46ea-ee1e-4af9-b212-94b20c3dbaa6",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='row']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a1a04b2d-146f-4b51-a08a-d5c333a96e1a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(1) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(1) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Cavalo Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div/div/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d83fb17b-8242-498e-b70a-d3e4c7225b2e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) > .submenu-button",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) > .submenu-button", "css:finder"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f64360dd-903e-412d-93a4-cc629a0af59b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rainha Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2da8f1b1-a1a4-4bca-a1f0-3bba13feba85",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-options:nth-child(2) > .submenu-option:nth-child(2) > .submenu-button",
+      "targets": [
+        ["css=.submenu-options:nth-child(2) > .submenu-option:nth-child(2) > .submenu-button", "css:finder"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "30756d9a-16ea-4ea8-9709-0e63b19bc258",
+      "comment": "",
+      "command": "click",
+      "target": "css=#e1 > .w",
+      "targets": [
+        ["css=#e1 > .w", "css:finder"],
+        ["xpath=//div[@id='e1']/div", "xpath:idRelative"],
+        ["xpath=//div[15]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4b842c17-0340-4516-b489-321b0137d007",
+      "comment": "",
+      "command": "click",
+      "target": "css=#e8 > .b",
+      "targets": [
+        ["css=#e8 > .b", "css:finder"],
+        ["xpath=//div[@id='e8']/div", "xpath:idRelative"],
+        ["xpath=//div[85]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "58a119fc-6b4e-40c0-b5bc-92ca3c08c7c5",
+      "comment": "",
+      "command": "click",
+      "target": "css=#h8 > .b",
+      "targets": [
+        ["css=#h8 > .b", "css:finder"],
+        ["xpath=//div[@id='h8']/div", "xpath:idRelative"],
+        ["xpath=//div[82]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "016137ef-9b80-4b42-bc2e-97feb4713fb5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.board-button",
+      "targets": [
+        ["css=.board-button", "css:finder"],
+        ["xpath=//div[@id='feedback']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'DESISTIR')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c1c1e7ef-203e-4e5d-acfa-83b1aa8358bd",
+      "comment": "",
+      "command": "click",
+      "target": "css=.board-button",
+      "targets": [
+        ["css=.board-button", "css:finder"],
+        ["xpath=//div[@id='feedback']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR NOVAMENTE')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ca649df0-947c-4a7d-b0d6-4560d3ceb644",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Torre Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "43c6afbb-fc13-436a-bf84-153be39882e5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Branco']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d8df62af-2eb8-42e6-90bf-f2c16ea961dc",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rainha Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7bb26b19-1490-4f12-a0d7-c92aa516858f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-options:nth-child(2) > .submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-options:nth-child(2) > .submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Torre BRANCA']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c539dd13-de2f-48ee-9979-e12207eadf7e",
+      "comment": "",
+      "command": "click",
+      "target": "css=#e1 > .w",
+      "targets": [
+        ["css=#e1 > .w", "css:finder"],
+        ["xpath=//div[@id='e1']/div", "xpath:idRelative"],
+        ["xpath=//div[86]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c25e2f7b-c44e-413c-98dd-ee8e58683f4f",
+      "comment": "",
+      "command": "click",
+      "target": "id=c1",
+      "targets": [
+        ["id=c1", "id"],
+        ["css=#c1", "css:finder"],
+        ["xpath=//div[@id='c1']", "xpath:attributes"],
+        ["xpath=//div[@id='board']/div[84]", "xpath:idRelative"],
+        ["xpath=//div[84]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1ba9dbe0-6e3a-4e74-99b0-9980d85fdb5f",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "cacd4265-dffd-44b4-940c-ea4f22503e43",
+    "name": "Checkmate",
+    "commands": [{
+      "id": "5d86a851-efb3-464d-aca1-1d35b4e1fdd1",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e5b97880-ab83-43e2-853a-1b34403fed72",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='row']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "65570b19-e86f-444b-b19b-75c8b396a0c4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Torre Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "98d0b9ed-3842-4258-a918-d021dd799b12",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Branco']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4781b9d6-447e-4af5-90a0-00ca823fa2a8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rainha Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9bbc4e46-7a88-4958-9f5e-b0e028ccac91",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-options:nth-child(2) > .submenu-option:nth-child(3) .menu-piece",
+      "targets": [
+        ["css=.submenu-options:nth-child(2) > .submenu-option:nth-child(3) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Branco']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[3]/div/img", "xpath:idRelative"],
+        ["xpath=//div[3]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "37843bfa-142f-4943-ae23-5ed1a8e3662f",
+      "comment": "",
+      "command": "click",
+      "target": "css=#c1 > .w",
+      "targets": [
+        ["css=#c1 > .w", "css:finder"],
+        ["xpath=//div[@id='c1']/div", "xpath:idRelative"],
+        ["xpath=//div[84]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5314fb15-1918-4055-8cca-a726131ca7e7",
+      "comment": "",
+      "command": "click",
+      "target": "css=#c7 > .w",
+      "targets": [
+        ["css=#c7 > .w", "css:finder"],
+        ["xpath=//div[@id='c7']/div", "xpath:idRelative"],
+        ["xpath=//div[24]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d9cd86fd-4b9f-46c0-8c4a-2aad47ce4088",
+      "comment": "",
+      "command": "click",
+      "target": "css=#c8 > .b",
+      "targets": [
+        ["css=#c8 > .b", "css:finder"],
+        ["xpath=//div[@id='c8']/div", "xpath:idRelative"],
+        ["xpath=//div[14]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3d151bb9-d719-40ed-a9fb-7dad9940374f",
+      "comment": "",
+      "command": "click",
+      "target": "css=#c8 > .w",
+      "targets": [
+        ["css=#c8 > .w", "css:finder"],
+        ["xpath=//div[@id='c8']/div", "xpath:idRelative"],
+        ["xpath=//div[14]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fb65db71-1acd-495f-a3cc-acdd871ed783",
+      "comment": "",
+      "command": "click",
+      "target": "css=.board-button",
+      "targets": [
+        ["css=.board-button", "css:finder"],
+        ["xpath=//div[@id='feedback']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR NOVAMENTE')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0f118ec3-df50-4fd6-93b3-55df7fce2fe4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(1) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(1) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Cavalo Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div/div/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d24ca661-02cb-47f1-8a3e-bfdb326d5b41",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) > .submenu-button",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) > .submenu-button", "css:finder"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1d60a741-0d3e-4029-a996-628723cfe210",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) > .submenu-button",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) > .submenu-button", "css:finder"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a7bd039b-c016-4931-9c59-5481a814b59e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-options:nth-child(2) > .submenu-option:nth-child(3) .menu-piece",
+      "targets": [
+        ["css=.submenu-options:nth-child(2) > .submenu-option:nth-child(3) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Branco']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[3]/div/img", "xpath:idRelative"],
+        ["xpath=//div[3]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a932746b-6a03-4eb4-8d2c-27c2eb26d1be",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "d66287d7-9e74-40b5-a09d-ae59815b27a1",
+    "name": "Stalemate",
+    "commands": [{
+      "id": "7080ff88-1421-4bbf-95c6-f75227973ed6",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6c416334-62f5-4559-bdde-62f1104463b0",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='row']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "be761726-ea62-4671-a296-e8b41bcd354a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Torre Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3722bf3a-6df3-4614-8b8b-39fa474da20c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Branco']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "03bc1e23-e391-48c4-a14f-c5d4f806ebf7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rainha Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "595cece2-88e5-4651-9341-8be58ffcd0f8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-options:nth-child(3) > .submenu-option:nth-child(1) .menu-piece",
+      "targets": [
+        ["css=.submenu-options:nth-child(3) > .submenu-option:nth-child(1) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div[2]/div/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7ea278e2-2229-407e-9abe-b1d9f4874cd3",
+      "comment": "",
+      "command": "click",
+      "target": "css=#c5 > .w",
+      "targets": [
+        ["css=#c5 > .w", "css:finder"],
+        ["xpath=//div[@id='c5']/div", "xpath:idRelative"],
+        ["xpath=//div[44]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "56cfbd6e-aa7b-4e8e-a15f-541cca5921b2",
+      "comment": "",
+      "command": "click",
+      "target": "css=#c6 > .b",
+      "targets": [
+        ["css=#c6 > .b", "css:finder"],
+        ["xpath=//div[@id='c6']/div", "xpath:idRelative"],
+        ["xpath=//div[34]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "64a16efe-965b-4315-ab45-ee67871cd672",
+      "comment": "",
+      "command": "click",
+      "target": "css=.board-button",
+      "targets": [
+        ["css=.board-button", "css:finder"],
+        ["xpath=//div[@id='feedback']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR NOVAMENTE')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "85eb7a9e-33a8-4567-9762-c129c58cfb29",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(1) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(1) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Cavalo Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div/div/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "25005c36-868d-4429-894e-ab19bab6df44",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Branco']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "08aaf9f3-b81a-475b-8548-10fbc73c7292",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rainha Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ecfca1ab-3f9c-4c03-bf14-a20be1f51a52",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-options:nth-child(3) > .submenu-option:nth-child(1) .menu-piece",
+      "targets": [
+        ["css=.submenu-options:nth-child(3) > .submenu-option:nth-child(1) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div[2]/div/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "baf03fdd-d1ec-4ee1-915e-f28ada6c0812",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "7c6526df-a584-4a27-beed-d9dc7cf4d000",
+    "name": "Menu",
+    "commands": [{
+      "id": "938fb622-0d7b-4382-98d0-2bfc57afa9d8",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8323f3ad-87f9-4d1e-8408-72e459b7f4aa",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='row']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0e8481c8-52ce-4e32-9193-c7a7d556c03c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Torre Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "478820e0-295b-4cac-b66c-6fe19c9b2363",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Branco']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e4e4eea1-eb95-489f-b576-039d1d9f486e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rainha Branca']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f76cfc86-4e36-4e83-a51b-452e2c46951b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.return",
+      "targets": [
+        ["css=.return", "css:finder"],
+        ["xpath=//div[@id='submenu']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d6aadbb2-a180-4fcc-aa9f-baf0a4f79adb",
+      "comment": "",
+      "command": "click",
+      "target": "css=.return",
+      "targets": [
+        ["css=.return", "css:finder"],
+        ["xpath=//div[@id='submenu']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "19ec6c86-1030-440b-a38b-adac39fc25bd",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(1) > .submenu-button",
+      "targets": [
+        ["css=.submenu-option:nth-child(1) > .submenu-button", "css:finder"],
+        ["xpath=//div[@id='submenu']/div/div/div", "xpath:idRelative"],
+        ["xpath=//div/div/div/div/div/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6f4223d6-0f83-40a1-a28b-2969ba92fdb4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.return",
+      "targets": [
+        ["css=.return", "css:finder"],
+        ["xpath=//div[@id='submenu']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "422c1d2d-f9c4-4147-98cb-cc48a725bd9d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.return",
+      "targets": [
+        ["css=.return", "css:finder"],
+        ["xpath=//div[@id='submenu']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7dcf0a5e-60e8-4e02-9e0b-2475fda93a94",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(3) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(3) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Dado de Sorteio']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[3]/div/img", "xpath:idRelative"],
+        ["xpath=//div[3]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e6e35340-8f14-4aa2-83e9-46f8aa788281",
+      "comment": "",
+      "command": "click",
+      "target": "css=.return",
+      "targets": [
+        ["css=.return", "css:finder"],
+        ["xpath=//div[@id='submenu']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "773566b7-6748-42a4-b057-aa19ac0b4ffc",
+      "comment": "",
+      "command": "click",
+      "target": "css=.return",
+      "targets": [
+        ["css=.return", "css:finder"],
+        ["xpath=//div[@id='submenu']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7991cbb2-56b5-45f0-b460-9fd258f69a66",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='row']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'JOGAR')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8551066e-b336-465a-9072-31da166a7fdf",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(1) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(1) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Cavalo Preto']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div/div/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "80aab4f3-c787-451b-b94a-8955afc2f693",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submenu-option:nth-child(2) .menu-piece",
+      "targets": [
+        ["css=.submenu-option:nth-child(2) .menu-piece", "css:finder"],
+        ["xpath=//img[@alt='Rei Branco']", "xpath:img"],
+        ["xpath=//div[@id='submenu']/div/div[2]/div/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "512d5cf5-b574-4219-9916-d39b802e1a43",
+      "comment": "",
+      "command": "click",
+      "target": "css=.return",
+      "targets": [
+        ["css=.return", "css:finder"],
+        ["xpath=//div[@id='submenu']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1c2f4ca0-c8c8-4300-8a4d-6f93862de280",
+      "comment": "",
+      "command": "click",
+      "target": "css=.return",
+      "targets": [
+        ["css=.return", "css:finder"],
+        ["xpath=//div[@id='submenu']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b8f54f30-1c12-4f3b-8941-be8b7c4c9114",
+      "comment": "",
+      "command": "click",
+      "target": "css=.return",
+      "targets": [
+        ["css=.return", "css:finder"],
+        ["xpath=//div[@id='submenu']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3b633e68-f058-4d15-b9d3-d2a0abc5755f",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "af89249c-b286-4ce0-bc6d-0019a487f5a1",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["https://xadruff.herokuapp.com/"],
+  "plugins": []
+}

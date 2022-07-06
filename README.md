@@ -14,12 +14,35 @@ Esse projeto é responsável pela parte de Back-End do XadrUFF, ele foi desenvol
 ## Subindo aplicação local
   
   - Executar comando `./gradlew clean build`.
-  - Executar o `XadruffBackendApplication.kt`.
+  - Executar o `XadruffBackendApplication.kt` com o profile local.
+
+## Endpoint de produção
+https://xadruff-backend.herokuapp.com
 
 ## Endpoints
-### GET /chess/new-game?start-by={{AI/PLAYER}} 
+### POST /chess/new-game?start-by={{AI/PLAYER}}&level={{BEGINNER/INTERMEDIATE}}
+#### Body: 
+        positions: [
+            [" ", " ", " ", " ", "K", " ", " ", " "],
+            ["P", "P", "P", "P", " ", "P", "P", "P"],
+            [" ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " "],
+            ["p", "p", "p", "p", " ", "p", "p", "p"],
+            [" ", " ", " ", " ", "k", " ", " ", " "],
+        ],
+        turn_color: "WHITE"
+}}`
   - curl de exemplo: ` curl --location --request GET 'localhost:8080/chess/new-game?start-by=AI&level=INTERMEDIATE' `
-    
+  - Body é opcional e pode alterar a posição inicial do jogo, as peças disponíves são:
+    - p | P = peão
+    - q | Q = rainha
+    - k | K = rei
+    - n | N = cavalo
+    - b | B = bispo
+    - r | R = torre
+    - g | G = fantasma -- indicar que teve en passant na última jogada
   - Caso o campo start-by seja AI, o jogador será as peças pretas e será feito um movimento para a IA, caso seja PLAYER o jogador ser as peças brancas.
   - O campo level pode ser BEGINNER ou IMTERMEDIATE
   - Retorna: um board-id que representa o jogo internamente, um board que é uma matriz de posições, uma lista de movimentos legais e qual o movimento da ia, se houver movimento
@@ -34,6 +57,14 @@ Esse projeto é responsável pela parte de Back-End do XadrUFF, ele foi desenvol
 }'`
 
 - Retorna: o mesmo retorno que o endpoint de inicializaço de tabuleiro, porém sempre há uma jogada da IA.
+
+### GET /chess/SURRENDER?board-id={{board-id}}
+
+- curl de exemplo: `curl --location --request GET 'localhost:8080/chess/surrender?board-id=89783890-4854-437A-AA61-A1A0009C2024' 
+`
+
+- Retorna: o mesmo retorno que o endpoint de inicializaço de tabuleiro, porém retornando que o jogo acabou por desistência do usuário.
+
 
 ## Ferramentas de qualidade
 
